@@ -1,4 +1,7 @@
 import React from 'react';
+import { GiOldKing } from 'react-icons/gi';
+import { IoCreateSharp, IoPersonSharp } from "react-icons/io5";
+import { BsRocketTakeoff } from "react-icons/bs";
 
 const About = () => {
     return (
@@ -6,8 +9,8 @@ const About = () => {
             
             {/* Main Header Section */}
             <div className="mx-auto max-w-4xl text-center">
-                <h2 className="font-extrabold text-gray-900 dark:text-white text-4xl sm:text-5xl">
-                    IdeaArena: Where Ideas Take Flight 🚀
+                <h2 className="flex font-extrabold text-gray-900 dark:text-white text-4xl sm:text-5xl">
+                    IdeaArena: Where Ideas Take Flight <BsRocketTakeoff />
                 </h2>
                 <p className="mt-4 text-gray-600 dark:text-gray-300 text-xl">
                     A platform dedicated to fostering creativity, innovation, and competition across diverse fields.
@@ -40,7 +43,7 @@ const About = () => {
         {/* Role Card 1: Normal User */}
         <div className="bg-white dark:bg-gray-800 shadow-xl hover:shadow-2xl p-6 border-blue-500 hover:border-purple-600 border-t-4 rounded-lg hover:scale-[1.02] transition duration-300 ease-in-out cursor-pointer">
             <div className="flex items-center space-x-3 mb-4">
-                <span className="text-blue-500 dark:text-blue-400 text-3xl">👤</span>
+                <span className="text-blue-500 dark:text-blue-400 text-3xl"><IoPersonSharp /></span>
                 <h4 className="font-semibold text-gray-900 dark:text-white text-xl">Normal Users</h4>
             </div>
             <ul className="space-y-2 text-gray-700 dark:text-gray-300 list-disc list-inside">
@@ -53,7 +56,7 @@ const About = () => {
         {/* Role Card 2: Contest Creator */}
         <div className="bg-white dark:bg-gray-800 shadow-xl hover:shadow-2xl p-6 border-green-500 hover:border-purple-600 border-t-4 rounded-lg hover:scale-[1.02] transition duration-300 ease-in-out cursor-pointer">
             <div className="flex items-center space-x-3 mb-4">
-                <span className="text-green-500 dark:text-green-400 text-3xl">🛠️</span>
+                <span className="text-green-500 dark:text-green-400 text-3xl"><IoCreateSharp /></span>
                 <h4 className="font-semibold text-gray-900 dark:text-white text-xl">Contest Creators</h4>
             </div>
             <ul className="space-y-2 text-gray-700 dark:text-gray-300 list-disc list-inside">
@@ -66,7 +69,7 @@ const About = () => {
         {/* Role Card 3: Admin */}
         <div className="bg-white dark:bg-gray-800 shadow-xl hover:shadow-2xl p-6 border-red-500 hover:border-purple-600 border-t-4 rounded-lg hover:scale-[1.02] transition duration-300 ease-in-out cursor-pointer">
             <div className="flex items-center space-x-3 mb-4">
-                <span className="text-red-500 dark:text-red-400 text-3xl">👑</span>
+                <span className="text-red-500 dark:text-red-400 text-3xl"><GiOldKing /></span>
                 <h4 className="font-semibold text-gray-900 dark:text-white text-xl">Admins</h4>
             </div>
             <ul className="space-y-2 text-gray-700 dark:text-gray-300 list-disc list-inside">
