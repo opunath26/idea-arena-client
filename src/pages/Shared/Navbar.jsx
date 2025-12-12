@@ -15,7 +15,7 @@ const Navbar = () => {
       })};
 
     const links = <>
-        <li><NavLink to="">Contest</NavLink></li>
+        <li><NavLink to="/add-contest">Add Contest</NavLink></li>
         <li><NavLink to="">About</NavLink></li>
     </>
 
