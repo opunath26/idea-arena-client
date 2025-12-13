@@ -44,7 +44,7 @@ const Navbar = () => {
                     user ? <a onClick={handleLogOut} className="bg-primary btn">Logout</a> : 
                     <Link className='btn' to="/login"> Log in </Link>
                 }
-                <Link className='btn btn-primary' to="/creator">Be a Creator</Link>
+                <Link className='m-3 btn btn-primary' to="/creator">Be a Creator</Link>
             </div>
         </div>
     );

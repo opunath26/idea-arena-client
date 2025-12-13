@@ -23,7 +23,8 @@ export const router = createBrowserRouter([
       },
       {
         path: 'add-contest',
-        element: <PrivateRoute><AddContest></AddContest></PrivateRoute>
+        element: <PrivateRoute><AddContest></AddContest></PrivateRoute>,
+        loader: () => fetch('/addContest.json').then(res => res.json())
       }
     ]
   },

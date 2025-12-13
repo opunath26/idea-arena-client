@@ -1,0 +1,403 @@
+[
+  {
+    "title": "Creative Food Photography Contest",
+    "image": "https://i.ibb.co.com/S2m172G/szabo-viktor-4-LDo-Re-Lne8-unsplash.jpg",
+    "description": "Participants must capture visually appealing food images that highlight color, texture, and artistic presentation. The goal is to showcase food in a way that stimulates appetite and communicates freshness, style, and story. Each participant should submit a high-resolution image taken with natural or studio lighting. Judging will consider creativity, composition, lighting, and overall visual impact. Editing is allowed but should not distort authenticity. The submission must include a brief caption explaining the concept behind the photo and the technique used.",
+    "price": 10,
+    "prizeMoney": 100,
+    "taskInstruction": "Submit a high-resolution JPG or PNG photo.",
+    "contestType": "Photography",
+    "deadline": "2026-02-05T23:59:59Z",
+    "creatorEmail": "admin01@example.com",
+    "status": "pending",
+    "participantsCount": 12,
+    "winner": {
+      "name": "Ankon Das",
+      "email": "ankon@example.com",
+      "photo": "https://i.ibb.co.com/pjz4hgn2/a.jpg"
+    },
+    "createdAt": "2025-12-01T10:00:00Z"
+  },
+
+  {
+    "title": "Minimalist Logo Design Contest",
+    "image": "https://i.ibb.co.com/3wR9qGV/milad-fakurian-CK8u2-I4-qw-unsplash.jpg",
+    "description": "Create a clean, modern, and minimalistic logo based on the provided brand concept. The logo should reflect professionalism, clarity, and strong visual identity. Participants must follow a simple color palette and avoid unnecessary elements. The final design must be scalable and work well on both digital and print platforms. Submissions should include the main logo, a monochrome version, and a short explanation describing the design concept. Judges will evaluate creativity, simplicity, and relevance to the brand’s message.",
+    "price": 15,
+    "prizeMoney": 150,
+    "taskInstruction": "Submit PNG + SVG + concept note.",
+    "contestType": "Image Design",
+    "deadline": "2026-01-18T23:59:59Z",
+    "creatorEmail": "designer@example.com",
+    "status": "confirmed",
+    "participantsCount": 25,
+    "winner": {
+      "name": "MAC Gunjon",
+      "email": "mac@example.com",
+      "photo": "https://i.ibb.co.com/YFFG3LLP/mac.jpg"
+    },
+    "createdAt": "2025-11-25T09:00:00Z"
+  },
+
+  {
+    "title": "Tech Innovation Business Idea Challenge",
+    "image": "https://i.ibb.co.com/S4zFmKYD/dlxmedia-hu-il-Tf1-qt-Lu0-unsplash.jpg",
+    "description": "Participants must propose a unique and feasible business idea focused on technology-driven innovation. The idea should explain target customers, market needs, revenue model, and potential competitive advantages. Submissions must include a short pitch summary and a detailed concept outline. Judges will evaluate creativity, practicality, sustainability, and potential impact. Graphics or diagrams may be added to support the idea. The goal of this contest is to discover fresh minds capable of developing smart solutions that address modern-day challenges across various industries.",
+    "price": 20,
+    "prizeMoney": 250,
+    "taskInstruction": "Submit a PDF with your idea summary.",
+    "contestType": "Business Idea",
+    "deadline": "2026-02-10T23:59:59Z",
+    "creatorEmail": "business@example.com",
+    "status": "pending",
+    "participantsCount": 15,
+    "winner": {
+      "name": "Anurag",
+      "email": "anurag@example.com",
+      "photo": "https://i.ibb.co.com/YBbt21Xp/nunu.jpg"
+    },
+    "createdAt": "2025-12-03T12:00:00Z"
+  },
+
+  {
+    "title": "Personal Finance Article Writing Contest",
+    "image": "https://i.ibb.co.com/sJ6dtczC/beku-kanomi-c4v-UTn-U7-Q3o-unsplash.jpg",
+    "description": "Write a well-researched, informative, and engaging article on personal finance strategies for young adults. The article should cover budgeting, saving, investment basics, and responsible financial habits. Submissions must be original and written in a clear and reader-friendly tone. Participants should include examples and practical tips to enhance understanding. The goal is to create an article that educates readers on managing money effectively. Judges will evaluate clarity, content depth, originality, and writing style. Plagiarism will result in disqualification.",
+    "price": 8,
+    "prizeMoney": 90,
+    "taskInstruction": "Submit article in DOCX or PDF format.",
+    "contestType": "Article Writing",
+    "deadline": "2026-01-22T23:59:59Z",
+    "creatorEmail": "writer@example.com",
+    "status": "confirmed",
+    "participantsCount": 30,
+    "winner": {
+      "name": "Opu Nath",
+      "email": "opu@example.com",
+      "photo": "https://i.ibb.co.com/b52qFts8/OTC.jpg"
+    },
+    "createdAt": "2025-11-20T15:30:00Z"
+  },
+
+  {
+    "title": "Beginner Web Development Challenge",
+    "image": "https://i.ibb.co.com/Df7pZgDz/istockphoto-2223447777-612x612.webp",
+    "description": "Participants must develop a simple responsive website using HTML, CSS, and JavaScript. The site should include a homepage, an about section, and a contact form. Creativity, clean UI, and functional layout will be evaluated. Beginners are encouraged to participate and demonstrate basic web development skills. All submissions should follow standard coding practices and include proper file structure. Judges will check design quality, responsiveness, and code readability. No frameworks are allowed for this contest.",
+    "price": 12,
+    "prizeMoney": 120,
+    "taskInstruction": "Upload a ZIP file containing the full project.",
+    "contestType": "Web Development",
+    "deadline": "2026-02-01T23:59:59Z",
+    "creatorEmail": "webadmin@example.com",
+    "status": "pending",
+    "participantsCount": 18,
+    "winner": {
+      "name": "OPU NATH",
+      "email": "opu@example.com",
+      "photo": "https://i.ibb.co.com/b52qFts8/OTC.jpg"
+    },
+    "createdAt": "2025-12-07T14:20:00Z"
+  },
+
+  {
+    "title": "Short Travel Video Production Contest",
+    "image": "https://i.ibb.co.com/FbH61C01/piotrek-luszczak-KFnv-B2-ERiw-I-unsplash.jpg",
+    "description": "Participants must create a short travel video showcasing natural beauty, culture, and storytelling through visuals. The video should be between 30 seconds to one minute long. Judges will evaluate cinematography, color grading, transitions, and narrative style. Background music must be copyright-free. The goal is to highlight creativity in capturing moments that inspire viewers to explore new places. Editing is allowed using any professional software. Submissions must be high quality and free from watermarks.",
+    "price": 14,
+    "prizeMoney": 160,
+    "taskInstruction": "Submit MP4 file in 1080p resolution.",
+    "contestType": "Video Production",
+    "deadline": "2026-02-12T23:59:59Z",
+    "creatorEmail": "video@example.com",
+    "status": "confirmed",
+    "participantsCount": 20,
+    "winner": {
+      "name": "Shantu Das",
+      "email": "shaan@example.com",
+      "photo": "https://i.ibb.co.com/PZ1JgZzN/lreora.jpg"
+    },
+    "createdAt": "2025-12-02T11:45:00Z"
+  },
+
+  {
+    "title": "Coding Challenge — Sorting Algorithm Task",
+    "image": "https://i.ibb.co.com/jkttX6qw/software-developer-6521720-1280.jpg",
+    "description": "Participants must implement an efficient sorting algorithm from scratch using their preferred programming language. The algorithm should handle large datasets and produce correct output efficiently. Code must be optimized, readable, and well-structured. Judges will evaluate time complexity, code quality, and performance. Participants should also include a brief explanation of their approach. No external sorting libraries are allowed. This contest encourages developers to deepen their understanding of algorithm design and computational logic.",
+    "price": 18,
+    "prizeMoney": 200,
+    "taskInstruction": "Submit source code with documentation.",
+    "contestType": "Coding Challenge",
+    "deadline": "2026-02-20T23:59:59Z",
+    "creatorEmail": "coder@example.com",
+    "status": "pending",
+    "participantsCount": 14,
+    "winner": {
+      "name": "MAC Gunjon",
+      "email": "mac@example.com",
+      "photo": "https://i.ibb.co.com/YFFG3LLP/mac.jpg"
+    },
+    "createdAt": "2025-12-08T09:20:00Z"
+  },
+
+  {
+    "title": "Street Photography Showcase",
+    "image": "https://i.ibb.co.com/7N2YbktS/pexels-sam-lion-5709662.jpg",
+    "description": "Capture moments from daily street life that tell a meaningful story. The photograph should reflect human emotions, city energy, or cultural environments. Participants must focus on composition, lighting, and authentic storytelling. Only natural editing is allowed. Each submission must include a caption explaining the moment captured. Judges will evaluate creativity, message, and technical execution. The goal is to highlight perspective and artistic observation within urban settings.",
+    "price": 10,
+    "prizeMoney": 110,
+    "taskInstruction": "Submit JPG high-resolution image.",
+    "contestType": "Photography",
+    "deadline": "2026-01-28T23:59:59Z",
+    "creatorEmail": "photo@example.com",
+    "status": "confirmed",
+    "participantsCount": 19,
+    "winner": {
+      "name": "Pritom Shill",
+      "email": "pritom@example.com",
+      "photo": "https://i.ibb.co.com/zV2JywvM/p.jpg"
+    },
+    "createdAt": "2025-11-28T10:10:00Z"
+  },
+
+  {
+    "title": "Creative Poster Design Challenge",
+    "image": "https://i.ibb.co.com/23c8TSmB/pedro-yuniesky-rodriguez-martinez-x-LVa-Cm7i3-Co-unsplash.jpg",
+    "description": "Design a visually appealing promotional poster for an upcoming event. The poster must demonstrate strong color balance, typography, layout, and creativity. Participants should include event details and design elements that capture attention. High-quality graphics and innovative compositions are encouraged. Submissions must be original and unique. Judges will consider clarity, aesthetic appeal, and design relevance. The goal is to test participants' ability to convey information artistically through static visuals.",
+    "price": 13,
+    "prizeMoney": 130,
+    "taskInstruction": "Submit PSD or AI file.",
+    "contestType": "Image Design",
+    "deadline": "2026-02-03T23:59:59Z",
+    "creatorEmail": "poster@example.com",
+    "status": "pending",
+    "participantsCount": 11,
+    "winner": {
+      "name": "Pritom Shill",
+      "email": "pritom@example.com",
+      "photo": "https://i.ibb.co.com/zV2JywvM/p.jpg"
+    },
+
+    "createdAt": "2025-12-06T16:00:00Z"
+  },
+
+  {
+    "title": "AI-Based Startup Business Idea Contest",
+    "image": "https://i.ibb.co.com/RGrv9jdX/Gemini-Generated-Image-axls5iaxls5iaxls.png",
+    "description": "Participants must submit an innovative business idea that leverages Artificial Intelligence to solve real-world problems. The idea should clearly explain the target audience, market opportunity, and possible revenue model. Submissions must highlight how AI will be integrated into the proposed solution. Judges will evaluate creativity, feasibility, technical understanding, and long-term potential. Visual diagrams or flowcharts can be included to enhance clarity. The goal is to inspire next-generation entrepreneurs who understand emerging technologies.",
+    "price": 22,
+    "prizeMoney": 300,
+    "taskInstruction": "Submit PDF with full idea structure.",
+    "contestType": "Business Idea",
+    "deadline": "2026-02-15T23:59:59Z",
+    "creatorEmail": "aiidea@example.com",
+    "status": "confirmed",
+    "participantsCount": 17,
+    "winner": {
+      "name": "Opu Nath",
+      "email": "opu@example.com",
+      "photo": "https://i.ibb.co.com/b52qFts8/OTC.jpg"
+    },
+    "createdAt": "2025-12-04T13:15:00Z"
+  },
+
+  {
+    "title": "Article Writing on Healthy Lifestyle",
+    "image": "https://i.ibb.co.com/4R8ycqSh/Gemini-Generated-Image-lz3305lz3305lz33.png",
+    "description": "Write an engaging and helpful article that educates readers on maintaining a healthy lifestyle through balanced diet, exercise, proper sleep, and mental wellness. The article should be well-researched and avoid overly technical language. Participants may include statistics and expert references for better credibility. Submissions must be original and free of plagiarism. Judges will look for clarity, structure, readability, and overall value to the audience. The content should inspire readers to adopt healthier habits.",
+    "price": 9,
+    "prizeMoney": 100,
+    "taskInstruction": "Submit DOCX or PDF file.",
+    "contestType": "Article Writing",
+    "deadline": "2026-01-27T23:59:59Z",
+    "creatorEmail": "health@example.com",
+    "status": "pending",
+    "participantsCount": 21,
+    "winner": {
+      "name": "Ankon Das",
+      "email": "ankon@example.com",
+      "photo": "https://i.ibb.co.com/pjz4hgn2/a.jpg"
+    },
+    "createdAt": "2025-11-30T11:00:00Z"
+  },
+
+  {
+    "title": "JavaScript DOM Coding Challenge",
+    "image": "https://i.ibb.co.com/whDR6BS9/Gemini-Generated-Image-41qdk941qdk941qd.png",
+    "description": "Participants must build a mini interactive webpage using only vanilla JavaScript DOM manipulation. The project should include at least three interactive features such as toggles, animations, or dynamic content updates. Clean structure, readability, and responsiveness will be evaluated. Participants must avoid using external libraries or frameworks. Judges will analyze logic, UI behavior, and code quality. This contest encourages developers to understand core JavaScript concepts more deeply without relying on shortcuts.",
+    "price": 16,
+    "prizeMoney": 180,
+    "taskInstruction": "Submit ZIP with code and demo video.",
+    "contestType": "Coding Challenge",
+    "deadline": "2026-02-22T23:59:59Z",
+    "creatorEmail": "js@example.com",
+    "status": "confirmed",
+    "participantsCount": 23,
+    "winner": {
+      "name": "OPU Nath",
+      "email": "opu@example.com",
+      "photo": "https://i.ibb.co.com/b52qFts8/OTC.jpg"
+    },
+    "createdAt": "2025-12-05T09:25:00Z"
+  },
+
+  {
+    "title": "Short Documentary Video Contest",
+    "image": "https://i.ibb.co.com/wFcS9qyH/Gemini-Generated-Image-ao7uxpao7uxpao7u.png",
+    "description": "Participants must create a short documentary focused on social issues, culture, or inspiring stories. The video should be between one to two minutes long and should tell a compelling narrative through visuals, sound, and editing. Judges will evaluate storytelling, cinematography, audio clarity, and editing skills. Submissions must use copyright-free background music. Creative interviews, original footage, and smooth transitions are encouraged. The goal is to highlight meaningful storytelling through compact documentary filmmaking.",
+    "price": 20,
+    "prizeMoney": 250,
+    "taskInstruction": "Submit MP4 in full HD.",
+    "contestType": "Video Production",
+    "deadline": "2026-02-25T23:59:59Z",
+    "creatorEmail": "docu@example.com",
+    "status": "pending",
+    "participantsCount": 12,
+    "winner": {
+      "name": "MAC Gunjon",
+      "email": "mac@example.com",
+      "photo": "https://i.ibb.co.com/YFFG3LLP/mac.jpg"
+    },
+    "createdAt": "2025-12-09T10:00:00Z"
+  },
+
+  {
+    "title": "Nature Photography Contest",
+    "image": "https://i.ibb.co.com/svDG8ry4/Gemini-Generated-Image-7y744t7y744t7y74.png",
+    "description": "Capture a beautiful photograph that highlights the beauty of nature. The submission may include landscapes, wildlife, plants, or natural environments. Participants must focus on composition, lighting, and originality. Minimal editing is allowed for enhancing colors and clarity. Judges will evaluate authenticity, emotional impact, and technical excellence. A short caption explaining the scene must be included. The goal is to encourage photographers to appreciate and showcase the natural world.",
+    "price": 11,
+    "prizeMoney": 120,
+    "taskInstruction": "Submit high-quality JPG.",
+    "contestType": "Photography",
+    "deadline": "2026-02-14T23:59:59Z",
+    "creatorEmail": "nature@example.com",
+    "status": "confirmed",
+    "participantsCount": 13,
+    "winner": {
+      "name": "Opu Nath",
+      "email": "opu@example.com",
+      "photo": "https://i.ibb.co.com/b52qFts8/OTC.jpg"
+    },
+    "createdAt": "2025-11-29T14:00:00Z"
+  },
+
+  {
+    "title": "E-Commerce Homepage Web Development Contest",
+    "image": "https://i.ibb.co.com/V0TkrZG7/Gemini-Generated-Image-8sov2p8sov2p8sov-1.png",
+    "description": "Participants must design and develop an attractive and responsive e-commerce homepage using HTML, CSS, and JavaScript. The design should include a banner section, product grid, and footer with essential information. Creativity, layout design, and responsiveness will be evaluated. Clean folder structure and best coding practices are required. Judges will analyze design quality, functionality, and code readability. No frameworks or libraries allowed to ensure raw coding skill assessment.",
+    "price": 15,
+    "prizeMoney": 170,
+    "taskInstruction": "Submit project files in ZIP.",
+    "contestType": "Web Development",
+    "deadline": "2026-02-18T23:59:59Z",
+    "creatorEmail": "ecom@example.com",
+    "status": "pending",
+    "participantsCount": 26,
+    "winner": {
+      "name": "Opu Nath",
+      "email": "opu@example.com",
+      "photo": "https://i.ibb.co.com/b52qFts8/OTC.jpg"
+    },
+    "createdAt": "2025-12-10T08:30:00Z"
+  },
+
+  {
+    "title": "Hand-Drawn Illustration Image Contest",
+    "image": "https://i.ibb.co.com/pjDyVcPF/Gemini-Generated-Image-y15xcey15xcey15x-1.png",
+    "description": "Participants must submit a hand-drawn illustration scanned or photographed in high quality. The drawing should reflect creativity, storytelling, and artistic technique. Any style is allowed, including pencil, ink, or watercolor. Judges will evaluate composition, originality, and overall visual impact. The submission must include a short note describing the inspiration behind the artwork. Minor digital cleanup is allowed but should not change the natural look of the drawing.",
+    "price": 13,
+    "prizeMoney": 140,
+    "taskInstruction": "Submit PNG or JPG scan.",
+    "contestType": "Image Design",
+    "deadline": "2026-02-16T23:59:59Z",
+    "creatorEmail": "art@example.com",
+    "status": "confirmed",
+    "participantsCount": 10,
+    "winner": {
+      "name": "Ankon Das",
+      "email": "ankon@example.com",
+      "photo": "https://i.ibb.co.com/pjz4hgn2/a.jpg"
+    },
+    "createdAt": "2025-12-11T11:50:00Z"
+  },
+
+  {
+    "title": "Motivational Article Writing Contest",
+    "image": "https://i.ibb.co.com/m5CsDJH0/Gemini-Generated-Image-k73528k73528k735.png",
+    "description": "Write an inspiring and motivational article focusing on self-improvement and goal setting. The article should provide readers with practical advice, real-life examples, and positive guidance. Participants must maintain a strong and engaging tone throughout the piece. Originality and clarity are essential. Judges will review writing style, emotional impact, and structural flow. The article should encourage readers to take action toward personal growth and long-term success.",
+    "price": 8,
+    "prizeMoney": 85,
+    "taskInstruction": "Submit PDF or DOCX format.",
+    "contestType": "Article Writing",
+    "deadline": "2026-01-30T23:59:59Z",
+    "creatorEmail": "motivate@example.com",
+    "status": "pending",
+    "participantsCount": 24,
+    "winner": {
+      "name": "Shantu Das",
+      "email": "shaan@example.com",
+      "photo": "https://i.ibb.co.com/PZ1JgZzN/lreora.jpg"
+    },
+    "createdAt": "2025-12-12T09:10:00Z"
+  },
+
+  {
+    "title": "Advanced React Coding Challenge",
+    "image": "https://i.ibb.co.com/9mN4GTFk/van-tay-media-S2-AKd-WQo-Q-unsplash.jpg",
+    "description": "Participants must build a functional React application that includes API integration, component optimization, and state management with hooks. The project should demonstrate clean code, reusable components, and a professional UI. Judges will evaluate performance, logic, and architectural structure. Submissions must follow best practices and should not use UI frameworks like Bootstrap. The goal is to test intermediate to advanced React development skills.",
+    "price": 25,
+    "prizeMoney": 350,
+    "taskInstruction": "Submit GitHub link and ZIP backup.",
+    "contestType": "Coding Challenge",
+    "deadline": "2026-02-28T23:59:59Z",
+    "creatorEmail": "react@example.com",
+    "status": "confirmed",
+    "participantsCount": 17,
+    "winner": {
+      "name": "Opu Nath",
+      "email": "opu@example.com",
+      "photo": "https://i.ibb.co.com/b52qFts8/OTC.jpg"
+    },
+    "createdAt": "2025-12-13T10:40:00Z"
+  },
+
+  {
+    "title": "Travel Vlog Video Production Contest",
+    "image": "https://i.ibb.co.com/xKFM9mrv/frames-for-your-heart-7ep88-Kem6-No-unsplash.jpg",
+    "description": "Participants must create a one-minute travel vlog that highlights unique locations, storytelling, and creative editing. The video should engage viewers with smooth transitions, cinematic shots, and meaningful narration or captions. Judges will evaluate creativity, quality, pacing, and overall visual impact. Submissions must use original footage captured by the participants. Copyright-free music is mandatory. The goal is to encourage content creators to express adventure and exploration through video.",
+    "price": 18,
+    "prizeMoney": 220,
+    "taskInstruction": "Submit MP4 in 1080p.",
+    "contestType": "Video Production",
+    "deadline": "2026-02-26T23:59:59Z",
+    "creatorEmail": "travel@example.com",
+    "status": "pending",
+    "participantsCount": 22,
+    "winner": {
+      "name": "Anurag day",
+      "email": "anu@example.com",
+      "photo": "https://i.ibb.co.com/YBbt21Xp/nunu.jpg"
+    },
+    "createdAt": "2025-12-14T12:15:00Z"
+  },
+
+  {
+    "title": "Portfolio Website Web Development Contest",
+    "image": "https://i.ibb.co.com/W4RcWMSD/istockphoto-1067358680-612x612.webp",
+    "description": "Participants must build a stylish and responsive portfolio website using HTML, CSS, and JavaScript. The site should include sections for introduction, skills, projects, and contact details. Judges will evaluate design quality, smooth navigation, responsive layout, and code cleanliness. No frameworks are allowed. This contest encourages candidates to demonstrate creativity and personal branding through web development.",
+    "price": 14,
+    "prizeMoney": 180,
+    "taskInstruction": "Submit project ZIP with live demo link.",
+    "contestType": "Web Development",
+    "deadline": "2026-03-01T23:59:59Z",
+    "creatorEmail": "portfolio@example.com",
+    "status": "confirmed",
+    "participantsCount": 20,
+    "winner": {
+      "name": "Opu Nath",
+      "email": "opu@example.com",
+      "photo": "https://i.ibb.co.com/b52qFts8/OTC.jpg"
+    },
+    "createdAt": "2025-12-15T09:30:00Z"
+  }
+
+]
