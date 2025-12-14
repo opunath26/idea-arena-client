@@ -2,11 +2,24 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { FaCalendarAlt, FaDollarSign, FaFileAlt, FaImage, FaTag, FaInfoCircle } from "react-icons/fa";
 import { useLoaderData } from 'react-router';
-
+import useAxiosSecure from '../../hooks/useAxiosSecure';
+import Swal from 'sweetalert2';
+import { CgProfile } from 'react-icons/cg';
+import { MdAlternateEmail } from 'react-icons/md';
+import useAuth from '../../hooks/useAuth';
 
 const AddContest = () => {
 
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { 
+        register, 
+        handleSubmit, 
+        reset
+        // formState: { errors } 
+    } = useForm();
+    const { user } = useAuth();
+    
+    const axiosSecure = useAxiosSecure();
+    
     const addContestType = useLoaderData();
     const contestTypeDuplicate = addContestType.map(c => c.contestType);
     const contestType = [...new Set(contestTypeDuplicate)];
@@ -14,7 +27,67 @@ const AddContest = () => {
     
 
     const handleAddContest = data =>{
-        console.log(data);
+        // console.log(data);
+        const contestCreationFee = 10;
+
+        // ** পেমেন্ট অ্যালার্ট এবং নিশ্চিতকরণ **
+        Swal.fire({
+            title: 'Confirm Submission & Payment',
+            html: `You are about to publish a new contest. A **$${contestCreationFee}** service charge will be applied. Do you want to proceed?`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, Pay & Add!',
+            cancelButtonText: 'Cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // ** Yes ক্লিক হলে, এখানে ডেটা সাবমিট হবে **
+
+                // ডাটাবেসে সেভ করার জন্য কন্টেস্ট অবজেক্ট তৈরি করা
+                const newContest = {
+                    ...data,
+                    contestPrice: parseFloat(data.contestPrice), // সংখ্যা হিসাবে কনভার্ট করা 
+                    contestPrizeMoney: parseFloat(data.contestPrizeMoney), // সংখ্যা হিসাবে কনভার্ট করা 
+                    creationFee: contestCreationFee,
+                    // এইখানে ইউজার ইনফো (যেমন: creatorEmail, creatorName) যোগ করা যেতে পারে
+                    // creatorEmail: user.email,
+                    // creatorName: user.displayName, 
+                    participantsCount: 0, // নতুন কন্টেস্টের জন্য প্রাথমিক সংখ্যা
+                    status: 'pending' // মডারেটর এপ্রুভালের জন্য ডিফল্ট স্ট্যাটাস
+                };
+
+                // ** axiosSecure ব্যবহার করে POST রিকোয়েস্ট **
+                axiosSecure.post('/contests', newContest)
+                    .then(res => {
+                        console.log('Contest Added Response:', res.data);
+                        if(res.data.insertedId){
+                            // সফলতার SweetAlert
+                            Swal.fire({
+                                title: 'Success!',
+                                text: 'Your contest has been added successfully!',
+                                icon: 'success'
+                            });
+                            reset(); // ফর্ম রিসেট করা
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error submitting contest:", error);
+                        Swal.fire({
+                            title: 'Error!',
+                            text: 'Failed to add contest. Please try again.',
+                            icon: 'error'
+                        });
+                    });
+
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                Swal.fire(
+                    'Cancelled',
+                    'Contest submission has been cancelled.',
+                    'error'
+                );
+            }
+        });
         
     }
 
@@ -39,6 +112,40 @@ const AddContest = () => {
                     <h3 className="mb-4 pb-2 border-b font-semibold text-purple-600 dark:text-purple-400 text-xl">
                         Add Contest Details
                     </h3>
+
+                    {/* Name */}
+                    <div className="mb-4">
+                        <label className="block mb-1 font-medium">Creator Name</label>
+                        <div className="relative">
+                            <CgProfile className="top-3 left-3 absolute text-gray-400" />
+                            <input
+                                type="text"
+                                defaultValue={user?.displayName}
+                                {...register('creatorName')}
+                                placeholder="Add Your Name"
+                                className="px-3 py-2 pl-10 border rounded-md focus:outline-none focus:ring-purple-500 w-full"
+                                readOnly
+                            />
+                        </div>
+                    </div>
+
+
+                    {/* Email */}
+                    <div className="mb-4">
+                        <label className="block mb-1 font-medium">Creator Email</label>
+                        <div className="relative">
+                            <MdAlternateEmail className="top-3 left-3 absolute text-gray-400" />
+                            <input
+                                type="email"
+                                defaultValue={user?.email}
+                                {...register('creatorEmail')}
+                                placeholder="Add Your Email"
+                                className="px-3 py-2 pl-10 border rounded-md focus:outline-none focus:ring-purple-500 w-full"
+                                readOnly
+                            />
+                        </div>
+                    </div>
+
 
                     {/* Title */}
                     <div className="mb-4">
@@ -126,27 +233,10 @@ const AddContest = () => {
                                     contestType.map((t, i) => <option key={i} value={t}>{t}</option>)
                                 }
                                 
-                                
-                                {/* {contestTypeOptions.map((type) => (
-                  <option key={type}>{type}</option>
-                ))} */}
                             </select>
                         </div>
                     </div>
                     
-
-                    {/* <div className="mt-4">
-                        <label className="block mb-1 font-medium">Contest Type</label>
-                        <div className="relative">
-                            <FaTag className="top-3 left-3 absolute text-gray-400" />
-                            <select className="px-3 py-2 pl-10 border rounded-md focus:ring-purple-500 w-full">
-                                <option>Select Contest Type</option>
-                                {contestTypeOptions.map((type) => (
-                  <option key={type}>{type}</option>
-                ))}
-                            </select>
-                        </div>
-                    </div> */}
 
                     {/* Deadline */}
                     <div className="mt-4">

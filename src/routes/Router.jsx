@@ -7,6 +7,7 @@ import Register from "../pages/Auth/Register";
 import PrivateRoute from "./PrivateRoute";
 import Creator from "../pages/Creator/Creator";
 import AddContest from "../pages/AddContest/AddContest";
+import DashboardLayout from "../layouts/DashboardLayout";
 
 export const router = createBrowserRouter([
   {
@@ -40,6 +41,15 @@ export const router = createBrowserRouter([
       {
         path: 'register',
         Component: Register
+      }
+    ]
+  },
+  {
+    path: 'dashboard',
+    element: <PrivateRoute><DashboardLayout></DashboardLayout></PrivateRoute>,
+    children: [
+      {
+        path: 'my-contests',
       }
     ]
   }
