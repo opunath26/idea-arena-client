@@ -29,8 +29,8 @@ const AddContest = () => {
     const handleAddContest = data =>{
         // console.log(data);
         const contestCreationFee = 10;
+        data.contestCreationFee = contestCreationFee;
 
-        // ** পেমেন্ট অ্যালার্ট এবং নিশ্চিতকরণ **
         Swal.fire({
             title: 'Confirm Submission & Payment',
             html: `You are about to publish a new contest. A **$${contestCreationFee}** service charge will be applied. Do you want to proceed?`,
@@ -42,33 +42,26 @@ const AddContest = () => {
             cancelButtonText: 'Cancel'
         }).then((result) => {
             if (result.isConfirmed) {
-                // ** Yes ক্লিক হলে, এখানে ডেটা সাবমিট হবে **
 
-                // ডাটাবেসে সেভ করার জন্য কন্টেস্ট অবজেক্ট তৈরি করা
                 const newContest = {
                     ...data,
-                    contestPrice: parseFloat(data.contestPrice), // সংখ্যা হিসাবে কনভার্ট করা 
-                    contestPrizeMoney: parseFloat(data.contestPrizeMoney), // সংখ্যা হিসাবে কনভার্ট করা 
+                    contestPrice: parseFloat(data.contestPrice),
+                    contestPrizeMoney: parseFloat(data.contestPrizeMoney),
                     creationFee: contestCreationFee,
-                    // এইখানে ইউজার ইনফো (যেমন: creatorEmail, creatorName) যোগ করা যেতে পারে
-                    // creatorEmail: user.email,
-                    // creatorName: user.displayName, 
-                    participantsCount: 0, // নতুন কন্টেস্টের জন্য প্রাথমিক সংখ্যা
-                    status: 'pending' // মডারেটর এপ্রুভালের জন্য ডিফল্ট স্ট্যাটাস
+                    participantsCount: 0,
+                    status: 'pending'
                 };
 
-                // ** axiosSecure ব্যবহার করে POST রিকোয়েস্ট **
                 axiosSecure.post('/contests', newContest)
                     .then(res => {
                         console.log('Contest Added Response:', res.data);
                         if(res.data.insertedId){
-                            // সফলতার SweetAlert
                             Swal.fire({
                                 title: 'Success!',
                                 text: 'Your contest has been added successfully!',
                                 icon: 'success'
                             });
-                            reset(); // ফর্ম রিসেট করা
+                            reset();
                         }
                     })
                     .catch(error => {

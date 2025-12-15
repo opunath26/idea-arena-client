@@ -8,6 +8,8 @@ import PrivateRoute from "./PrivateRoute";
 import Creator from "../pages/Creator/Creator";
 import AddContest from "../pages/AddContest/AddContest";
 import DashboardLayout from "../layouts/DashboardLayout";
+import MyContests from "../pages/Dashboard/MyContests/MyContests";
+import Payment from "../pages/Dashboard/Payment/Payment";
 
 export const router = createBrowserRouter([
   {
@@ -50,6 +52,11 @@ export const router = createBrowserRouter([
     children: [
       {
         path: 'my-contests',
+        Component: MyContests
+      },
+      {
+        path: 'payment/:contestId',
+        Component: Payment
       }
     ]
   }
