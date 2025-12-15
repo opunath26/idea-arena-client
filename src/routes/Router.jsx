@@ -10,6 +10,8 @@ import AddContest from "../pages/AddContest/AddContest";
 import DashboardLayout from "../layouts/DashboardLayout";
 import MyContests from "../pages/Dashboard/MyContests/MyContests";
 import Payment from "../pages/Dashboard/Payment/Payment";
+import PaymentSuccess from "../pages/Dashboard/Payment/PaymentSuccess";
+import PaymentCancelled from "../pages/Dashboard/Payment/PaymentCancelled";
 
 export const router = createBrowserRouter([
   {
@@ -57,6 +59,14 @@ export const router = createBrowserRouter([
       {
         path: 'payment/:contestId',
         Component: Payment
+      },
+      {
+        path: 'payment-success',
+        Component: PaymentSuccess
+      },
+      {
+        path: 'payment-cancelled',
+        Component: PaymentCancelled
       }
     ]
   }
