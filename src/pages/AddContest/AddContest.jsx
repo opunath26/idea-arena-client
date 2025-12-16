@@ -1,7 +1,7 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { FaCalendarAlt, FaDollarSign, FaFileAlt, FaImage, FaTag, FaInfoCircle } from "react-icons/fa";
-import { useLoaderData } from 'react-router';
+import { useLoaderData, useNavigate } from 'react-router';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
 import Swal from 'sweetalert2';
 import { CgProfile } from 'react-icons/cg';
@@ -10,23 +10,24 @@ import useAuth from '../../hooks/useAuth';
 
 const AddContest = () => {
 
-    const { 
-        register, 
-        handleSubmit, 
+    const {
+        register,
+        handleSubmit,
         reset
         // formState: { errors } 
     } = useForm();
     const { user } = useAuth();
-    
+
     const axiosSecure = useAxiosSecure();
-    
+    const navigate = useNavigate();
+
     const addContestType = useLoaderData();
     const contestTypeDuplicate = addContestType.map(c => c.contestType);
     const contestType = [...new Set(contestTypeDuplicate)];
     // console.log(contestType);
-    
 
-    const handleAddContest = data =>{
+
+    const handleAddContest = data => {
         // console.log(data);
         const contestCreationFee = 10;
         data.contestCreationFee = contestCreationFee;
@@ -43,24 +44,31 @@ const AddContest = () => {
         }).then((result) => {
             if (result.isConfirmed) {
 
-                const newContest = {
-                    ...data,
-                    contestPrice: parseFloat(data.contestPrice),
-                    contestPrizeMoney: parseFloat(data.contestPrizeMoney),
-                    creationFee: contestCreationFee,
-                    participantsCount: 0,
-                    status: 'pending'
-                };
+                // const newContest = {
+                //     ...data,
+                //     contestPrice: parseFloat(data.contestPrice),
+                //     contestPrizeMoney: parseFloat(data.contestPrizeMoney),
+                //     participantsCount: 0,
+                //     status: 'pending'
+                // };
 
-                axiosSecure.post('/contests', newContest)
+                axiosSecure.post('/contests', data)
                     .then(res => {
                         console.log('Contest Added Response:', res.data);
-                        if(res.data.insertedId){
+                        if (res.data.insertedId) {
+                            navigate('/dashboard/my-contests')
                             Swal.fire({
-                                title: 'Success!',
-                                text: 'Your contest has been added successfully!',
-                                icon: 'success'
+                                position: 'top-end',
+                                icon: 'success',
+                                title: 'Your contest has been added successfully! Please Pay',
+                                showConfirmButton: false,
+                                timer: 2500
                             });
+                            // Swal.fire({
+                            //     title: 'Success!',
+                            //     text: 'Your contest has been added successfully!',
+                            //     icon: 'success'
+                            // });
                             reset();
                         }
                     })
@@ -81,7 +89,7 @@ const AddContest = () => {
                 );
             }
         });
-        
+
     }
 
     return (
@@ -114,7 +122,7 @@ const AddContest = () => {
                             <input
                                 type="text"
                                 defaultValue={user?.displayName}
-                                {...register('creatorName')}
+                                {...register('creatorName', { required: true })}
                                 placeholder="Add Your Name"
                                 className="px-3 py-2 pl-10 border rounded-md focus:outline-none focus:ring-purple-500 w-full"
                                 readOnly
@@ -131,7 +139,7 @@ const AddContest = () => {
                             <input
                                 type="email"
                                 defaultValue={user?.email}
-                                {...register('creatorEmail')}
+                                {...register('creatorEmail', { required: true })}
                                 placeholder="Add Your Email"
                                 className="px-3 py-2 pl-10 border rounded-md focus:outline-none focus:ring-purple-500 w-full"
                                 readOnly
@@ -147,7 +155,7 @@ const AddContest = () => {
                             <FaFileAlt className="top-3 left-3 absolute text-gray-400" />
                             <input
                                 type="text"
-                                {...register('contestTitle')}
+                                {...register('contestTitle', { required: true })}
                                 placeholder="e.g., Logo Design Challenge"
                                 className="px-3 py-2 pl-10 border rounded-md focus:outline-none focus:ring-purple-500 w-full"
                             />
@@ -161,7 +169,7 @@ const AddContest = () => {
                             <FaImage className="top-3 left-3 absolute text-gray-400" />
                             <input
                                 type="text"
-                                {...register('contestImage')}
+                                {...register('contestImage', { required: true })}
                                 placeholder="Direct image link (e.g., i.ibb.co)"
                                 className="px-3 py-2 pl-10 border rounded-md focus:outline-none focus:ring-purple-500 w-full"
                             />
@@ -173,7 +181,7 @@ const AddContest = () => {
                         <label className="block mb-1 font-medium">Full Contest Description</label>
                         <textarea
                             rows="6"
-                            {...register('contestDescription')}
+                            {...register('contestDescription', { required: true })}
                             placeholder="Describe the contest details..."
                             className="px-3 py-2 border rounded-md focus:outline-none focus:ring-purple-500 w-full"
                         ></textarea>
@@ -193,7 +201,7 @@ const AddContest = () => {
                                 <FaDollarSign className="top-3 left-3 absolute text-gray-400" />
                                 <input
                                     type="number"
-                                    {...register('contestPrice')}
+                                    {...register('contestPrice', { required: true })}
                                     placeholder="e.g., 10"
                                     className="px-3 py-2 pl-10 border rounded-md focus:outline-none focus:ring-purple-500 w-full"
                                 />
@@ -207,7 +215,7 @@ const AddContest = () => {
                                 <FaDollarSign className="top-3 left-3 absolute text-gray-400" />
                                 <input
                                     type="number"
-                                    {...register('contestPrizeMoney')}
+                                    {...register('contestPrizeMoney', { required: true })}
                                     placeholder="e.g., 500"
                                     className="px-3 py-2 pl-10 border rounded-md focus:outline-none focus:ring-purple-500 w-full"
                                 />
@@ -220,16 +228,16 @@ const AddContest = () => {
                         <label className="block mb-1 font-medium">Contest Type</label>
                         <div className="relative">
                             <FaTag className="top-3 left-3 absolute text-gray-400" />
-                            <select {...register('contestType')} className="px-3 py-2 pl-10 border rounded-md focus:ring-purple-500 w-full">
+                            <select {...register('contestType', { required: true })} className="px-3 py-2 pl-10 border rounded-md focus:ring-purple-500 w-full">
                                 <option disabled={true}>Select Contest Type</option>
                                 {
                                     contestType.map((t, i) => <option key={i} value={t}>{t}</option>)
                                 }
-                                
+
                             </select>
                         </div>
                     </div>
-                    
+
 
                     {/* Deadline */}
                     <div className="mt-4">
@@ -237,8 +245,8 @@ const AddContest = () => {
                         <div className="relative">
                             <FaCalendarAlt className="top-3 left-3 absolute text-gray-400" />
                             <input
-                                type="text"
-                                {...register('contestDeadline')}
+                                type="datetime-local"
+                                {...register('contestDeadline', { required: true })}
                                 placeholder="Pick deadline (UI Only)"
                                 className="px-3 py-2 pl-10 border rounded-md focus:outline-none focus:ring-purple-500 w-full"
                             />
@@ -253,7 +261,7 @@ const AddContest = () => {
                     <div>
                         <textarea
                             rows="6"
-                            {...register('contestTaskInstructions')}
+                            {...register('contestTaskInstructions', { required: true })}
                             placeholder="Write detailed task instructions..."
                             className="px-3 py-2 border rounded-md focus:outline-none focus:ring-purple-500 w-full"
                         ></textarea>

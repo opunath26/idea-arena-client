@@ -52,6 +52,18 @@ const MyContests = () => {
     });
   }
 
+  const handlePayment = async (contest) => {
+    const paymentInfo = {
+            contestCreationFee: contest.contestCreationFee,
+            contestId: contest._id,
+            creatorEmail: contest.creatorEmail,
+            contestTitle: contest.contestTitle
+        }
+        const res = await axiosSecure.post('/payment-checkout-session', paymentInfo);
+        console.log(res.data.url);
+        window.location.assign(res.data.url);
+  }
+
   return (
     <div>
       <h2>All of my Contests: {contests.length}</h2>
@@ -79,9 +91,9 @@ const MyContests = () => {
                     contest.paymentStatus === 'paid' ?
                     <span className='text-green-400'>Paid</span>
                     :
-                    <Link to={`/dashboard/payment/${contest._id}`}>
-                    <button className="btn btn-primary btn-sm">Pay</button>
-                    </Link>
+                    
+                    <button onClick={() => handlePayment(contest)} className="btn btn-primary btn-sm">Pay</button>
+                    
                   }
                 </td>
                 <td>{contest.deliveryStatus}</td>
