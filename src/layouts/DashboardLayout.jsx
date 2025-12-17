@@ -1,4 +1,5 @@
 import { FaFlagCheckered } from "react-icons/fa";
+import { FaRegCreditCard } from "react-icons/fa6";
 import { Link, NavLink, Outlet } from "react-router";
 
 const DashboardLayout = () => {
@@ -37,6 +38,12 @@ const DashboardLayout = () => {
             <NavLink className="is-drawer-close:tooltip-right is-drawer-close:tooltip" data-tip="MyContests" to="/dashboard/my-contests">
             <FaFlagCheckered />
             <span className="is-drawer-close:hidden">My Contests</span>
+            </NavLink>
+        </li>
+        <li>
+            <NavLink className="is-drawer-close:tooltip-right is-drawer-close:tooltip" data-tip="Payment History" to="/dashboard/payment-history">
+            <FaRegCreditCard />
+            <span className="is-drawer-close:hidden">Payment History</span>
             </NavLink>
         </li>
 
