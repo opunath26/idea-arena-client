@@ -5,7 +5,6 @@ import AuthLayout from "../layouts/AuthLayout";
 import Login from "../pages/Auth/Login";
 import Register from "../pages/Auth/Register";
 import PrivateRoute from "./PrivateRoute";
-import Creator from "../pages/Creator/Creator";
 import AddContest from "../pages/AddContest/AddContest";
 import DashboardLayout from "../layouts/DashboardLayout";
 import MyContests from "../pages/Dashboard/MyContests/MyContests";
@@ -13,6 +12,7 @@ import Payment from "../pages/Dashboard/Payment/Payment";
 import PaymentSuccess from "../pages/Dashboard/Payment/PaymentSuccess";
 import PaymentCancelled from "../pages/Dashboard/Payment/PaymentCancelled";
 import PaymentHistory from "../pages/Dashboard/PaymentHistory/PaymentHistory";
+import Candidate from "../pages/Candidate/Candidate";
 
 export const router = createBrowserRouter([
   {
@@ -24,8 +24,8 @@ export const router = createBrowserRouter([
         Component: Home
       },
       {
-        path: 'creator',
-        element: <PrivateRoute><Creator></Creator></PrivateRoute>
+        path: 'candidate',
+        element: <PrivateRoute><Candidate></Candidate></PrivateRoute>
       },
       {
         path: 'add-contest',

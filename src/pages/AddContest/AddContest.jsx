@@ -17,7 +17,6 @@ const AddContest = () => {
         // formState: { errors } 
     } = useForm();
     const { user } = useAuth();
-
     const axiosSecure = useAxiosSecure();
     const navigate = useNavigate();
 
