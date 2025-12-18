@@ -28,7 +28,6 @@ const Candidate = () => {
             showConfirmButton: false,
             timer: 2500
           });
-          // Sw
         }
       })
   }

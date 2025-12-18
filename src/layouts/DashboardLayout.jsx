@@ -1,5 +1,6 @@
 import { FaFlagCheckered } from "react-icons/fa";
-import { FaRegCreditCard } from "react-icons/fa6";
+import { FaRegCreditCard, FaUsers } from "react-icons/fa6";
+import { GrUserWorker } from "react-icons/gr";
 import { Link, NavLink, Outlet } from "react-router";
 
 const DashboardLayout = () => {
@@ -44,6 +45,18 @@ const DashboardLayout = () => {
             <NavLink className="is-drawer-close:tooltip-right is-drawer-close:tooltip" data-tip="Payment History" to="/dashboard/payment-history">
             <FaRegCreditCard />
             <span className="is-drawer-close:hidden">Payment History</span>
+            </NavLink>
+        </li>
+        <li>
+            <NavLink className="is-drawer-close:tooltip-right is-drawer-close:tooltip" data-tip="Approve Candidates" to="/dashboard/approve-candidates">
+            <GrUserWorker />
+            <span className="is-drawer-close:hidden">Approve Candidates</span>
+            </NavLink>
+        </li>
+        <li>
+            <NavLink className="is-drawer-close:tooltip-right is-drawer-close:tooltip" data-tip="Users Management" to="/dashboard/users-management">
+            <FaUsers />
+            <span className="is-drawer-close:hidden">Users Management</span>
             </NavLink>
         </li>
 
