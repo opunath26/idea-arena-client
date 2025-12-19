@@ -81,7 +81,8 @@ const ApproveCandidates = () => {
                             <th></th>
                             <th>Name</th>
                             <th>Email</th>
-                            <th>Status</th>
+                            <th>Application Status</th>
+                            <th>Work Status</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -94,6 +95,7 @@ const ApproveCandidates = () => {
                                 <td>
                                     <p className={`${candidate.status==='approved' ? 'text-green-800' : 'text-red-500'}`}>{candidate.status}</p>
                                 </td>
+                                <td>{candidate.workStatus}</td>
                                 <td className="space-x-2">
                                     <button
                                         className="btn btn-info">
