@@ -16,6 +16,7 @@ import Candidate from "../pages/Candidate/Candidate";
 import ApproveCandidates from "../pages/Dashboard/ApproveCandidates/ApproveCandidates";
 import UsersManagement from "../pages/Dashboard/UsersManagement/UsersManagement";
 import AdminRoute from "./AdminRoute";
+import AssignCandidates from "../pages/Dashboard/AssignCandidates/AssignCandidates";
 
 export const router = createBrowserRouter([
   {
@@ -79,6 +80,10 @@ export const router = createBrowserRouter([
       {
         path: 'approve-candidates',
         element: <AdminRoute><ApproveCandidates></ApproveCandidates></AdminRoute>
+      },
+      {
+        path: 'assign-candidates',
+        element: <AdminRoute><AssignCandidates></AssignCandidates></AdminRoute>
       },
       {
         path: 'users-management',

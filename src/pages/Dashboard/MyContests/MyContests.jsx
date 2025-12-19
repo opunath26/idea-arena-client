@@ -76,7 +76,8 @@ const MyContests = () => {
               <th>Name</th>
               <th>CreationFee</th>
               <th>Payment</th>
-              <th>Delivery Status</th>
+              <th>Tracking Id</th>
+              <th>Submit Status</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -96,7 +97,8 @@ const MyContests = () => {
                     
                   }
                 </td>
-                <td>{contest.deliveryStatus}</td>
+                <td>{contest.trackingId}</td>
+                <td>{contest.submitStatus}</td>
                 <td>
                   <button className='hover:bg-primary btn-square btn'>
                     <FaMagnifyingGlass />

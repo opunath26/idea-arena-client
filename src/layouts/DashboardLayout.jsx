@@ -3,6 +3,7 @@ import { FaRegCreditCard, FaUsers } from "react-icons/fa6";
 import { GrUserWorker } from "react-icons/gr";
 import { Link, NavLink, Outlet } from "react-router";
 import useRole from "../hooks/useRole";
+import { MdAssignmentInd } from "react-icons/md";
 
 const DashboardLayout = () => {
   const {role} = useRole();
@@ -56,6 +57,12 @@ const DashboardLayout = () => {
             <NavLink className="is-drawer-close:tooltip-right is-drawer-close:tooltip" data-tip="Approve Candidates" to="/dashboard/approve-candidates">
             <GrUserWorker />
             <span className="is-drawer-close:hidden">Approve Candidates</span>
+            </NavLink>
+        </li>
+            <li>
+            <NavLink className="is-drawer-close:tooltip-right is-drawer-close:tooltip" data-tip="Assign Candidates" to="/dashboard/assign-candidates">
+            <MdAssignmentInd />
+            <span className="is-drawer-close:hidden">Assign Candidates</span>
             </NavLink>
         </li>
         <li>
