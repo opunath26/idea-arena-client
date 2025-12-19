@@ -15,6 +15,7 @@ import PaymentHistory from "../pages/Dashboard/PaymentHistory/PaymentHistory";
 import Candidate from "../pages/Candidate/Candidate";
 import ApproveCandidates from "../pages/Dashboard/ApproveCandidates/ApproveCandidates";
 import UsersManagement from "../pages/Dashboard/UsersManagement/UsersManagement";
+import AdminRoute from "./AdminRoute";
 
 export const router = createBrowserRouter([
   {
@@ -77,11 +78,11 @@ export const router = createBrowserRouter([
       },
       {
         path: 'approve-candidates',
-        Component: ApproveCandidates
+        element: <AdminRoute><ApproveCandidates></ApproveCandidates></AdminRoute>
       },
       {
         path: 'users-management',
-        Component: UsersManagement
+        element: <AdminRoute><UsersManagement></UsersManagement></AdminRoute>
       }
     ]
   }

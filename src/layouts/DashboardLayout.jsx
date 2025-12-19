@@ -6,6 +6,7 @@ import useRole from "../hooks/useRole";
 
 const DashboardLayout = () => {
   const {role} = useRole();
+  
   return (
     <div className="mx-auto max-w-7xl drawer lg:drawer-open">
   <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
