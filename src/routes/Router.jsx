@@ -17,6 +17,8 @@ import ApproveCandidates from "../pages/Dashboard/ApproveCandidates/ApproveCandi
 import UsersManagement from "../pages/Dashboard/UsersManagement/UsersManagement";
 import AdminRoute from "./AdminRoute";
 import AssignCandidates from "../pages/Dashboard/AssignCandidates/AssignCandidates";
+import OrganizerRoute from "./OrganizerRoute";
+import ContestManagement from "../pages/Dashboard/ContestManagement/ContestManagement";
 
 export const router = createBrowserRouter([
   {
@@ -78,6 +80,13 @@ export const router = createBrowserRouter([
         path: 'payment-cancelled',
         Component: PaymentCancelled
       },
+      // Organizer Only routes
+      {
+        path: 'contest-management',
+        element: <OrganizerRoute><ContestManagement></ContestManagement></OrganizerRoute>
+      },
+
+      // Admin Only routes
       {
         path: 'approve-candidates',
         element: <AdminRoute><ApproveCandidates></ApproveCandidates></AdminRoute>

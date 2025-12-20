@@ -64,7 +64,7 @@ const AssignCandidates = () => {
                     <thead>
                         <tr>
                             <th></th>
-                            <th>Contest Title</th>
+                            {/* <th>Contest Title</th> */}
                             <th>Contest Type</th>
                             <th>Contest CreationFee</th>
                             <th>Created At</th>
@@ -75,7 +75,7 @@ const AssignCandidates = () => {
                         {
                             contests.map((contest, index) => <tr key={contest._id}>
                                 <th>{index + 1}</th>
-                                <td>{contest.contestTitle}</td>
+                                {/* <td>{contest.candidateName}</td> */}
                                 <td>{contest.contestType}</td>
                                 <td>{contest.contestCreationFee}</td>
                                 <td>{contest.createAt}</td>
@@ -117,7 +117,7 @@ const AssignCandidates = () => {
                                         <td>
                                             <button
                                                 onClick={() => handleAssignCandidate(candidate)}
-                                                className="btn-primary">Assign</button>
+                                                className="btn btn-primary">Assign</button>
                                         </td>
                                     </tr>)
                                 }
@@ -129,7 +129,7 @@ const AssignCandidates = () => {
                     <div className="modal-action">
                         <form method="dialog">
                             {/* if there is a button in form, it will close the modal */}
-                            <button className="btn">Close</button>
+                            <button className="bg-red-500 text-white btn">Close</button>
                         </form>
                     </div>
                 </div>
