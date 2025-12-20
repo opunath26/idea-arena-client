@@ -56,7 +56,7 @@ const Login = () => {
                         <label className="block mb-1 font-medium">Password</label>
                         <input
                             type="password"
-                            {...register("email", {
+                            {...register("password", {
                                 required: true, minLength: 6,
                                 pattern: /(?=.*[A-Z])(?=.*[!@#$&*])/,
                             })}
@@ -84,7 +84,7 @@ const Login = () => {
 
                     {/* Login Button */}
                     <button
-                        type="button"
+                        type="submit"
                         className="shadow-md hover:shadow-lg rounded-xl w-full text-white text-lg transition-all duration-300 btn btn-primary"
                     >
                         Login

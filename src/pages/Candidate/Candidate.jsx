@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import useAuth from '../../hooks/useAuth';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
 import Swal from 'sweetalert2';
-// import { useLoaderData } from 'react-router';
+import { useLoaderData } from 'react-router';
 
 const Candidate = () => {
   const {
@@ -14,11 +14,17 @@ const Candidate = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
 
-  // const addContestType = useLoaderData();
+  const contestTypes = useLoaderData();
 
   const handleCandidateApplication = data => {
-    console.log(data);
-    axiosSecure.post('/candidates', data)
+    
+    const applicationData = {
+      ...data,
+      status: 'pending',
+      workStatus: 'available'
+    }
+    console.log(applicationData);
+    axiosSecure.post('/candidates', applicationData)
       .then(res => {
         if (res.data.insertedId) {
           Swal.fire({
@@ -94,6 +100,26 @@ const Candidate = () => {
             />
           </div>
 
+          {/* Contest Type Selection */}
+          <div>
+            <label className="block mb-1 font-medium text-gray-700 text-sm">
+              Interested Contest Category
+            </label>
+            <select 
+              {...register('contestType', { required: true })} 
+              className="px-4 py-2 border rounded-lg outline-none focus:ring-2 focus:ring-primary/40 w-full"
+            >
+              <option value="">Select a category</option>
+              {
+                contestTypes && contestTypes.map((type, index) => (
+                  <option key={index} value={type.contestType}>
+                    {type.contestType}
+                  </option>
+                ))
+              }
+            </select>
+          </div>
+
           {/* Skills */}
           <div>
             <label className="block mb-1 font-medium text-gray-700 text-sm">
@@ -113,7 +139,7 @@ const Candidate = () => {
               Experience Level
             </label>
             <select {...register('candidateExperience', { required: true })} className="px-4 py-2 border rounded-lg outline-none focus:ring-2 focus:ring-primary/40 w-full">
-              <option>Select your experience level</option>
+              <option value="">Select your experience level</option>
               <option>Beginner</option>
               <option>Intermediate</option>
               <option>Advanced</option>
@@ -127,6 +153,7 @@ const Candidate = () => {
             </label>
             <textarea
               rows="4"
+              {...register('reason')}
               placeholder="Write a short explanation"
               className="px-4 py-2 border rounded-lg outline-none focus:ring-2 focus:ring-primary/40 w-full resize-none"
             ></textarea>
