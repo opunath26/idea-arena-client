@@ -2,19 +2,40 @@ import { useQuery } from '@tanstack/react-query';
 import React from 'react';
 import useAuth from '../../../hooks/useAuth';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
-import { FaEye, FaTrophy, FaRegCommentDots } from 'react-icons/fa'; // Icons import
+import Swal from 'sweetalert2';
 
 const ContestManagement = () => {
     const { user } = useAuth();
     const axiosSecure = useAxiosSecure();
 
-    const { data: contests = [] } = useQuery({
+    const { data: contests = [], refetch } = useQuery({
         queryKey: ['contests', user.email, 'candidate-assigned'],
         queryFn: async () => {
             const res = await axiosSecure.get(`/contests/candidate?candidateEmail=${user.email}&submitStatus=candidate-assigned`);
             return res.data;
         }
     })
+
+    const handleSubmissionStatusUpdate = (contest, status) => {
+        const statusInfo = { submitStatus: status };
+
+        let message = `Contest Status is updated with ${status.split('-').join(' ')}`;
+
+        axiosSecure.patch(`/contests/${contest._id}/status`, statusInfo)
+            .then(res => {
+                if (res.data.modifiedCount) {
+                    refetch();
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: message,
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            })
+    }
+
 
     return (
         <div className="bg-white dark:bg-gray-900 shadow-md p-8 rounded-lg">
@@ -30,8 +51,8 @@ const ContestManagement = () => {
                             <th>#</th>
                             <th>Contest Title</th>
                             <th>Candidate Email</th>
-                            <th>Status</th>
                             <th className="text-center">Actions</th>
+                            <th>Other Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -40,37 +61,31 @@ const ContestManagement = () => {
                                 <tr key={contest._id} className="hover:bg-gray-50 dark:hover:bg-gray-800 transition">
                                     <th>{i + 1}</th>
                                     <td className="font-semibold">{contest.contestTitle}</td>
-                                    <td>{contest.candidateEmail || 'N/A'}</td>
-                                    <td>
-                                        <span className="bg-yellow-100 border-none text-yellow-700 badge badge-ghost">
-                                            Pending Submission
-                                        </span>
-                                    </td>
+                                    <td>{contest.candidateEmail}</td>
                                     <td className="flex justify-center gap-3">
-                                        {/* 1. View Submission Button */}
-                                        <button 
-                                            title="View Submission"
-                                            className="btn-outline btn btn-sm btn-circle btn-info"
-                                        >
-                                            <FaEye />
-                                        </button>
 
-                                        {/* 2. Declare Winner Button */}
-                                        <button 
-                                            title="Declare Winner"
-                                            className="text-white btn btn-sm btn-circle btn-success"
-                                            disabled={contest.status === 'closed'} // Jodi winner declare hoye jay
-                                        >
-                                            <FaTrophy />
-                                        </button>
+                                        {
+                                            contest.submitStatus === 'candidate-assigned' ?
+                                                <>
+                                                    <button
+                                                        onClick={() => handleSubmissionStatusUpdate(contest, 'submission-approved')}
+                                                        className='bg-green-400 text-black btn'>Accept</button>
 
-                                        {/* 3. Feedback Button */}
-                                        <button 
-                                            title="Give Feedback"
-                                            className="border-purple-500 btn-outline text-purple-500 btn btn-sm btn-circle"
-                                        >
-                                            <FaRegCommentDots />
-                                        </button>
+                                                    <button className='bg-red-400 text-black btn'>Reject</button>
+                                                </>
+                                                :
+                                                <span>Approved</span>
+                                        }
+
+
+                                    </td>
+                                    <td>
+                                        <button
+                                            onClick={() => handleSubmissionStatusUpdate(contest, 'winner-selected')}
+                                            className='bg-blue-500 text-white btn'>Select Winner</button>
+                                        <button
+                                            onClick={() => handleSubmissionStatusUpdate(contest, 'prize-delivered')}
+                                            className='bg-green-500 mx-2 text-white btn'>Prize Delivered</button>
                                     </td>
                                 </tr>
                             ))

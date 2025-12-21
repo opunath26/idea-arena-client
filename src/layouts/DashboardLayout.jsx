@@ -1,6 +1,6 @@
 import { FaFlagCheckered } from "react-icons/fa";
 import { FaRegCreditCard, FaUsers } from "react-icons/fa6";
-import { GrUserWorker } from "react-icons/gr";
+import { GrCompliance, GrUserWorker } from "react-icons/gr";
 import { Link, NavLink, Outlet } from "react-router";
 import useRole from "../hooks/useRole";
 import { MdAssignmentInd } from "react-icons/md";
@@ -58,6 +58,12 @@ const DashboardLayout = () => {
                   <NavLink className="is-drawer-close:tooltip-right is-drawer-close:tooltip" data-tip="Contest Management" to="/dashboard/contest-management">
                     <HiOutlineDocumentReport />
                     <span className="is-drawer-close:hidden">Contest Management</span>
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink className="is-drawer-close:tooltip-right is-drawer-close:tooltip" data-tip="Prize Delivered" to="/dashboard/prize-delivered">
+                    <GrCompliance />
+                    <span className="is-drawer-close:hidden">Prize Delivered</span>
                   </NavLink>
                 </li>
               </>

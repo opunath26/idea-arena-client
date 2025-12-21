@@ -19,6 +19,7 @@ import AdminRoute from "./AdminRoute";
 import AssignCandidates from "../pages/Dashboard/AssignCandidates/AssignCandidates";
 import OrganizerRoute from "./OrganizerRoute";
 import ContestManagement from "../pages/Dashboard/ContestManagement/ContestManagement";
+import PrizeDelivered from "../pages/Dashboard/PrizeDelivered/PrizeDelivered";
 
 export const router = createBrowserRouter([
   {
@@ -84,6 +85,10 @@ export const router = createBrowserRouter([
       {
         path: 'contest-management',
         element: <OrganizerRoute><ContestManagement></ContestManagement></OrganizerRoute>
+      },
+      {
+        path: 'prize-delivered',
+        element: <OrganizerRoute><PrizeDelivered></PrizeDelivered></OrganizerRoute>
       },
 
       // Admin Only routes
