@@ -17,7 +17,11 @@ const ContestManagement = () => {
     })
 
     const handleSubmissionStatusUpdate = (contest, status) => {
-        const statusInfo = { submitStatus: status };
+        const statusInfo = { 
+            submitStatus: status,
+            candidateId: contest.candidateId,
+            trackingId: contest.trackingId
+        };
 
         let message = `Contest Status is updated with ${status.split('-').join(' ')}`;
 

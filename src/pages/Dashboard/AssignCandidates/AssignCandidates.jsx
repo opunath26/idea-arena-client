@@ -37,6 +37,7 @@ const AssignCandidates = () => {
             candidateEmail: candidate.candidateEmail,
             candidateName: candidate.candidateName,
             contestId: selectedContest._id,
+            trackingId: selectedContest.trackingId,
         }
         axiosSecure.patch(`/contests/${selectedContest._id}`, assignmentAssignInfo)
             .then(res => {
