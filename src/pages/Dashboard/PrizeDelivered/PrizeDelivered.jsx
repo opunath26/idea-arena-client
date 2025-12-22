@@ -45,7 +45,7 @@ const PrizeDelivered = () => {
                                 <td>{contest.createAt}</td>
                                 <td>
                                     <button
-                                        className='btn btn-primary'>Find Candidates</button>
+                                        className='btn btn-primary'>Cash Out</button>
                                 </td>
                             </tr>)
                         }

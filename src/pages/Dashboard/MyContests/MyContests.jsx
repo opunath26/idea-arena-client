@@ -97,7 +97,9 @@ const MyContests = () => {
                     
                   }
                 </td>
-                <td>{contest.trackingId}</td>
+                <td>
+                  <Link to={`/contest-track/${contest.trackingId}`}>{contest.trackingId}</Link>
+                </td>
                 <td>{contest.submitStatus}</td>
                 <td>
                   <button className='hover:bg-primary btn-square btn'>

@@ -20,6 +20,7 @@ import AssignCandidates from "../pages/Dashboard/AssignCandidates/AssignCandidat
 import OrganizerRoute from "./OrganizerRoute";
 import ContestManagement from "../pages/Dashboard/ContestManagement/ContestManagement";
 import PrizeDelivered from "../pages/Dashboard/PrizeDelivered/PrizeDelivered";
+import Winner from "../pages/Winner/Winner";
 
 export const router = createBrowserRouter([
   {
@@ -39,7 +40,11 @@ export const router = createBrowserRouter([
         path: 'add-contest',
         element: <PrivateRoute><AddContest></AddContest></PrivateRoute>,
         loader: () => fetch('/addContest.json').then(res => res.json())
-      }
+      },
+      {
+        path: 'contest-track/:trackingId',
+        Component: Winner
+      },
     ]
   },
 
@@ -65,6 +70,7 @@ export const router = createBrowserRouter([
         path: 'my-contests',
         Component: MyContests
       },
+      
       {
         path: 'payment/:contestId',
         Component: Payment
