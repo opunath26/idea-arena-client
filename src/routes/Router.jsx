@@ -21,6 +21,7 @@ import OrganizerRoute from "./OrganizerRoute";
 import ContestManagement from "../pages/Dashboard/ContestManagement/ContestManagement";
 import PrizeDelivered from "../pages/Dashboard/PrizeDelivered/PrizeDelivered";
 import Winner from "../pages/Winner/Winner";
+import DashboardHome from "../pages/Dashboard/DashboardHome/DashboardHome";
 
 export const router = createBrowserRouter([
   {
@@ -66,6 +67,10 @@ export const router = createBrowserRouter([
     path: 'dashboard',
     element: <PrivateRoute><DashboardLayout></DashboardLayout></PrivateRoute>,
     children: [
+      {
+        index: true,
+        Component: DashboardHome
+      },
       {
         path: 'my-contests',
         Component: MyContests

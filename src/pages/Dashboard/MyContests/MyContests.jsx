@@ -60,7 +60,7 @@ const MyContests = () => {
             contestTitle: contest.contestTitle
         }
         const res = await axiosSecure.post('/payment-checkout-session', paymentInfo);
-        console.log(res.data.url);
+        // console.log(res.data.url);
         window.location.assign(res.data.url);
   }
 
@@ -98,7 +98,7 @@ const MyContests = () => {
                   }
                 </td>
                 <td>
-                  <Link to={`/contest-track/${contest.trackingId}`}>{contest.trackingId}</Link>
+                  <Link className='bg-orange-300' to={`/contest-track/${contest.trackingId}`}>{contest.trackingId}</Link>
                 </td>
                 <td>{contest.submitStatus}</td>
                 <td>
