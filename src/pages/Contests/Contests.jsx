@@ -1,35 +1,33 @@
-import React, { useEffect, useState } from 'react';
-import useAxiosSecure from '../../hooks/useAxiosSecure';
+import React from 'react';
+import { useQuery } from '@tanstack/react-query';
 import ContestCard from '../ContestCard/ContestCard';
+import useAxiosSecure from '../../hooks/useAxiosSecure';
+import SpinnerLoader from '../SpinnerLoader';
 
 const Contests = () => {
     const axiosSecure = useAxiosSecure();
-    const [contests, setContests] = useState([]);
-    const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        axiosSecure.get('/contests')
-            .then(res => {
-                setContests(res.data);
-                setLoading(false);
-            })
-            .catch(err => {
-                console.error(err);
-                setLoading(false);
-            });
-    }, [axiosSecure]);
+    const { data: contests = [], isLoading, isError } = useQuery({
+        queryKey: ['contests'],
+        queryFn: async () => {
+            const res = await axiosSecure.get('/contests');
+            return res.data;
+        }
+    });
 
-    if (loading) {
-        return (
-            <div className="flex justify-center items-center min-h-screen">
-                <span className="text-primary loading loading-bars loading-lg"></span>
-            </div>
-        );
+    if (isLoading) {
+        return <SpinnerLoader />;
+    }
+
+    if (isError) {
+        return <div className="py-20 text-red-500 text-center">Error loading contests. Please try again later.</div>;
     }
 
     return (
         <div className="mx-auto px-4 py-10 container">
-            <h1 className="mb-8 font-bold text-3xl text-center">All Available Contests</h1>
+            <h1 className="mb-8 font-bold text-gray-800 dark:text-white text-3xl text-center">
+                All Available Contests
+            </h1>
             
             <div className="gap-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
                 {

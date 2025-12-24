@@ -25,6 +25,7 @@ import DashboardHome from "../pages/Dashboard/DashboardHome/DashboardHome";
 import Contests from "../pages/Contests/Contests";
 import ContestDetails from "../pages/ContestDetails/ContestDetails";
 import AllContests from "../pages/AllContests/AllContests";
+import Error from "../pages/Shared/Error";
 
 export const router = createBrowserRouter([
   {
@@ -128,5 +129,9 @@ export const router = createBrowserRouter([
         element: <AdminRoute><UsersManagement></UsersManagement></AdminRoute>
       }
     ]
+  },
+  {
+    path: '*',
+    element: <Error></Error>
   }
 ]);

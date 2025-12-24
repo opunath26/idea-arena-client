@@ -18,8 +18,8 @@ const Navbar = () => {
     const links = <>
         <li><NavLink to="">Home</NavLink></li>
         <li><NavLink to="/add-contest">Add Contest</NavLink></li>
-        <li><NavLink to="/candidate">Be a Candidate</NavLink></li>
-        {/* <li><NavLink to="">Dashboard</NavLink></li> */}
+        <li><NavLink to="/candidate">Be a Creator</NavLink></li>
+        <li><NavLink to="/all-contests">All Contests</NavLink></li>
 
         {
             user && <>

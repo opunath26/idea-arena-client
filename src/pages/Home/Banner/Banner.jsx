@@ -1,8 +1,8 @@
 import React from 'react';
-// ধরে নিচ্ছি আপনি আপনার assets ফোল্ডার থেকে image টি সঠিকভাবে import করেছেন
 import banner from "../../../assets/banner.jpg"; 
 
 const Banner = () => {
+    
     return (
         // 1. **Outer Container** - Relative position for absolute children
         <div className="relative w-full h-[500px] overflow-hidden">
