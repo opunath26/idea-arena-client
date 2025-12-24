@@ -5,14 +5,15 @@ import useAuth from '../../hooks/useAuth';
 
 const Navbar = () => {
 
-    const {user, logOut} = useAuth();
+    const { user, logOut } = useAuth();
 
     const handleLogOut = () => {
-    logOut()
-      .then()
-      .catch(error => {
-        console.log(error);
-      })};
+        logOut()
+            .then()
+            .catch(error => {
+                console.log(error);
+            })
+    };
 
     const links = <>
         <li><NavLink to="">Home</NavLink></li>
@@ -27,7 +28,7 @@ const Navbar = () => {
             </>
         }
         <li><NavLink to="">About Us</NavLink></li>
-        
+
     </>
 
     return (
@@ -50,13 +51,35 @@ const Navbar = () => {
                     {links}
                 </ul>
             </div>
-            <div className="navbar-end">
-                {
-                    user ? <a onClick={handleLogOut} className="bg-primary btn">Logout</a> : 
-                    <Link className='btn' to="/login"> Log in </Link>
-                }
-                <Link className='m-3 btn btn-primary' to="/creator">Be a Creator</Link>
+            <div className="flex items-center gap-4 navbar-end">
+    {/* Profile Section */}
+    {user && (
+        <div className="dropdown dropdown-end">
+            <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
+                <div className="rounded-full w-10">
+                    <img 
+                        alt="User Profile" 
+                        src={user?.photoURL || "placeholder.png"} 
+                    />
+                </div>
             </div>
+            
+        </div>
+    )}
+
+    {/* Login/Logout Button Section */}
+    <div>
+        {user ? (
+            <button onClick={handleLogOut} className="bg-primary text-white btn">
+                Logout
+            </button>
+        ) : (
+            <Link className="btn" to="/login">
+                Log in
+            </Link>
+        )}
+    </div>
+</div>
         </div>
     );
 };

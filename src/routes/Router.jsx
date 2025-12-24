@@ -22,6 +22,9 @@ import ContestManagement from "../pages/Dashboard/ContestManagement/ContestManag
 import PrizeDelivered from "../pages/Dashboard/PrizeDelivered/PrizeDelivered";
 import Winner from "../pages/Winner/Winner";
 import DashboardHome from "../pages/Dashboard/DashboardHome/DashboardHome";
+import Contests from "../pages/Contests/Contests";
+import ContestDetails from "../pages/ContestDetails/ContestDetails";
+import AllContests from "../pages/AllContests/AllContests";
 
 export const router = createBrowserRouter([
   {
@@ -45,6 +48,14 @@ export const router = createBrowserRouter([
       {
         path: 'contest-track/:trackingId',
         Component: Winner
+      },
+      {
+        path: 'all-contests',
+        element: <AllContests />
+      },
+      {
+        path: 'contest-details/:id',
+        element: <PrivateRoute><ContestDetails /></PrivateRoute> 
       },
     ]
   },
@@ -75,7 +86,7 @@ export const router = createBrowserRouter([
         path: 'my-contests',
         Component: MyContests
       },
-      
+
       {
         path: 'payment/:contestId',
         Component: Payment
@@ -92,6 +103,7 @@ export const router = createBrowserRouter([
         path: 'payment-cancelled',
         Component: PaymentCancelled
       },
+      
       // Organizer Only routes
       {
         path: 'contest-management',
