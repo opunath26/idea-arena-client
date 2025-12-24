@@ -4,12 +4,10 @@ import ContestCard from "../ContestCard/ContestCard";
 
 const AllContests = () => {
     const [contests, setContests] = useState([]);
-    const [searchText, setSearchText] = useState(''); // সার্চ টেক্সট রাখার জন্য
+    const [searchText, setSearchText] = useState('');
     const axiosSecure = useAxiosSecure();
 
-    // ডাটা ফেচ করার ফাংশন
     const fetchContests = (search = '') => {
-        // ব্যাকএন্ডে কুয়েরি প্যারামিটার হিসেবে সার্চ টেক্সট পাঠানো হচ্ছে
         axiosSecure.get(`/contests?searchText=${search}`)
             .then(res => setContests(res.data))
     };

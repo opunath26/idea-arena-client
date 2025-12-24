@@ -2,7 +2,6 @@ import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import ContestCard from '../ContestCard/ContestCard';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
-import SpinnerLoader from '../SpinnerLoader';
 
 const Contests = () => {
     const axiosSecure = useAxiosSecure();
@@ -19,6 +18,7 @@ const Contests = () => {
         return <SpinnerLoader />;
     }
 
+   
     if (isError) {
         return <div className="py-20 text-red-500 text-center">Error loading contests. Please try again later.</div>;
     }
