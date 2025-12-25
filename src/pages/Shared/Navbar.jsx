@@ -27,7 +27,6 @@ const Navbar = () => {
                 <li><NavLink to="/dashboard">Dashboard</NavLink></li>
             </>
         }
-        <li><NavLink to="">About Us</NavLink></li>
 
     </>
 
