@@ -1,177 +1,194 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import useAuth from '../../hooks/useAuth';
 import { Link, useLocation, useNavigate } from 'react-router';
 import SocialLogin from './SocialLogin';
 import axios from 'axios';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
+import { FaUser, FaEnvelope, FaLock, FaImage, FaArrowRight, FaEye, FaEyeSlash } from 'react-icons/fa';
+import { motion } from 'framer-motion';
 
 const Register = () => {
+    const [showPassword, setShowPassword] = useState(false);
     const { register, handleSubmit, formState: { errors } } = useForm();
-    const { registerUser, updateUserProfile} = useAuth();
+    const { registerUser, updateUserProfile } = useAuth();
     const location = useLocation();
     const navigate = useNavigate();
     const axiosSecure = useAxiosSecure();
-    
-    
 
     const handleRegistration = (data) => {
         const profileImg = data.photo[0];
 
         registerUser(data.email, data.password)
             .then(() => {
-
-                // store the image and the photo URL
                 const formData = new FormData();
                 formData.append("image", profileImg);
 
                 const image_API_URL = `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_image_host_key}`;
 
                 axios.post(image_API_URL, formData)
-                .then( res =>{
-                    const photoURL = res.data.data.url;
+                    .then(res => {
+                        const photoURL = res.data.data.url;
 
-                    // create ue in the database
-                    const userInfo = {
-                        email: data.email,
-                        displayName : data.name,
-                        photoURL : photoURL
-                    }
-                    axiosSecure.post('/users', userInfo)
-                    .then(res =>{
-                        if(res.data.insertedId){
-                            console.log('user created in the database');
-                            
-                        }
-                    })
+                        const userInfo = {
+                            email: data.email,
+                            displayName: data.name,
+                            photoURL: photoURL,
+                            role: 'user' // Default role
+                        };
 
-                    // update user profile to firebase
-                    const userProfile = {
-                        displayName : data.name,
-                        photoURL : photoURL
-                    }
-                    updateUserProfile(userProfile)
-                    .then(() => {
-                        console.log("user profile updated done");
-                        navigate(location.state || '/');
-                    })
-                    .catch(error => console.log(error))
-                })
+                        axiosSecure.post('/users', userInfo)
+                            .then(res => {
+                                if (res.data.insertedId) {
+                                    console.log('User synced to database');
+                                }
+                            });
+
+                        const userProfile = {
+                            displayName: data.name,
+                            photoURL: photoURL
+                        };
+
+                        updateUserProfile(userProfile)
+                            .then(() => {
+                                navigate(location.state || '/');
+                            })
+                            .catch(error => console.log(error));
+                    });
             })
-            .catch(error => {
-                console.log(error);
-            })
-    }
+            .catch(error => console.log(error));
+    };
 
     return (
-        <div className="flex justify-center items-center bg-base-200 px-4 min-h-screen">
-
-            <div className="bg-white shadow-2xl backdrop-blur-lg p-10 border border-primary/20 rounded-2xl w-full max-w-md animate__animated animate__fadeIn">
-
-                {/* Logo */}
-                <h2 className="mb-2 font-extrabold text-primary text-3xl text-center tracking-wide">
-                    Create an Account
-                </h2>
-                <p className="mb-6 text-gray-600 text-center">Register with IdeaArena</p>
-
-                {/* Form */}
-                <form onSubmit={handleSubmit(handleRegistration)} className="space-y-4">
-
-                    {/* Name */}
-                    <div>
-                        <label className="block mb-1 font-medium">Name</label>
-                        <input
-                            type="text"
-                            {...register("name", { required: true })}
-                            className="focus:outline-none focus:ring-2 focus:ring-primary/50 w-full input-bordered input"
-                            placeholder="Name"
-                        />
-                        {errors.name && (
-                            <span className="text-red-500 text-sm">Name is required</span>
-                        )}
+        <div className="flex justify-center items-center bg-[#F3F4F9] p-0 sm:p-6 min-h-screen">
+            <motion.div 
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="flex md:flex-row flex-col bg-white shadow-[0_50px_100px_-20px_rgba(0,0,0,0.15)] sm:rounded-[3rem] w-full max-w-6xl min-h-[750px] overflow-hidden"
+            >
+                {/* Left Side: Visual Section */}
+                <div className="hidden md:block relative md:w-[45%] overflow-hidden">
+                    <img 
+                        src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=2070&auto=format&fit=crop" 
+                        alt="Register Visual" 
+                        className="absolute inset-0 w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-purple-900 via-purple-800/40 to-transparent"></div>
+                    
+                    <div className="z-10 relative flex flex-col justify-end p-12 h-full text-white">
+                        <motion.div
+                            initial={{ y: 20, opacity: 0 }}
+                            animate={{ y: 0, opacity: 1 }}
+                            transition={{ delay: 0.2 }}
+                        >
+                            <h2 className="mb-4 font-black text-5xl leading-tight">
+                                Join the <br /> <span className="text-yellow-400">Innovation</span> Hub.
+                            </h2>
+                            <p className="opacity-90 max-w-sm text-purple-100 text-lg">
+                                Create an account to participate in global contests and showcase your talent.
+                            </p>
+                        </motion.div>
                     </div>
-
-                    {/* Photo */}
-                    <div>
-                        <label className="block mb-1 font-medium">Photo</label>
-                        <input
-                            type="file"
-                            {...register("photo", { required: true })}
-                            className="focus:outline-none focus:ring-2 focus:ring-primary/50 w-full file-input-bordered file-input"
-                            placeholder="Your Photo"
-                        />
-                        {errors.name && (
-                            <span className="text-red-500 text-sm">Photo is required</span>
-                        )}
-                    </div>
-
-                    {/* Email */}
-                    <div>
-                        <label className="block mb-1 font-medium">Email</label>
-                        <input
-                            type="email"
-                            {...register("email", { required: true })}
-                            className="focus:outline-none focus:ring-2 focus:ring-primary/50 w-full input-bordered input"
-                            placeholder="Enter your email"
-                        />
-                        {errors.email?.type === 'required' && (
-                            <p className='mt-1 text-red-500 text-sm'>Email is required.</p>
-                        )}
-                    </div>
-
-                    {/* Password */}
-                    <div>
-                        <label className="block mb-1 font-medium">Password</label>
-                        <input
-                            type="password"
-                            {...register("password", {
-                                required: true,
-                                minLength: 6,
-                                pattern: /(?=.*[A-Z])(?=.*[!@#$&*])/,
-                            })}
-                            className="focus:outline-none focus:ring-2 focus:ring-primary/50 w-full input-bordered input"
-                            placeholder="Enter your password"
-                        />
-                        {errors.password?.type === 'required' && (
-                            <p className='mt-1 text-red-500 text-sm'>Password is required.</p>
-                        )}
-                        {errors.password?.type === "minLength" && (
-                            <span className="text-red-500 text-sm">
-                                Password must be at least 6 characters
-                            </span>
-                        )}
-                        {errors.password?.type === "pattern" && (
-                            <span className="text-red-500 text-sm">
-                                Must contain an uppercase & a special character
-                            </span>
-                        )}
-                    </div>
-
-                    {/* Register Button */}
-                    <button
-                        type="submit"
-                        className="shadow-md hover:shadow-lg rounded-xl w-full text-white text-lg transition-all duration-300 btn btn-primary"
-                    >
-                        Register
-                    </button>
-                </form>
-
-                <div className="my-4">
-                    <SocialLogin></SocialLogin>
                 </div>
 
-                {/* Bottom link */}
-                <p className="mt-4 text-sm text-center">
-                    Already have an account?{" "}
-                    <Link
-                        state={location.state}
-                        to="/login"
-                        className="font-semibold text-primary hover:underline"
-                    >
-                        Login
-                    </Link>
-                </p>
-            </div>
+                {/* Right Side: Form Section */}
+                <div className="flex flex-col justify-center bg-white p-8 sm:p-16 md:w-[55%] overflow-y-auto">
+                    <div className="mx-auto w-full max-w-md">
+                        <div className="mb-8">
+                            <h2 className="mb-2 font-black text-gray-900 text-4xl tracking-tight">Create Account</h2>
+                            <p className="font-bold text-[10px] text-gray-400 uppercase tracking-[0.3em]">Start your journey today</p>
+                        </div>
+
+                        <form onSubmit={handleSubmit(handleRegistration)} className="space-y-4">
+                            {/* Name */}
+                            <div className="space-y-1">
+                                <label className="ml-1 font-bold text-gray-500 text-xs uppercase">Full Name</label>
+                                <div className="group relative">
+                                    <FaUser className="top-1/2 left-4 absolute text-gray-300 group-focus-within:text-purple-600 transition-colors -translate-y-1/2" />
+                                    <input 
+                                        type="text"
+                                        {...register("name", { required: "Name is required" })}
+                                        placeholder="Enter your name"
+                                        className="bg-gray-50 focus:bg-white py-3.5 pr-4 pl-12 border-2 border-gray-50 focus:border-purple-600 rounded-2xl outline-none w-full font-semibold text-gray-700 transition-all"
+                                    />
+                                </div>
+                                {errors.name && <p className="ml-2 font-bold text-[10px] text-red-500 italic tracking-wide">{errors.name.message}</p>}
+                            </div>
+
+                            {/* Photo Upload */}
+                            <div className="space-y-1">
+                                <label className="ml-1 font-bold text-gray-500 text-xs uppercase tracking-tighter">Profile Photo</label>
+                                <div className="group relative">
+                                    <FaImage className="top-1/2 left-4 z-10 absolute text-gray-300 group-focus-within:text-purple-600 transition-colors -translate-y-1/2" />
+                                    <input 
+                                        type="file"
+                                        {...register("photo", { required: "Photo is required" })}
+                                        className="bg-gray-50 hover:file:bg-purple-200 focus:bg-white file:bg-purple-100 file:mr-4 file:px-4 py-3 file:py-1 pr-4 pl-12 border-2 border-gray-200 focus:border-purple-600 file:border-0 border-dashed rounded-2xl file:rounded-full outline-none w-full font-semibold file:font-black text-gray-400 file:text-purple-700 file:text-xs transition-all cursor-pointer"
+                                    />
+                                </div>
+                                {errors.photo && <p className="ml-2 font-bold text-[10px] text-red-500 italic tracking-wide">{errors.photo.message}</p>}
+                            </div>
+
+                            {/* Email */}
+                            <div className="space-y-1">
+                                <label className="ml-1 font-bold text-gray-500 text-xs uppercase">Email Address</label>
+                                <div className="group relative">
+                                    <FaEnvelope className="top-1/2 left-4 absolute text-gray-300 group-focus-within:text-purple-600 transition-colors -translate-y-1/2" />
+                                    <input 
+                                        type="email"
+                                        {...register("email", { required: "Email is required" })}
+                                        placeholder="email@example.com"
+                                        className="bg-gray-50 focus:bg-white py-3.5 pr-4 pl-12 border-2 border-gray-50 focus:border-purple-600 rounded-2xl outline-none w-full font-semibold text-gray-700 transition-all"
+                                    />
+                                </div>
+                                {errors.email && <p className="ml-2 font-bold text-[10px] text-red-500 italic tracking-wide">{errors.email.message}</p>}
+                            </div>
+
+                            {/* Password */}
+                            <div className="space-y-1">
+                                <label className="ml-1 font-bold text-gray-500 text-xs uppercase">Set Password</label>
+                                <div className="group relative">
+                                    <FaLock className="top-1/2 left-4 absolute text-gray-300 group-focus-within:text-purple-600 transition-colors -translate-y-1/2" />
+                                    <input 
+                                        type={showPassword ? "text" : "password"}
+                                        {...register("password", { 
+                                            required: "Password is required",
+                                            minLength: { value: 6, message: "Min 6 characters" },
+                                            pattern: {
+                                                value: /(?=.*[A-Z])(?=.*[!@#$&*])/,
+                                                message: "Uppercase & special char required"
+                                            }
+                                        })}
+                                        placeholder="••••••••"
+                                        className="bg-gray-50 focus:bg-white py-3.5 pr-12 pl-12 border-2 border-gray-50 focus:border-purple-600 rounded-2xl outline-none w-full font-semibold text-gray-700 transition-all"
+                                    />
+                                    <button 
+                                        type="button"
+                                        onClick={() => setShowPassword(!showPassword)}
+                                        className="top-1/2 right-4 absolute text-gray-400 hover:text-purple-600 transition-colors -translate-y-1/2"
+                                    >
+                                        {showPassword ? <FaEyeSlash /> : <FaEye />}
+                                    </button>
+                                </div>
+                                {errors.password && <p className="ml-2 font-bold text-[10px] text-red-500 italic tracking-wide">{errors.password.message}</p>}
+                            </div>
+
+                            <button className="flex justify-center items-center gap-3 bg-purple-600 hover:bg-gray-900 shadow-purple-100 shadow-xl mt-4 py-4 rounded-2xl w-full font-black text-white text-lg active:scale-95 transition-all transform">
+                                Create Account <FaArrowRight />
+                            </button>
+                        </form>
+
+                        <div className="mt-8">
+                            <SocialLogin />
+                        </div>
+
+                        <p className="mt-8 font-medium text-gray-500 text-center">
+                            Already have an account? 
+                            <Link to="/login" className="ml-2 font-black text-purple-600 decoration-2 hover:underline">Login here</Link>
+                        </p>
+                    </div>
+                </div>
+            </motion.div>
         </div>
     );
 };

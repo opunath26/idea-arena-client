@@ -27,6 +27,8 @@ import ContestDetails from "../pages/ContestDetails/ContestDetails";
 import AllContests from "../pages/AllContests/AllContests";
 import Error from "../pages/Shared/Error";
 import MyParticipated from "../pages/Dashboard/DashboardHome/MyParticipated";
+import About from "../pages/About/About";
+import Contact from "../pages/Contact/Contact";
 
 export const router = createBrowserRouter([
   {
@@ -36,6 +38,14 @@ export const router = createBrowserRouter([
       {
         index: true,
         Component: Home
+      },
+      {
+        path: 'about',
+        Component: About
+      },
+      {
+        path: 'contact',
+        Component: Contact
       },
       {
         path: 'candidate',
