@@ -29,6 +29,7 @@ import Error from "../pages/Shared/Error";
 import MyParticipated from "../pages/Dashboard/DashboardHome/MyParticipated";
 import About from "../pages/About/About";
 import Contact from "../pages/Contact/Contact";
+import PrivacyPolicy from "../pages/PrivacyPolicy/PrivacyPolicy";
 
 export const router = createBrowserRouter([
   {
@@ -46,6 +47,10 @@ export const router = createBrowserRouter([
       {
         path: 'contact',
         Component: Contact
+      },
+      {
+        path: 'privacy-policy',
+        Component: PrivacyPolicy
       },
       {
         path: 'candidate',
