@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FaUsers, FaLayerGroup, FaDollarSign, FaUserShield } from 'react-icons/fa';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
+import MyParticipated from './MyParticipated';
 
 const AdminDashboardHome = () => {
     const axiosSecure = useAxiosSecure();
@@ -119,6 +120,9 @@ const AdminDashboardHome = () => {
                     </button>
                 </div>
             </div>
+
+        <MyParticipated />
+
         </div>
     );
 };

@@ -26,6 +26,7 @@ import Contests from "../pages/Contests/Contests";
 import ContestDetails from "../pages/ContestDetails/ContestDetails";
 import AllContests from "../pages/AllContests/AllContests";
 import Error from "../pages/Shared/Error";
+import MyParticipated from "../pages/Dashboard/DashboardHome/MyParticipated";
 
 export const router = createBrowserRouter([
   {
@@ -56,8 +57,12 @@ export const router = createBrowserRouter([
       },
       {
         path: 'contest-details/:id',
-        element: <PrivateRoute><ContestDetails /></PrivateRoute> 
+        element: <PrivateRoute><ContestDetails /></PrivateRoute>
       },
+      {
+        path: "my-participated",
+        element: <MyParticipated />
+      }
     ]
   },
 
@@ -104,7 +109,7 @@ export const router = createBrowserRouter([
         path: 'payment-cancelled',
         Component: PaymentCancelled
       },
-      
+
       // Organizer Only routes
       {
         path: 'contest-management',

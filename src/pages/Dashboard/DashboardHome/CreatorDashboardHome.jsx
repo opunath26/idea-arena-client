@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { FaChartBar, FaHourglassHalf, FaUsers, FaCheckCircle } from 'react-icons/fa';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import useAuth from '../../../hooks/useAuth';
+import MyParticipated from './MyParticipated';
 
 const CreatorDashboardHome = () => {
     const { user } = useAuth();
@@ -104,6 +105,9 @@ const CreatorDashboardHome = () => {
                     <button className="border-white btn-outline text-white btn btn-sm">Learn More</button>
                 </div>
             </div>
+
+        <MyParticipated />
+
         </div>
     );
 };

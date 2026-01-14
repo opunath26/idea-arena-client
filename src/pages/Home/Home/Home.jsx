@@ -26,7 +26,7 @@ const Home = () => {
             <About />
 
             {/* Recent Contests Section */}
-            <section className="bg-gray-50 py-16">
+            <section className="bg-gray-50 py-20">
                 <div className="mx-auto px-4 container">
                     <div className="mb-12 text-center">
                         <h2 className="mb-3 font-bold text-gray-800 text-4xl">
@@ -36,13 +36,23 @@ const Home = () => {
                         <div className="bg-purple-500 mx-auto mt-4 rounded-full w-24 h-1"></div>
                     </div>
 
-                    <ContestCard 
-                        contests={contests} 
-                        isLoading={isLoading} 
-                    />
+                    {/* Loading State */}
+                    {isLoading ? (
+                        <div className="flex justify-center py-20">
+                            <span className="text-purple-600 loading loading-bars loading-lg"></span>
+                        </div>
+                    ) : (
+                        
+                        <div className="gap-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                            {contests.map(contest => (
+                                <ContestCard key={contest._id} contest={contest} />
+                            ))}
+                        </div>
+                    )}
 
-                    <div className="flex justify-center mt-12">
-                        <Link to='/all-contests' className="rounded-full font-bold btn btn-primary btn-wide">
+                    {/* Show All Button */}
+                    <div className="flex justify-center mt-16">
+                        <Link to='/all-contests' className="shadow-lg hover:shadow-purple-200 px-12 rounded-full font-bold transition-all btn btn-primary btn-lg">
                             View All Contests
                         </Link>
                     </div>

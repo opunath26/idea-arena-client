@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { FaTrophy, FaCoins, FaClipboardList } from 'react-icons/fa';
 import useAuth from '../../../hooks/useAuth';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
+import MyParticipated from './MyParticipated';
 
 const UserDashboardHome = () => {
     const { user } = useAuth();
@@ -86,6 +87,9 @@ const UserDashboardHome = () => {
                     <div className="mt-2 badge-outline badge">Verified Participant</div>
                 </div>
             </div>
+
+        <MyParticipated />
+
         </div>
     );
 };
