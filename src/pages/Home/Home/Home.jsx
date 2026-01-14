@@ -10,6 +10,7 @@ import { Link } from 'react-router';
 import Stats from '../Stats/Stats';
 import HowItWorks from '../HowItWorks/HowItWorks';
 import Reviews from '../Reviews/Reviews';
+import Newsletter from '../Newsletter/Newsletter';
 
 const Home = () => {
     const axiosSecure = useAxiosSecure();
@@ -66,6 +67,7 @@ const Home = () => {
             <Reviews />
             <Brands />
             <FAQSection />
+            <Newsletter />
         </div>
     );
 };
