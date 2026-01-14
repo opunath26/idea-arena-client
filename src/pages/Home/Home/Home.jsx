@@ -8,6 +8,7 @@ import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import ContestCard from '../../ContestCard/ContestCard';
 import { Link } from 'react-router';
 import Stats from '../Stats/Stats';
+import HowItWorks from '../HowItWorks/HowItWorks';
 
 const Home = () => {
     const axiosSecure = useAxiosSecure();
@@ -60,7 +61,7 @@ const Home = () => {
                     </div>
                 </div>
             </section>
-
+            <HowItWorks />
             <Brands />
             <FAQSection />
         </div>
