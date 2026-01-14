@@ -29,7 +29,7 @@ const Contests = () => {
                 All Available Contests
             </h1>
             
-            <div className="gap-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+            <div className="gap-6 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4">
                 {
                     contests.length > 0 ? (
                         contests.map(contest => (
