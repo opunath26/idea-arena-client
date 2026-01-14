@@ -7,6 +7,7 @@ import FAQSection from '../FAQSection/FAQSection';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import ContestCard from '../../ContestCard/ContestCard';
 import { Link } from 'react-router';
+import Stats from '../Stats/Stats';
 
 const Home = () => {
     const axiosSecure = useAxiosSecure();
@@ -23,6 +24,7 @@ const Home = () => {
         <div>
             <Banner />
             
+            <Stats />
             <About />
 
             {/* Recent Contests Section */}
