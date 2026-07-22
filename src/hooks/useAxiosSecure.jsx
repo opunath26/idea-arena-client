@@ -1,51 +1,47 @@
 import axios from 'axios';
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import useAuth from './useAuth';
 import { useNavigate } from 'react-router';
 
 const axiosSecure = axios.create({
-    baseURL: 'https://idea-arena-server.vercel.app'
-})
+    baseURL: import.meta.env.VITE_API_URL || 'http://localhost:3000'
+});
 
 const useAxiosSecure = () => {
     const { user, logOut } = useAuth();
     const navigate = useNavigate();
 
     useEffect(() => {
-        // intercept request
-        const reqInterceptor = axiosSecure.interceptors.request.use(config => {
-            config.headers.Authorization = `Bearer ${user?.accessToken}`
-            return config
-        })
+        const reqInterceptor = axiosSecure.interceptors.request.use(async (config) => {
+            if (user) {
+                const token = await user.getIdToken();
+                config.headers.Authorization = `Bearer ${token}`;
+            }
+            return config;
+        }, (error) => {
+            return Promise.reject(error);
+        });
 
-        // interceptor response
         const resInterceptor = axiosSecure.interceptors.response.use((response) => {
             return response;
-        }, (error) => {
-            console.log(error);
+        }, async (error) => {
+            const statusCode = error.response?.status;
 
-            const statusCode = error.status;
             if (statusCode === 401 || statusCode === 403) {
-                logOut()
-                    .then(() => {
-                        navigate('/login')
-                    })
+                await logOut();
+                navigate('/login');
             }
 
-
-
             return Promise.reject(error);
-        })
+        });
 
+        // Cleanup interceptors
         return () => {
             axiosSecure.interceptors.request.eject(reqInterceptor);
             axiosSecure.interceptors.response.eject(resInterceptor);
+        };
 
-        }
-
-
-
-    }, [user, logOut, navigate])
+    }, [user, logOut, navigate]);
 
     return axiosSecure;
 };

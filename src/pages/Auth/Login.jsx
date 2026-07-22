@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import useAuth from "../../hooks/useAuth";
+import axios from "axios";
 import { Link, useLocation, useNavigate } from "react-router";
 import SocialLogin from "./SocialLogin";
 import { FaEye, FaEyeSlash, FaEnvelope, FaLock, FaRocket, FaArrowRight } from "react-icons/fa";
@@ -9,16 +10,45 @@ import { motion } from "framer-motion";
 const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
     const { register, handleSubmit, setValue, formState: { errors } } = useForm();
-    const { signInUser } = useAuth();
+    const { signInUser, googleSignIn } = useAuth();
     const location = useLocation();
     const navigate = useNavigate();
 
+    const from = location?.state || '/';
+
+    // 1. Email & Password Login Handler
     const handleLogin = (data) => {
         signInUser(data.email, data.password)
-            .then(() => navigate(location?.state || '/'))
-            .catch(error => console.error(error));
+            .then(() => navigate(from, { replace: true }))
+            .catch(error => console.error("Login Error:", error));
     };
 
+    // 2. Google Login Handler
+    const handleGoogleLogin = () => {
+        googleSignIn()
+            .then((result) => {
+                const userInfo = {
+                    email: result.user?.email,
+                    displayName: result.user?.displayName,
+                    name: result.user?.displayName,
+                    photoURL: result.user?.photoURL,
+                    role: 'user'
+                };
+                
+                axios.post('http://localhost:3000/users', userInfo)
+                    .then((res) => {
+                        console.log("User saved or exists:", res.data);
+                        navigate(from, { replace: true });
+                    })
+                    .catch((err) => {
+                        console.error("User save error:", err);
+                        navigate(from, { replace: true });
+                    });
+            })
+            .catch(error => console.error("Google Sign In Error:", error));
+    };
+
+    // 3. Demo Login Handler
     const handleDemoLogin = (role) => {
         const credentials = role === 'admin' 
             ? { email: 'admin@ideaarena.com', pass: 'Admin@123' } 
@@ -35,7 +65,6 @@ const Login = () => {
                 animate={{ opacity: 1, y: 0 }}
                 className="flex md:flex-row flex-col bg-white shadow-[0_50px_100px_-20px_rgba(0,0,0,0.15)] sm:rounded-[3rem] w-full max-w-6xl min-h-[700px] overflow-hidden"
             >
-                
                 {/* Left Side: Hero Image Section */}
                 <div className="hidden md:block relative md:w-[55%] overflow-hidden">
                     <img 
@@ -43,10 +72,7 @@ const Login = () => {
                         alt="Login Visual" 
                         className="absolute inset-0 w-full h-full object-cover"
                     />
-                    
-                    {/* Overlay with Gradient */}
                     <div className="absolute inset-0 bg-gradient-to-br from-indigo-900/90 via-purple-800/50 to-transparent"></div>
-                    
                     <div className="z-10 relative flex flex-col justify-between p-16 h-full text-white">
                         <div className="flex items-center gap-3">
                             <div className="flex justify-center items-center bg-white/20 backdrop-blur-md border border-white/30 rounded-2xl w-12 h-12">
@@ -54,7 +80,6 @@ const Login = () => {
                             </div>
                             <span className="font-black text-2xl tracking-tighter">IdeaArena</span>
                         </div>
-                        
                         <div>
                             <h2 className="mb-6 font-black text-5xl leading-tight">
                                 Welcome <br />
@@ -116,33 +141,34 @@ const Login = () => {
                                 {errors.password && <p className="ml-2 font-bold text-[10px] text-red-500">{errors.password.message}</p>}
                             </div>
 
-                            <button className="flex justify-center items-center gap-3 bg-purple-600 hover:bg-gray-900 shadow-[0_20px_40px_-10px_rgba(147,51,234,0.3)] py-4 rounded-2xl w-full font-black text-white text-lg active:scale-95 transition-all transform">
+                            <button type="submit" className="flex justify-center items-center gap-3 bg-purple-600 hover:bg-gray-900 shadow-[0_20px_40px_-10px_rgba(147,51,234,0.3)] py-4 rounded-2xl w-full font-black text-white text-lg active:scale-95 transition-all transform">
                                 Sign In <FaArrowRight className="text-sm" />
                             </button>
                         </form>
 
                         {/* Demo Access */}
-                        <div className="mt-10">
+                        <div className="mt-8">
                             <div className="flex items-center gap-3 mb-4">
                                 <div className="flex-1 bg-gray-100 h-px"></div>
                                 <p className="font-black text-[10px] text-gray-400 uppercase tracking-[0.2em]">Demo Login</p>
                                 <div className="flex-1 bg-gray-100 h-px"></div>
                             </div>
                             <div className="flex gap-3">
-                                <button onClick={() => handleDemoLogin('user')} className="flex-1 hover:bg-purple-50 py-3 border-2 border-gray-100 hover:border-purple-200 rounded-xl font-black text-[10px] text-gray-500 hover:text-purple-700 uppercase tracking-widest transition-all">
+                                <button type="button" onClick={() => handleDemoLogin('user')} className="flex-1 hover:bg-purple-50 py-3 border-2 border-gray-100 hover:border-purple-200 rounded-xl font-black text-[10px] text-gray-500 hover:text-purple-700 uppercase tracking-widest transition-all">
                                     User Demo
                                 </button>
-                                <button onClick={() => handleDemoLogin('admin')} className="flex-1 hover:bg-indigo-50 py-3 border-2 border-gray-100 hover:border-indigo-200 rounded-xl font-black text-[10px] text-gray-500 hover:text-indigo-700 uppercase tracking-widest transition-all">
+                                <button type="button" onClick={() => handleDemoLogin('admin')} className="flex-1 hover:bg-indigo-50 py-3 border-2 border-gray-100 hover:border-indigo-200 rounded-xl font-black text-[10px] text-gray-500 hover:text-indigo-700 uppercase tracking-widest transition-all">
                                     Admin Demo
                                 </button>
                             </div>
                         </div>
 
-                        <div className="mt-8">
-                            <SocialLogin />
+                        {/* Social Login / Google Button */}
+                        <div className="mt-6">
+                            <SocialLogin handleGoogleLogin={handleGoogleLogin} />
                         </div>
 
-                        <p className="mt-10 font-medium text-gray-500 text-sm text-center">
+                        <p className="mt-8 font-medium text-gray-500 text-sm text-center">
                             New here? 
                             <Link to="/register" className="ml-2 font-black text-purple-600 decoration-2 hover:underline underline-offset-4">Create Account</Link>
                         </p>

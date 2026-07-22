@@ -3,58 +3,67 @@ import useAuth from '../../hooks/useAuth';
 import { useLocation, useNavigate } from 'react-router';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
 
-const SocialLogin = ({ type }) => {
-
-    const { signInGoogle } = useAuth();
+const SocialLogin = ({ type, handleGoogleLogin }) => {
+    const { googleSignIn } = useAuth();
     const axiosSecure = useAxiosSecure();
     const location = useLocation();
     const navigate = useNavigate();
 
     const handleGoogleSignIn = () => {
-        signInGoogle()
+        if (handleGoogleLogin) {
+            handleGoogleLogin();
+            return;
+        }
+
+        googleSignIn()
             .then((result) => {
-                console.log(result.user);
-                
+                const userInfo = {
+                    email: result.user?.email,
+                    displayName: result.user?.displayName,
+                    name: result.user?.displayName,
+                    photoURL: result.user?.photoURL,
+                    role: 'user'
+                };
 
-                // create ue in the database
-                    const userInfo = {
-                        email: result.user.email,
-                        displayName : result.user.displayName,
-                        photoURL : result.user.photoURL
-                    }
-
-                    axiosSecure.post('/users', userInfo)
-                    .then(res => {
-                        console.log('user data has been stored', res.data);
-                        navigate(location?.state || '/');
-                        
+                axiosSecure.post('/users', userInfo)
+                    .then((res) => {
+                        console.log('User data stored:', res.data);
+                        navigate(location?.state || '/', { replace: true });
                     })
-
+                    .catch((err) => {
+                        console.error('User save error:', err);
+                        navigate(location?.state || '/', { replace: true });
+                    });
             })
             .catch((error) => {
-                console.log(error);
+                console.error("Google Sign In Error:", error);
             });
     };
 
     return (
         <div className="mt-6">
-            <div className="my-3 text-gray-400 text-center">Or</div>
+            <div className="flex items-center gap-3 my-4">
+                <div className="flex-1 bg-gray-200 h-px"></div>
+                <span className="font-semibold text-gray-400 text-xs uppercase">Or</span>
+                <div className="flex-1 bg-gray-200 h-px"></div>
+            </div>
 
             <button
+                type="button"
                 onClick={handleGoogleSignIn}
-                className="flex justify-center items-center gap-2 py-3 border border-gray-300 hover:border-primary rounded-lg w-full transition-all"
+                className="flex justify-center items-center gap-3 bg-gray-50 hover:bg-purple-50 py-3.5 border-2 border-gray-100 hover:border-purple-200 rounded-2xl w-full font-bold text-gray-700 text-sm active:scale-95 transition-all cursor-pointer"
             >
                 <img
                     src="https://www.svgrepo.com/show/475656/google-color.svg"
                     alt="Google"
-                    className="w-5"
+                    className="w-5 h-5"
                 />
 
-                {
-                    type === 'login'
+                <span>
+                    {type === 'login'
                         ? 'Login with Google'
-                        : 'Register with Google'
-                }
+                        : 'Continue with Google'}
+                </span>
             </button>
         </div>
     );

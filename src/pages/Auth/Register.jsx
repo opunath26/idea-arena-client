@@ -10,53 +10,81 @@ import { motion } from 'framer-motion';
 
 const Register = () => {
     const [showPassword, setShowPassword] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [authError, setAuthError] = useState('');
+
     const { register, handleSubmit, formState: { errors } } = useForm();
-    const { registerUser, updateUserProfile } = useAuth();
+    const { registerUser, updateUserProfile, googleSignIn } = useAuth();
     const location = useLocation();
     const navigate = useNavigate();
     const axiosSecure = useAxiosSecure();
 
-    const handleRegistration = (data) => {
-        const profileImg = data.photo[0];
+    const from = location.state || '/';
 
-        registerUser(data.email, data.password)
-            .then(() => {
-                const formData = new FormData();
-                formData.append("image", profileImg);
+    const handleRegistration = async (data) => {
+        setLoading(true);
+        setAuthError('');
 
-                const image_API_URL = `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_image_host_key}`;
+        try {
+            const profileImg = data.photo[0];
+            const formData = new FormData();
+            formData.append("image", profileImg);
 
-                axios.post(image_API_URL, formData)
-                    .then(res => {
-                        const photoURL = res.data.data.url;
+            const image_API_URL = `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_image_host_key}`;
+            const imgRes = await axios.post(image_API_URL, formData);
+            const photoURL = imgRes.data.data.url;
 
-                        const userInfo = {
-                            email: data.email,
-                            displayName: data.name,
-                            photoURL: photoURL,
-                            role: 'user' // Default role
-                        };
+            await registerUser(data.email, data.password);
 
-                        axiosSecure.post('/users', userInfo)
-                            .then(res => {
-                                if (res.data.insertedId) {
-                                    console.log('User synced to database');
-                                }
-                            });
+            await updateUserProfile({
+                displayName: data.name,
+                photoURL: photoURL
+            });
 
-                        const userProfile = {
-                            displayName: data.name,
-                            photoURL: photoURL
-                        };
+            const userInfo = {
+                email: data.email,
+                name: data.name,
+                displayName: data.name,
+                photoURL: photoURL,
+                role: 'user'
+            };
 
-                        updateUserProfile(userProfile)
-                            .then(() => {
-                                navigate(location.state || '/');
-                            })
-                            .catch(error => console.log(error));
+            await axiosSecure.post('/users', userInfo);
+
+            navigate(from, { replace: true });
+        } catch (error) {
+            console.error('Registration Error:', error);
+            setAuthError(error.message || 'Something went wrong during registration.');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleGoogleLogin = () => {
+        googleSignIn()
+            .then((result) => {
+                const userInfo = {
+                    email: result.user?.email,
+                    name: result.user?.displayName,
+                    displayName: result.user?.displayName,
+                    photoURL: result.user?.photoURL,
+                    role: 'user'
+                };
+
+                axios.post('http://localhost:3000/users', userInfo)
+                    .then((res) => {
+                        console.log("User registered/logged in via Google:", res.data);
+                        navigate(from, { replace: true });
+                    })
+                    .catch((err) => {
+                        console.error("Google user save error:", err);
+                        navigate(from, { replace: true });
                     });
             })
-            .catch(error => console.log(error));
+            .catch(error => {
+                console.error("Google Sign In Error:", error);
+                setAuthError(error.message);
+            });
     };
 
     return (
@@ -98,6 +126,12 @@ const Register = () => {
                             <h2 className="mb-2 font-black text-gray-900 text-4xl tracking-tight">Create Account</h2>
                             <p className="font-bold text-[10px] text-gray-400 uppercase tracking-[0.3em]">Start your journey today</p>
                         </div>
+
+                        {authError && (
+                            <div className="bg-red-50 mb-4 p-3 rounded-xl font-semibold text-red-600 text-xs">
+                                {authError}
+                            </div>
+                        )}
 
                         <form onSubmit={handleSubmit(handleRegistration)} className="space-y-4">
                             {/* Name */}
@@ -173,13 +207,18 @@ const Register = () => {
                                 {errors.password && <p className="ml-2 font-bold text-[10px] text-red-500 italic tracking-wide">{errors.password.message}</p>}
                             </div>
 
-                            <button className="flex justify-center items-center gap-3 bg-purple-600 hover:bg-gray-900 shadow-purple-100 shadow-xl mt-4 py-4 rounded-2xl w-full font-black text-white text-lg active:scale-95 transition-all transform">
-                                Create Account <FaArrowRight />
+                            <button 
+                                type="submit"
+                                disabled={loading}
+                                className="flex justify-center items-center gap-3 bg-purple-600 hover:bg-gray-900 disabled:bg-purple-300 shadow-purple-100 shadow-xl mt-4 py-4 rounded-2xl w-full font-black text-white text-lg active:scale-95 transition-all cursor-pointer transform"
+                            >
+                                {loading ? 'Creating Account...' : <>Create Account <FaArrowRight /></>}
                             </button>
                         </form>
 
+                        {/* Social Login Section */}
                         <div className="mt-8">
-                            <SocialLogin />
+                            <SocialLogin handleGoogleLogin={handleGoogleLogin} />
                         </div>
 
                         <p className="mt-8 font-medium text-gray-500 text-center">
