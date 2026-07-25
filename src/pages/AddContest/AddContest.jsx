@@ -1,6 +1,6 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { FaCalendarAlt, FaDollarSign, FaFileAlt, FaImage, FaTag, FaInfoCircle } from "react-icons/fa";
+import { FaCalendarAlt, FaDollarSign, FaFileAlt, FaImage, FaTag, FaInfoCircle, FaPaperPlane } from "react-icons/fa";
 import { useLoaderData, useNavigate } from 'react-router';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
 import Swal from 'sweetalert2';
@@ -14,20 +14,16 @@ const AddContest = () => {
         register,
         handleSubmit,
         reset
-        // formState: { errors } 
     } = useForm();
     const { user } = useAuth();
     const axiosSecure = useAxiosSecure();
     const navigate = useNavigate();
 
-    const addContestType = useLoaderData();
+    const addContestType = useLoaderData() || [];
     const contestTypeDuplicate = addContestType.map(c => c.contestType);
     const contestType = [...new Set(contestTypeDuplicate)];
-    // console.log(contestType);
-
 
     const handleAddContest = data => {
-        // console.log(data);
         const contestCreationFee = 10;
         data.contestCreationFee = contestCreationFee;
 
@@ -36,26 +32,16 @@ const AddContest = () => {
             html: `You are about to publish a new contest. A **$${contestCreationFee}** service charge will be applied. Do you want to proceed?`,
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
+            confirmButtonColor: '#9333ea',
+            cancelButtonColor: '#ef4444',
             confirmButtonText: 'Yes, Pay & Add!',
             cancelButtonText: 'Cancel'
         }).then((result) => {
             if (result.isConfirmed) {
-
-                // const newContest = {
-                //     ...data,
-                //     contestPrice: parseFloat(data.contestPrice),
-                //     contestPrizeMoney: parseFloat(data.contestPrizeMoney),
-                //     participantsCount: 0,
-                //     status: 'pending'
-                // };
-
                 axiosSecure.post('/contests', data)
                     .then(res => {
-                        console.log('Contest Added Response:', res.data);
                         if (res.data.insertedId) {
-                            navigate('/dashboard/my-contests')
+                            navigate('/dashboard/my-contests');
                             Swal.fire({
                                 position: 'top-end',
                                 icon: 'success',
@@ -63,11 +49,6 @@ const AddContest = () => {
                                 showConfirmButton: false,
                                 timer: 2500
                             });
-                            // Swal.fire({
-                            //     title: 'Success!',
-                            //     text: 'Your contest has been added successfully!',
-                            //     icon: 'success'
-                            // });
                             reset();
                         }
                     })
@@ -89,194 +70,228 @@ const AddContest = () => {
             }
         });
 
-    }
+    };
 
     return (
-        <div className="bg-gray-50 dark:bg-gray-900 px-4 sm:px-6 lg:px-8 py-10 min-h-screen">
-            <div className="bg-white dark:bg-gray-800 shadow-2xl mx-auto p-8 border-purple-600 border-t-4 rounded-xl max-w-3xl">
-
-                {/* Header */}
-                <div className="mb-8 text-center">
-                    <h2 className="font-extrabold text-gray-900 dark:text-white text-3xl">
+        <div className="bg-slate-50 dark:bg-slate-950 px-4 sm:px-6 lg:px-8 py-10 min-h-screen transition-colors duration-300">
+            <div className="bg-white dark:bg-slate-900 shadow-xl mx-auto border border-slate-200/80 dark:border-slate-800 rounded-2xl max-w-4xl overflow-hidden">
+                
+                {/* Header Banner */}
+                <div className="relative bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-700 p-8 overflow-hidden text-white text-center">
+                    <div className="absolute inset-0 bg-pattern opacity-10"></div>
+                    <h2 className="z-10 relative font-extrabold text-3xl sm:text-4xl tracking-tight">
                         Launch a New Contest
                     </h2>
-                    <p className="mt-2 text-gray-600 text-md dark:text-gray-400">
-                        Fill out the form below to publish a new contest.
+                    <p className="z-10 relative mx-auto mt-2 max-w-xl text-purple-100 text-sm sm:text-base">
+                        Fill out the details below to create and publish your contest to the community.
                     </p>
                 </div>
 
-                {/* Contest Form (Design Only) */}
-                <form onSubmit={handleSubmit(handleAddContest)}>
+                {/* Contest Form */}
+                <form onSubmit={handleSubmit(handleAddContest)} className="space-y-8 p-6 sm:p-10">
 
-                    {/* Section Title */}
-                    <h3 className="mb-4 pb-2 border-b font-semibold text-purple-600 dark:text-purple-400 text-xl">
-                        Add Contest Details
-                    </h3>
-
-                    {/* Name */}
-                    <div className="mb-4">
-                        <label className="block mb-1 font-medium">Creator Name</label>
-                        <div className="relative">
-                            <CgProfile className="top-3 left-3 absolute text-gray-400" />
-                            <input
-                                type="text"
-                                defaultValue={user?.displayName}
-                                {...register('creatorName', { required: true })}
-                                placeholder="Add Your Name"
-                                className="px-3 py-2 pl-10 border rounded-md focus:outline-none focus:ring-purple-500 w-full"
-                                readOnly
-                            />
-                        </div>
-                    </div>
-
-
-                    {/* Email */}
-                    <div className="mb-4">
-                        <label className="block mb-1 font-medium">Creator Email</label>
-                        <div className="relative">
-                            <MdAlternateEmail className="top-3 left-3 absolute text-gray-400" />
-                            <input
-                                type="email"
-                                defaultValue={user?.email}
-                                {...register('creatorEmail', { required: true })}
-                                placeholder="Add Your Email"
-                                className="px-3 py-2 pl-10 border rounded-md focus:outline-none focus:ring-purple-500 w-full"
-                                readOnly
-                            />
-                        </div>
-                    </div>
-
-
-                    {/* Title */}
-                    <div className="mb-4">
-                        <label className="block mb-1 font-medium">Contest Title</label>
-                        <div className="relative">
-                            <FaFileAlt className="top-3 left-3 absolute text-gray-400" />
-                            <input
-                                type="text"
-                                {...register('contestTitle', { required: true })}
-                                placeholder="e.g., Logo Design Challenge"
-                                className="px-3 py-2 pl-10 border rounded-md focus:outline-none focus:ring-purple-500 w-full"
-                            />
-                        </div>
-                    </div>
-
-                    {/* Image */}
-                    <div className="mb-4">
-                        <label className="block mb-1 font-medium">Contest Banner (Image URL)</label>
-                        <div className="relative">
-                            <FaImage className="top-3 left-3 absolute text-gray-400" />
-                            <input
-                                type="text"
-                                {...register('contestImage', { required: true })}
-                                placeholder="Direct image link (e.g., i.ibb.co)"
-                                className="px-3 py-2 pl-10 border rounded-md focus:outline-none focus:ring-purple-500 w-full"
-                            />
-                        </div>
-                    </div>
-
-                    {/* Description */}
-                    <div className="mb-4">
-                        <label className="block mb-1 font-medium">Full Contest Description</label>
-                        <textarea
-                            rows="6"
-                            {...register('contestDescription', { required: true })}
-                            placeholder="Describe the contest details..."
-                            className="px-3 py-2 border rounded-md focus:outline-none focus:ring-purple-500 w-full"
-                        ></textarea>
-                    </div>
-
-                    {/* Financial + Type */}
-                    <h3 className="mt-6 mb-4 pb-2 border-b font-semibold text-purple-600 dark:text-purple-400 text-xl">
-                        Financials & Type
-                    </h3>
-
-                    <div className="gap-4 grid grid-cols-1 md:grid-cols-2">
-
-                        {/* Price */}
-                        <div>
-                            <label className="block mb-1 font-medium">Contest Price (Entry Fee)</label>
-                            <div className="relative">
-                                <FaDollarSign className="top-3 left-3 absolute text-gray-400" />
-                                <input
-                                    type="number"
-                                    {...register('contestPrice', { required: true })}
-                                    placeholder="e.g., 10"
-                                    className="px-3 py-2 pl-10 border rounded-md focus:outline-none focus:ring-purple-500 w-full"
-                                />
-                            </div>
-                        </div>
-
-                        {/* Prize Money */}
-                        <div>
-                            <label className="block mb-1 font-medium">Prize Money</label>
-                            <div className="relative">
-                                <FaDollarSign className="top-3 left-3 absolute text-gray-400" />
-                                <input
-                                    type="number"
-                                    {...register('contestPrizeMoney', { required: true })}
-                                    placeholder="e.g., 500"
-                                    className="px-3 py-2 pl-10 border rounded-md focus:outline-none focus:ring-purple-500 w-full"
-                                />
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Contest Type */}
-                    <div className="mt-4">
-                        <label className="block mb-1 font-medium">Contest Type</label>
-                        <div className="relative">
-                            <FaTag className="top-3 left-3 absolute text-gray-400" />
-                            <select {...register('contestType', { required: true })} className="px-3 py-2 pl-10 border rounded-md focus:ring-purple-500 w-full">
-                                <option disabled={true}>Select Contest Type</option>
-                                {
-                                    contestType.map((t, i) => <option key={i} value={t}>{t}</option>)
-                                }
-
-                            </select>
-                        </div>
-                    </div>
-
-
-                    {/* Deadline */}
-                    <div className="mt-4">
-                        <label className="block mb-1 font-medium">Deadline (Date & Time)</label>
-                        <div className="relative">
-                            <FaCalendarAlt className="top-3 left-3 absolute text-gray-400" />
-                            <input
-                                type="datetime-local"
-                                {...register('contestDeadline', { required: true })}
-                                placeholder="Pick deadline (UI Only)"
-                                className="px-3 py-2 pl-10 border rounded-md focus:outline-none focus:ring-purple-500 w-full"
-                            />
-                        </div>
-                    </div>
-
-                    {/* Task Instructions */}
-                    <h3 className="mt-6 mb-4 pb-2 border-b font-semibold text-purple-600 dark:text-purple-400 text-xl">
-                        Task Instructions
-                    </h3>
-
+                    {/* Section 1: Creator & Basic Info */}
                     <div>
-                        <textarea
-                            rows="6"
-                            {...register('contestTaskInstructions', { required: true })}
-                            placeholder="Write detailed task instructions..."
-                            className="px-3 py-2 border rounded-md focus:outline-none focus:ring-purple-500 w-full"
-                        ></textarea>
-                        <div className="flex items-start mt-2 text-gray-500 text-sm">
-                            <FaInfoCircle className="mt-1 mr-2 w-4 h-4" />
-                            Be specific about file formats, resolution, and submission rules.
+                        <h3 className="flex items-center gap-2 mb-4 pb-2 border-slate-200 dark:border-slate-800 border-b font-bold text-slate-800 dark:text-slate-100 text-lg">
+                            <span className="inline-block bg-purple-600 rounded-full w-2.5 h-2.5"></span>
+                            Creator & Basic Details
+                        </h3>
+
+                        <div className="gap-5 grid grid-cols-1 sm:grid-cols-2">
+                            {/* Creator Name */}
+                            <div>
+                                <label className="block mb-1.5 font-semibold text-slate-700 dark:text-slate-300 text-xs sm:text-sm">
+                                    Creator Name
+                                </label>
+                                <div className="relative">
+                                    <CgProfile className="top-1/2 left-3.5 absolute text-slate-400 text-lg -translate-y-1/2" />
+                                    <input
+                                        type="text"
+                                        defaultValue={user?.displayName}
+                                        {...register('creatorName', { required: true })}
+                                        placeholder="Creator Name"
+                                        className="bg-slate-100 dark:bg-slate-800/60 py-2.5 pr-4 pl-10 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none w-full font-medium text-slate-600 dark:text-slate-400 text-sm cursor-not-allowed"
+                                        readOnly
+                                    />
+                                </div>
+                            </div>
+
+                            {/* Creator Email */}
+                            <div>
+                                <label className="block mb-1.5 font-semibold text-slate-700 dark:text-slate-300 text-xs sm:text-sm">
+                                    Creator Email
+                                </label>
+                                <div className="relative">
+                                    <MdAlternateEmail className="top-1/2 left-3.5 absolute text-slate-400 text-lg -translate-y-1/2" />
+                                    <input
+                                        type="email"
+                                        defaultValue={user?.email}
+                                        {...register('creatorEmail', { required: true })}
+                                        placeholder="Creator Email"
+                                        className="bg-slate-100 dark:bg-slate-800/60 py-2.5 pr-4 pl-10 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none w-full font-medium text-slate-600 dark:text-slate-400 text-sm cursor-not-allowed"
+                                        readOnly
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Title */}
+                        <div className="mt-5">
+                            <label className="block mb-1.5 font-semibold text-slate-700 dark:text-slate-300 text-xs sm:text-sm">
+                                Contest Title <span className="text-rose-500">*</span>
+                            </label>
+                            <div className="relative">
+                                <FaFileAlt className="top-1/2 left-3.5 absolute text-slate-400 text-sm -translate-y-1/2" />
+                                <input
+                                    type="text"
+                                    {...register('contestTitle', { required: true })}
+                                    placeholder="e.g., Modern Logo Design Challenge"
+                                    className="bg-white dark:bg-slate-800 py-2.5 pr-4 pl-10 border border-slate-300 focus:border-purple-600 dark:border-slate-700 dark:focus:border-purple-500 rounded-xl outline-none focus:ring-2 focus:ring-purple-500/20 w-full text-slate-800 dark:text-slate-100 text-sm transition-all"
+                                />
+                            </div>
+                        </div>
+
+                        {/* Image Banner */}
+                        <div className="mt-5">
+                            <label className="block mb-1.5 font-semibold text-slate-700 dark:text-slate-300 text-xs sm:text-sm">
+                                Contest Banner URL <span className="text-rose-500">*</span>
+                            </label>
+                            <div className="relative">
+                                <FaImage className="top-1/2 left-3.5 absolute text-slate-400 text-sm -translate-y-1/2" />
+                                <input
+                                    type="url"
+                                    {...register('contestImage', { required: true })}
+                                    placeholder="Direct image URL (e.g., https://i.ibb.co/banner.jpg)"
+                                    className="bg-white dark:bg-slate-800 py-2.5 pr-4 pl-10 border border-slate-300 focus:border-purple-600 dark:border-slate-700 dark:focus:border-purple-500 rounded-xl outline-none focus:ring-2 focus:ring-purple-500/20 w-full text-slate-800 dark:text-slate-100 text-sm transition-all"
+                                />
+                            </div>
+                        </div>
+
+                        {/* Description */}
+                        <div className="mt-5">
+                            <label className="block mb-1.5 font-semibold text-slate-700 dark:text-slate-300 text-xs sm:text-sm">
+                                Full Contest Description <span className="text-rose-500">*</span>
+                            </label>
+                            <textarea
+                                rows="4"
+                                {...register('contestDescription', { required: true })}
+                                placeholder="Describe the background, target audience, and goals of this contest..."
+                                className="bg-white dark:bg-slate-800 p-3.5 border border-slate-300 focus:border-purple-600 dark:border-slate-700 dark:focus:border-purple-500 rounded-xl outline-none focus:ring-2 focus:ring-purple-500/20 w-full text-slate-800 dark:text-slate-100 text-sm transition-all resize-none"
+                            ></textarea>
+                        </div>
+                    </div>
+
+                    {/* Section 2: Financials & Category */}
+                    <div>
+                        <h3 className="flex items-center gap-2 mb-4 pb-2 border-slate-200 dark:border-slate-800 border-b font-bold text-slate-800 dark:text-slate-100 text-lg">
+                            <span className="inline-block bg-purple-600 rounded-full w-2.5 h-2.5"></span>
+                            Financials & Categorization
+                        </h3>
+
+                        <div className="gap-5 grid grid-cols-1 sm:grid-cols-2">
+                            {/* Price */}
+                            <div>
+                                <label className="block mb-1.5 font-semibold text-slate-700 dark:text-slate-300 text-xs sm:text-sm">
+                                    Entry Fee ($ USD) <span className="text-rose-500">*</span>
+                                </label>
+                                <div className="relative">
+                                    <FaDollarSign className="top-1/2 left-3.5 absolute text-slate-400 text-sm -translate-y-1/2" />
+                                    <input
+                                        type="number"
+                                        step="any"
+                                        {...register('contestPrice', { required: true })}
+                                        placeholder="10"
+                                        className="bg-white dark:bg-slate-800 py-2.5 pr-4 pl-10 border border-slate-300 focus:border-purple-600 dark:border-slate-700 dark:focus:border-purple-500 rounded-xl outline-none focus:ring-2 focus:ring-purple-500/20 w-full text-slate-800 dark:text-slate-100 text-sm transition-all"
+                                    />
+                                </div>
+                            </div>
+
+                            {/* Prize Money */}
+                            <div>
+                                <label className="block mb-1.5 font-semibold text-slate-700 dark:text-slate-300 text-xs sm:text-sm">
+                                    Prize Money ($ USD) <span className="text-rose-500">*</span>
+                                </label>
+                                <div className="relative">
+                                    <FaDollarSign className="top-1/2 left-3.5 absolute text-slate-400 text-sm -translate-y-1/2" />
+                                    <input
+                                        type="number"
+                                        step="any"
+                                        {...register('contestPrizeMoney', { required: true })}
+                                        placeholder="500"
+                                        className="bg-white dark:bg-slate-800 py-2.5 pr-4 pl-10 border border-slate-300 focus:border-purple-600 dark:border-slate-700 dark:focus:border-purple-500 rounded-xl outline-none focus:ring-2 focus:ring-purple-500/20 w-full text-slate-800 dark:text-slate-100 text-sm transition-all"
+                                    />
+                                </div>
+                            </div>
+
+                            {/* Contest Type */}
+                            <div>
+                                <label className="block mb-1.5 font-semibold text-slate-700 dark:text-slate-300 text-xs sm:text-sm">
+                                    Contest Type / Category <span className="text-rose-500">*</span>
+                                </label>
+                                <div className="relative">
+                                    <FaTag className="top-1/2 left-3.5 absolute text-slate-400 text-sm -translate-y-1/2" />
+                                    <select
+                                        defaultValue=""
+                                        {...register('contestType', { required: true })}
+                                        className="bg-white dark:bg-slate-800 py-2.5 pr-4 pl-10 border border-slate-300 focus:border-purple-600 dark:border-slate-700 dark:focus:border-purple-500 rounded-xl outline-none focus:ring-2 focus:ring-purple-500/20 w-full text-slate-800 dark:text-slate-100 text-sm transition-all appearance-none"
+                                    >
+                                        <option value="" disabled>Select Category</option>
+                                        {contestType.map((t, i) => (
+                                            <option key={i} value={t}>{t}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                            </div>
+
+                            {/* Deadline */}
+                            <div>
+                                <label className="block mb-1.5 font-semibold text-slate-700 dark:text-slate-300 text-xs sm:text-sm">
+                                    Submission Deadline <span className="text-rose-500">*</span>
+                                </label>
+                                <div className="relative">
+                                    <FaCalendarAlt className="top-1/2 left-3.5 absolute text-slate-400 text-sm -translate-y-1/2" />
+                                    <input
+                                        type="datetime-local"
+                                        {...register('contestDeadline', { required: true })}
+                                        className="bg-white dark:bg-slate-800 py-2.5 pr-4 pl-10 border border-slate-300 focus:border-purple-600 dark:border-slate-700 dark:focus:border-purple-500 rounded-xl outline-none focus:ring-2 focus:ring-purple-500/20 w-full text-slate-800 dark:text-slate-100 text-sm transition-all"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Section 3: Instructions */}
+                    <div>
+                        <h3 className="flex items-center gap-2 mb-4 pb-2 border-slate-200 dark:border-slate-800 border-b font-bold text-slate-800 dark:text-slate-100 text-lg">
+                            <span className="inline-block bg-purple-600 rounded-full w-2.5 h-2.5"></span>
+                            Task Guidelines
+                        </h3>
+
+                        <div>
+                            <label className="block mb-1.5 font-semibold text-slate-700 dark:text-slate-300 text-xs sm:text-sm">
+                                Task Instructions <span className="text-rose-500">*</span>
+                            </label>
+                            <textarea
+                                rows="4"
+                                {...register('contestTaskInstructions', { required: true })}
+                                placeholder="Write clear guidelines regarding file formats, dimensions, submission rules..."
+                                className="bg-white dark:bg-slate-800 p-3.5 border border-slate-300 focus:border-purple-600 dark:border-slate-700 dark:focus:border-purple-500 rounded-xl outline-none focus:ring-2 focus:ring-purple-500/20 w-full text-slate-800 dark:text-slate-100 text-sm transition-all resize-none"
+                            ></textarea>
+                            <p className="flex items-center gap-1.5 mt-2 text-slate-500 dark:text-slate-400 text-xs">
+                                <FaInfoCircle className="text-purple-600 dark:text-purple-400 shrink-0" />
+                                Be precise about submission format (e.g., PNG, Figma link, PDF) to help participants.
+                            </p>
                         </div>
                     </div>
 
                     {/* Submit Button */}
-                    <div className="mt-8">
+                    <div className="pt-4">
                         <button
                             type="submit"
-                            className="hover:bg-purple-700 py-3 rounded-md w-full text-white text-lg transition btn btn-primary"
+                            className="inline-flex justify-center items-center gap-2 bg-gradient-to-r from-purple-600 hover:from-purple-700 to-indigo-600 hover:to-indigo-700 shadow-lg shadow-purple-500/25 dark:shadow-purple-900/30 px-6 py-3.5 rounded-xl w-full font-semibold text-white text-base active:scale-[0.99] transition-all duration-200 cursor-pointer"
                         >
-                            Submit Contest
+                            <FaPaperPlane className="text-sm" />
+                            Submit & Publish Contest
                         </button>
                     </div>
 
