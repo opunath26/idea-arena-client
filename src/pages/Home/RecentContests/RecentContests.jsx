@@ -13,7 +13,7 @@ const RecentContests = () => {
     const { data: contests = [], isLoading } = useQuery({
         queryKey: ['recentContests'],
         queryFn: async () => {
-            const res = await axiosSecure.get('/contests?limit=6');
+            const res = await axiosSecure.get('/contests?limit=8');
             return res.data;
         }
     });
@@ -27,7 +27,7 @@ const RecentContests = () => {
 
     return (
         <section className="relative bg-gradient-to-b from-slate-50 via-purple-50/30 to-white py-20 lg:py-28 overflow-hidden text-slate-800">
-            {/* Subtle Ambient Background Glows */}
+            {/* Ambient Background Glows */}
             <div className="top-10 left-1/2 absolute bg-purple-200/40 blur-[120px] rounded-full w-[600px] h-[300px] -translate-x-1/2 pointer-events-none"></div>
             <div className="bottom-10 left-10 absolute bg-indigo-100/50 blur-[100px] rounded-full w-96 h-96 pointer-events-none"></div>
 
@@ -99,9 +99,8 @@ const RecentContests = () => {
 
                 {/* Content Cards Grid */}
                 {isLoading ? (
-                    /* Skeleton Loader Grid */
-                    <div className="gap-6 lg:gap-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-                        {[...Array(6)].map((_, i) => (
+                    <div className="gap-6 lg:gap-8 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4">
+                        {[...Array(8)].map((_, i) => (
                             <div key={i} className="flex flex-col justify-between bg-white shadow-sm p-4 border border-slate-200/80 rounded-3xl h-[440px] animate-pulse">
                                 <div>
                                     <div className="bg-slate-200 rounded-2xl w-full h-48"></div>
@@ -121,10 +120,10 @@ const RecentContests = () => {
                 ) : filteredContests.length > 0 ? (
                     <motion.div 
                         layout 
-                        className="gap-6 lg:gap-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
+                        className="gap-6 lg:gap-8 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4"
                     >
                         <AnimatePresence>
-                            {filteredContests.slice(0, 6).map((contest, idx) => (
+                            {filteredContests.slice(0, 8).map((contest, idx) => (
                                 <motion.div
                                     key={contest._id || idx}
                                     layout
