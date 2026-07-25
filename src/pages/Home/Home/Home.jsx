@@ -13,15 +13,12 @@ const Home = () => {
     return (
         <div>
             <Banner />
-            <Stats />
-            <About />
-
-            {/* Recent Contests Section */}
-            <RecentContests />
-            
-            <HowItWorks />
-            <Reviews />
             <Brands />
+            <RecentContests />
+            <About />
+            <HowItWorks />
+            <Stats />
+            <Reviews />
             <FAQSection />
             <Newsletter />
         </div>
