@@ -27,7 +27,7 @@ const Newsletter = () => {
             <div className="right-10 bottom-0 absolute bg-indigo-100/40 blur-[100px] rounded-full w-80 h-80 pointer-events-none"></div>
 
             <div className="z-10 relative mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-                <motion.div 
+                <motion.div
                     initial={{ opacity: 0, y: 25 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
@@ -38,7 +38,7 @@ const Newsletter = () => {
                     <div className="top-0 absolute inset-x-0 bg-gradient-to-r from-purple-600 via-indigo-600 to-pink-500 h-2"></div>
 
                     <div className="flex lg:flex-row flex-col justify-between items-center gap-10 lg:gap-16">
-                        
+
                         {/* Text Content Area */}
                         <div className="w-full lg:w-1/2 lg:text-left text-center">
                             <motion.div
@@ -75,7 +75,7 @@ const Newsletter = () => {
                         {/* Form Area */}
                         <div className="w-full lg:w-1/2 max-w-lg">
                             {isSubscribed ? (
-                                <motion.div 
+                                <motion.div
                                     initial={{ opacity: 0, scale: 0.95 }}
                                     animate={{ opacity: 1, scale: 1 }}
                                     className="space-y-3 bg-emerald-50 p-8 border border-emerald-200 rounded-2xl text-center"
@@ -89,20 +89,20 @@ const Newsletter = () => {
                             ) : (
                                 <form onSubmit={handleSubmit} className="space-y-4">
                                     <div className="relative flex sm:flex-row flex-col items-center gap-3 bg-slate-50 p-2 border border-slate-200 focus-within:border-purple-500 rounded-2xl sm:rounded-full focus-within:ring-4 focus-within:ring-purple-500/10 transition-all duration-300">
-                                        
+
                                         <div className="relative flex items-center py-2 sm:py-0 pr-2 pl-4 w-full">
                                             <FaEnvelope className="flex-shrink-0 mr-3 text-slate-400 text-lg" />
-                                            <input 
-                                                type="email" 
+                                            <input
+                                                type="email"
                                                 required
                                                 value={email}
                                                 onChange={(e) => setEmail(e.target.value)}
-                                                placeholder="Enter your professional email" 
-                                                className="bg-transparent border-none outline-none focus:ring-0 w-full text-slate-800 text-sm sm:text-base placeholder-slate-400" 
+                                                placeholder="Enter your professional email"
+                                                className="bg-transparent border-none outline-none focus:ring-0 w-full text-slate-800 text-sm sm:text-base placeholder-slate-400"
                                             />
                                         </div>
 
-                                        <button 
+                                        <button
                                             type="submit"
                                             disabled={isSubmitting}
                                             className="inline-flex justify-center items-center gap-2 bg-slate-900 hover:bg-purple-600 disabled:opacity-70 shadow-lg shadow-slate-900/10 hover:shadow-purple-500/25 px-8 py-4 rounded-xl sm:rounded-full w-full sm:w-auto font-bold text-white text-sm whitespace-nowrap active:scale-95 transition-all duration-300 cursor-pointer"
