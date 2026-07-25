@@ -3,7 +3,7 @@ import Logo from "../../components/Logo/Logo";
 
 const Footer = () => {
   return (
-    <footer className="relative bg-gradient-to-b from-gray-900 via-gray-900 to-black mt-16 pt-16 pb-8 text-gray-300 overflow-hidden">
+    <footer className="relative bg-gradient-to-b from-gray-900 via-gray-900 to-black mt-16 pt-16 pb-8 overflow-hidden text-gray-300">
       {/* Background Decorative Glow (Optional Subtle Design) */}
       <div className="top-0 left-1/2 -z-10 absolute bg-blue-600/10 blur-3xl rounded-full w-96 h-96 -translate-x-1/2 pointer-events-none"></div>
 
@@ -11,8 +11,8 @@ const Footer = () => {
         
         {/* Brand Section */}
         <div className="space-y-4">
-          <div className="inline-block transition-transform duration-300 hover:scale-105">
-            <Logo />
+          <div className="inline-block hover:scale-105 transition-transform duration-300">
+            <Logo isFooter={true} />
           </div>
           <p className="max-w-sm text-gray-400 text-sm leading-relaxed">
             A creative platform to generate, share & explore innovative ideas. Bring your vision to life with us!
@@ -21,7 +21,7 @@ const Footer = () => {
 
         {/* Quick Links */}
         <div>
-          <h3 className="relative font-semibold text-lg text-white tracking-wider uppercase">
+          <h3 className="relative font-semibold text-white text-lg uppercase tracking-wider">
             Quick Links
             <span className="bottom-[-6px] left-0 absolute bg-blue-500 rounded-full w-10 h-[2px]"></span>
           </h3>
@@ -30,7 +30,7 @@ const Footer = () => {
               <li key={idx}>
                 <a
                   href={`#${link.toLowerCase().replace(/\s+/g, "")}`}
-                  className="inline-block hover:text-blue-400 transition-all duration-300 hover:translate-x-2"
+                  className="inline-block hover:text-blue-400 transition-all hover:translate-x-2 duration-300"
                 >
                   {link}
                 </a>
@@ -41,7 +41,7 @@ const Footer = () => {
 
         {/* Social & Connect Section */}
         <div>
-          <h3 className="relative font-semibold text-lg text-white tracking-wider uppercase">
+          <h3 className="relative font-semibold text-white text-lg uppercase tracking-wider">
             Follow Us
             <span className="bottom-[-6px] left-0 absolute bg-blue-500 rounded-full w-10 h-[2px]"></span>
           </h3>
