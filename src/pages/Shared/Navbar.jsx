@@ -4,14 +4,14 @@ import Logo from '../../components/Logo/Logo';
 import useAuth from '../../hooks/useAuth';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
 import { useQuery } from '@tanstack/react-query';
-import { 
-    FaUserCircle, 
-    FaTrophy, 
-    FaPlusCircle, 
-    FaThLarge, 
-    FaSignOutAlt, 
-    FaUserShield, 
-    FaBriefcase 
+import {
+    FaUserCircle,
+    FaTrophy,
+    FaPlusCircle,
+    FaThLarge,
+    FaSignOutAlt,
+    FaUserShield,
+    FaBriefcase
 } from 'react-icons/fa';
 
 const Navbar = () => {
@@ -32,16 +32,15 @@ const Navbar = () => {
 
     const handleLogOut = () => {
         logOut()
-            .then(() => {})
+            .then(() => { })
             .catch(error => console.error("Logout Error:", error));
     };
 
     // NavLinks configuration
     const navItemClass = ({ isActive }) =>
-        `px-3 py-2 rounded-xl text-sm font-semibold transition-all duration-200 ${
-            isActive
-                ? 'bg-purple-600 text-white shadow-md shadow-purple-500/20'
-                : 'text-slate-600 hover:text-purple-600 hover:bg-purple-50'
+        `px-3 py-2 rounded-xl text-sm font-semibold transition-all duration-200 ${isActive
+            ? 'bg-purple-600 text-white shadow-md shadow-purple-500/20'
+            : 'text-slate-600 hover:text-purple-600 hover:bg-purple-50'
         }`;
 
     const links = (
@@ -50,7 +49,7 @@ const Navbar = () => {
             <li><NavLink to="/all-contests" className={navItemClass}>All Contests</NavLink></li>
             <li><NavLink to="/about" className={navItemClass}>About Us</NavLink></li>
             <li><NavLink to="/contact" className={navItemClass}>Contact</NavLink></li>
-            
+
             {/* Conditional Links based on Role */}
             {user && role === 'user' && (
                 <li>
@@ -69,7 +68,7 @@ const Navbar = () => {
 
             {user && role === 'admin' && (
                 <>
-                    <li><NavLink to="/dashboard/manage-users" className={navItemClass}>Manage Users</NavLink></li>
+                    <li><NavLink to="/add-contest" className={navItemClass}>Add Contest</NavLink></li>
                 </>
             )}
         </>
@@ -78,7 +77,7 @@ const Navbar = () => {
     return (
         <header className="top-0 z-50 sticky bg-white/80 backdrop-blur-md border-slate-100 border-b w-full">
             <div className="mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl navbar">
-                
+
                 {/* Navbar Start */}
                 <div className="navbar-start">
                     <div className="lg:hidden dropdown">
@@ -109,13 +108,13 @@ const Navbar = () => {
                         <div className="dropdown dropdown-end">
                             <div tabIndex={0} role="button" className="ring-2 ring-purple-500/30 hover:ring-purple-600 transition-all btn btn-ghost btn-circle avatar">
                                 <div className="rounded-full w-10">
-                                    <img 
-                                        alt="User Avatar" 
-                                        src={user?.photoURL || "https://i.ibb.co/mJR9QPG/placeholder.png"} 
+                                    <img
+                                        alt="User Avatar"
+                                        src={user?.photoURL || "https://i.ibb.co/mJR9QPG/placeholder.png"}
                                     />
                                 </div>
                             </div>
-                            
+
                             {/* Profile Dropdown Menu */}
                             <ul tabIndex={0} className="z-50 bg-white shadow-2xl mt-4 p-2 border border-slate-100 rounded-2xl w-64 text-slate-700 menu dropdown-content">
                                 {/* User Info Header */}
@@ -148,7 +147,7 @@ const Navbar = () => {
                                             <FaUserCircle className="text-purple-500" /> My Profile
                                         </Link>
                                     </li>
-                                    {role === 'candidate' && (
+                                    {(role === 'candidate' || role === 'admin') && (
                                         <li>
                                             <Link to="/add-contest" className="flex items-center gap-2.5 py-2 rounded-xl text-slate-700 hover:text-purple-600">
                                                 <FaPlusCircle className="text-purple-500" /> Create Contest
@@ -161,8 +160,8 @@ const Navbar = () => {
 
                                 {/* Logout Button */}
                                 <li>
-                                    <button 
-                                        onClick={handleLogOut} 
+                                    <button
+                                        onClick={handleLogOut}
                                         className="flex items-center gap-2.5 hover:bg-rose-50 py-2 rounded-xl font-medium text-rose-600 hover:text-rose-700 transition-colors"
                                     >
                                         <FaSignOutAlt /> Logout
@@ -172,8 +171,8 @@ const Navbar = () => {
                         </div>
                     ) : (
                         <div className="flex items-center gap-2">
-                            <Link 
-                                to="/login" 
+                            <Link
+                                to="/login"
                                 className="bg-slate-900 hover:bg-purple-600 shadow-md hover:shadow-purple-500/20 px-5 py-2.5 rounded-xl font-bold text-white text-sm active:scale-95 transition-all duration-200"
                             >
                                 Log in
