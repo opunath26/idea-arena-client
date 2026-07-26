@@ -6,6 +6,41 @@ import { Link } from 'react-router';
 import ContestCard from '../../ContestCard/ContestCard';
 import { FaFire, FaTrophy, FaArrowRight, FaClock } from 'react-icons/fa';
 
+const ContestCardSkeleton = () => {
+    return (
+        <div className="flex flex-col justify-between bg-white shadow-sm p-4 border border-slate-200/80 rounded-3xl h-[420px] animate-pulse">
+            <div>
+                {/* Image Placeholder */}
+                <div className="bg-slate-200/80 rounded-2xl w-full h-44"></div>
+                
+                {/* Content Placeholders */}
+                <div className="space-y-3 mt-5">
+                    {/* Badge / Tag Skeleton */}
+                    <div className="bg-slate-200/80 rounded-full w-24 h-5"></div>
+                    
+                    {/* Title Skeleton */}
+                    <div className="bg-slate-200/80 rounded-lg w-4/5 h-6"></div>
+                    
+                    {/* Description Skeletons */}
+                    <div className="space-y-2 pt-1">
+                        <div className="bg-slate-200/60 rounded-md w-full h-3.5"></div>
+                        <div className="bg-slate-200/60 rounded-md w-2/3 h-3.5"></div>
+                    </div>
+                </div>
+            </div>
+
+            {/* Card Footer Skeleton */}
+            <div className="flex justify-between items-center pt-4 border-slate-100 border-t">
+                <div className="space-y-1.5">
+                    <div className="bg-slate-200/60 rounded-sm w-12 h-3"></div>
+                    <div className="bg-slate-200/80 rounded-md w-20 h-5"></div>
+                </div>
+                <div className="bg-slate-200/80 rounded-xl w-24 h-9"></div>
+            </div>
+        </div>
+    );
+};
+
 const RecentContests = () => {
     const axiosSecure = useAxiosSecure();
     const [selectedFilter, setSelectedFilter] = useState('all');
@@ -101,20 +136,7 @@ const RecentContests = () => {
                 {isLoading ? (
                     <div className="gap-6 lg:gap-8 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4">
                         {[...Array(8)].map((_, i) => (
-                            <div key={i} className="flex flex-col justify-between bg-white shadow-sm p-4 border border-slate-200/80 rounded-3xl h-[440px] animate-pulse">
-                                <div>
-                                    <div className="bg-slate-200 rounded-2xl w-full h-48"></div>
-                                    <div className="space-y-3 mt-6">
-                                        <div className="bg-slate-200 rounded-md w-3/4 h-6"></div>
-                                        <div className="bg-slate-200 rounded-md w-full h-4"></div>
-                                        <div className="bg-slate-200 rounded-md w-2/3 h-4"></div>
-                                    </div>
-                                </div>
-                                <div className="flex justify-between items-center pt-4 border-slate-100 border-t">
-                                    <div className="bg-slate-200 rounded-md w-20 h-6"></div>
-                                    <div className="bg-slate-200 rounded-xl w-28 h-9"></div>
-                                </div>
-                            </div>
+                            <ContestCardSkeleton key={i} />
                         ))}
                     </div>
                 ) : filteredContests.length > 0 ? (
