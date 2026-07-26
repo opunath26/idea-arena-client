@@ -1,13 +1,15 @@
 import { useQuery } from '@tanstack/react-query';
-import React from 'react';
+import React, { useState } from 'react';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
-import { FaEye, FaUserCheck, FaUserClock } from 'react-icons/fa6';
+import { FaEye, FaUserCheck, FaUserClock, FaXmark } from 'react-icons/fa6';
 import { IoPersonRemove } from 'react-icons/io5';
 import { TbTrashXFilled } from 'react-icons/tb';
 import Swal from 'sweetalert2';
 
 const ApproveCandidates = () => {
     const axiosSecure = useAxiosSecure();
+    const [selectedCandidate, setSelectedCandidate] = useState(null);
+
     const { refetch, data: candidates = [] } = useQuery({
         queryKey: ['candidates', 'pending'],
         queryFn: async () => {
@@ -120,13 +122,12 @@ const ApproveCandidates = () => {
                                         <td className="text-slate-500">{candidate.candidateEmail}</td>
                                         <td>
                                             <span
-                                                className={`px-3 py-1 text-xs font-semibold rounded-full capitalize ${
-                                                    candidate.status === 'approved'
+                                                className={`px-3 py-1 text-xs font-semibold rounded-full capitalize ${candidate.status === 'approved'
                                                         ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-400'
                                                         : candidate.status === 'rejected'
-                                                        ? 'bg-rose-100 text-rose-700 dark:bg-rose-950/60 dark:text-rose-400'
-                                                        : 'bg-amber-100 text-amber-700 dark:bg-amber-950/60 dark:text-amber-400'
-                                                }`}
+                                                            ? 'bg-rose-100 text-rose-700 dark:bg-rose-950/60 dark:text-rose-400'
+                                                            : 'bg-amber-100 text-amber-700 dark:bg-amber-950/60 dark:text-amber-400'
+                                                    }`}
                                             >
                                                 {candidate.status || 'pending'}
                                             </span>
@@ -138,9 +139,11 @@ const ApproveCandidates = () => {
                                         </td>
                                         <td>
                                             <div className="flex justify-center items-center gap-1.5">
-                                                {/* View Button */}
                                                 <div className="tooltip" data-tip="View Details">
-                                                    <button className="hover:bg-sky-50 dark:hover:bg-sky-950/50 text-sky-600 btn btn-sm btn-square btn-ghost">
+                                                    <button
+                                                        onClick={() => setSelectedCandidate(candidate)}
+                                                        className="hover:bg-sky-50 dark:hover:bg-sky-950/50 text-sky-600 btn btn-sm btn-square btn-ghost"
+                                                    >
                                                         <FaEye className="size-4" />
                                                     </button>
                                                 </div>
@@ -183,6 +186,49 @@ const ApproveCandidates = () => {
                     </table>
                 </div>
             </div>
+
+            {/* View Details Modal */}
+            {selectedCandidate && (
+                <div className="z-50 fixed inset-0 flex justify-center items-center bg-black/50 p-4">
+                    <div className="relative space-y-4 bg-white dark:bg-slate-900 shadow-2xl p-6 border border-slate-100 dark:border-slate-800 rounded-2xl w-full max-w-lg animate-fade-in">
+
+                        {/* Close Icon Button */}
+                        <button
+                            onClick={() => setSelectedCandidate(null)}
+                            className="top-4 right-4 absolute p-1 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-white transition-colors"
+                        >
+                            <FaXmark className="size-5" />
+                        </button>
+
+                        <h3 className="pb-3 border-slate-100 dark:border-slate-800 border-b font-bold text-slate-800 dark:text-white text-xl">
+                            Candidate Application Details
+                        </h3>
+
+                        <div className="space-y-3 text-slate-600 dark:text-slate-300 text-sm">
+                            <p><strong className="text-slate-800 dark:text-slate-100">Name:</strong> {selectedCandidate.candidateName}</p>
+                            <p><strong className="text-slate-800 dark:text-slate-100">Email:</strong> {selectedCandidate.candidateEmail}</p>
+                            <p><strong className="text-slate-800 dark:text-slate-100">Phone:</strong> {selectedCandidate.candidateNumber || 'N/A'}</p>
+                            <p><strong className="text-slate-800 dark:text-slate-100">Category:</strong> {selectedCandidate.contestType || 'N/A'}</p>
+                            <p><strong className="text-slate-800 dark:text-slate-100">Skills:</strong> {selectedCandidate.candidateSkills || 'N/A'}</p>
+                            <p><strong className="text-slate-800 dark:text-slate-100">Experience:</strong> {selectedCandidate.candidateExperience || 'N/A'}</p>
+
+                            <div className="bg-slate-50 dark:bg-slate-800/60 mt-2 p-3 border border-slate-100 dark:border-slate-800 rounded-xl">
+                                <strong className="block mb-1 text-slate-800 dark:text-slate-100">Reason to Join:</strong>
+                                <p className="text-slate-500 dark:text-slate-400 italic">{selectedCandidate.reason || 'No reason provided.'}</p>
+                            </div>
+                        </div>
+
+                        <div className="flex justify-end pt-2">
+                            <button
+                                onClick={() => setSelectedCandidate(null)}
+                                className="bg-purple-600 hover:bg-purple-700 px-5 border-none rounded-xl text-white btn btn-sm"
+                            >
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
