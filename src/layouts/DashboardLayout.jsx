@@ -1,113 +1,259 @@
-import { FaFlagCheckered } from "react-icons/fa";
-import { FaRegCreditCard, FaUsers } from "react-icons/fa6";
+import React from "react";
+import { FaFlagCheckered, FaHome, FaUsers, FaUser } from "react-icons/fa";
+import { FaRegCreditCard } from "react-icons/fa6";
 import { GrCompliance, GrUserWorker } from "react-icons/gr";
 import { Link, NavLink, Outlet } from "react-router";
 import useRole from "../hooks/useRole";
-import { MdAssignmentInd } from "react-icons/md";
+import { MdAssignmentInd, MdOutlineDashboard } from "react-icons/md";
 import { HiOutlineDocumentReport } from "react-icons/hi";
-import logoImg from '../assets/Idea.png'
+import logoImg from "../assets/Idea.png";
 
 const DashboardLayout = () => {
   const { role } = useRole();
 
   return (
-    <div className="mx-auto max-w-7xl drawer lg:drawer-open">
+    <div className="bg-slate-50 dark:bg-base-300 mx-auto max-w-7xl min-h-screen drawer lg:drawer-open">
       <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
-      <div className="drawer-content">
+      
+      {/* Main Content Area */}
+      <div className="flex flex-col drawer-content">
         {/* Navbar */}
-        <nav className="bg-base-300 w-full navbar">
-          <label htmlFor="my-drawer-4" aria-label="open sidebar" className="btn btn-square btn-ghost">
-            {/* Sidebar toggle icon */}
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" strokeLinejoin="round" strokeLinecap="round" strokeWidth="2" fill="none" stroke="currentColor" className="inline-block my-1.5 size-4"><path d="M4 4m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"></path><path d="M9 4v16"></path><path d="M14 10l2 2l-2 2"></path></svg>
-          </label>
-          <div className="px-4">Idea Arena Dashboard</div>
+        <nav className="top-0 z-10 sticky flex justify-between items-center bg-base-100/80 shadow-sm backdrop-blur-md px-4 py-2.5 border-base-200 border-b w-full">
+          <div className="flex items-center gap-3">
+            <label
+              htmlFor="my-drawer-4"
+              aria-label="open sidebar"
+              className="lg:hidden text-base-content btn btn-square btn-ghost btn-sm"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                strokeLinejoin="round"
+                strokeLinecap="round"
+                strokeWidth="2"
+                fill="none"
+                stroke="currentColor"
+                className="size-5"
+              >
+                <path d="M4 4m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"></path>
+                <path d="M9 4v16"></path>
+                <path d="M14 10l2 2l-2 2"></path>
+              </svg>
+            </label>
+            <div className="flex items-center gap-2 font-bold text-slate-800 dark:text-white text-lg">
+              <span className="bg-purple-100 dark:bg-purple-900/40 p-1.5 rounded-lg text-purple-600 dark:text-purple-300">
+                <MdOutlineDashboard className="size-5" />
+              </span>
+              <span>Idea Arena Dashboard</span>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <Link
+              to="/"
+              className="hover:bg-purple-600 border-purple-500 hover:border-purple-600 rounded-lg btn-outline text-purple-600 hover:text-white transition-all btn btn-sm"
+            >
+              <FaHome /> Back to Home
+            </Link>
+          </div>
         </nav>
-        {/* Page content here */}
-        <Outlet></Outlet>
+
+        {/* Dynamic Page Content */}
+        <main className="p-4 md:p-6 grow">
+          <Outlet />
+        </main>
       </div>
 
-      <div className="is-drawer-close:overflow-visible drawer-side">
-        <label htmlFor="my-drawer-4" aria-label="close sidebar" className="drawer-overlay"></label>
-        <div className="flex flex-col items-start bg-base-200 is-drawer-close:w-14 is-drawer-open:w-64 min-h-full">
-          {/* Sidebar content here */}
-          <ul className="w-full menu grow">
-            {/* List item */}
-            <li>
-              <Link to='/'><img src={logoImg} alt="" /></Link> 
-            </li>
-            <li>
-              <Link to="/dashboard" className="is-drawer-close:tooltip-right is-drawer-close:tooltip" data-tip="Homepage">
-                {/* Home icon */}
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" strokeLinejoin="round" strokeLinecap="round" strokeWidth="2" fill="none" stroke="currentColor" className="inline-block my-1.5 size-4"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
-                <span className="is-drawer-close:hidden">Homepage</span>
+      {/* Sidebar Area */}
+      <div className="z-20 drawer-side">
+        <label
+          htmlFor="my-drawer-4"
+          aria-label="close sidebar"
+          className="drawer-overlay"
+        ></label>
+        <div className="flex flex-col justify-between bg-base-100 shadow-lg lg:shadow-none p-4 border-base-200 border-r w-64 min-h-full text-base-content">
+          <div className="w-full">
+            {/* Logo Section */}
+            <div className="mb-6 px-3 py-2 pb-4 border-base-200 border-b">
+              <Link to="/" className="flex items-center gap-3">
+                <img src={logoImg} alt="Idea Arena Logo" className="w-auto h-9 object-contain" />
+                <span className="bg-clip-text bg-gradient-to-r from-purple-600 to-indigo-600 font-extrabold text-transparent text-xl tracking-wide">
+                  Idea Arena
+                </span>
               </Link>
-            </li>
+            </div>
 
-            {/* our dashboard links */}
-            <li>
-              <NavLink className="is-drawer-close:tooltip-right is-drawer-close:tooltip" data-tip="MyContests" to="/dashboard/my-contests">
-                <FaFlagCheckered />
-                <span className="is-drawer-close:hidden">My Contests</span>
-              </NavLink>
-            </li>
-            <li>
-              <NavLink className="is-drawer-close:tooltip-right is-drawer-close:tooltip" data-tip="Payment History" to="/dashboard/payment-history">
-                <FaRegCreditCard />
-                <span className="is-drawer-close:hidden">Payment History</span>
-              </NavLink>
-            </li>
-            {
-              role === 'candidate' && <>
-                <li>
-                  <NavLink className="is-drawer-close:tooltip-right is-drawer-close:tooltip" data-tip="Contest Management" to="/dashboard/contest-management">
-                    <HiOutlineDocumentReport />
-                    <span className="is-drawer-close:hidden">Contest Management</span>
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink className="is-drawer-close:tooltip-right is-drawer-close:tooltip" data-tip="Prize Delivered" to="/dashboard/prize-delivered">
-                    <GrCompliance />
-                    <span className="is-drawer-close:hidden">Prize Delivered</span>
-                  </NavLink>
-                </li>
-              </>
-            }
+            {/* Menu Links */}
+            <ul className="gap-1.5 p-0 w-full menu menu-md">
+              <li>
+                <NavLink
+                  to="/dashboard"
+                  end
+                  className={({ isActive }) =>
+                    `flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium transition-all ${
+                      isActive
+                        ? "bg-purple-600 text-white shadow-md shadow-purple-200 dark:shadow-none"
+                        : "hover:bg-base-200 text-slate-600 dark:text-slate-300"
+                    }`
+                  }
+                >
+                  <MdOutlineDashboard className="size-5" />
+                  <span>Dashboard Overview</span>
+                </NavLink>
+              </li>
 
+              <li>
+                <NavLink
+                  to="/dashboard/profile"
+                  className={({ isActive }) =>
+                    `flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium transition-all ${
+                      isActive
+                        ? "bg-purple-600 text-white shadow-md shadow-purple-200 dark:shadow-none"
+                        : "hover:bg-base-200 text-slate-600 dark:text-slate-300"
+                    }`
+                  }
+                >
+                  <FaUser className="size-4" />
+                  <span>My Profile</span>
+                </NavLink>
+              </li>
 
+              <li>
+                <NavLink
+                  to="/dashboard/my-contests"
+                  className={({ isActive }) =>
+                    `flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium transition-all ${
+                      isActive
+                        ? "bg-purple-600 text-white shadow-md shadow-purple-200 dark:shadow-none"
+                        : "hover:bg-base-200 text-slate-600 dark:text-slate-300"
+                    }`
+                  }
+                >
+                  <FaFlagCheckered className="size-4" />
+                  <span>My Contests</span>
+                </NavLink>
+              </li>
 
-            {/* Admin specific links */}
-            {
-              role === 'admin' && <>
-                <li>
-                  <NavLink className="is-drawer-close:tooltip-right is-drawer-close:tooltip" data-tip="Approve Candidates" to="/dashboard/approve-candidates">
-                    <GrUserWorker />
-                    <span className="is-drawer-close:hidden">Approve Candidates</span>
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink className="is-drawer-close:tooltip-right is-drawer-close:tooltip" data-tip="Assign Candidates" to="/dashboard/assign-candidates">
-                    <MdAssignmentInd />
-                    <span className="is-drawer-close:hidden">Assign Candidates</span>
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink className="is-drawer-close:tooltip-right is-drawer-close:tooltip" data-tip="Users Management" to="/dashboard/users-management">
-                    <FaUsers />
-                    <span className="is-drawer-close:hidden">Users Management</span>
-                  </NavLink>
-                </li>
-              </>
-            }
+              <li>
+                <NavLink
+                  to="/dashboard/payment-history"
+                  className={({ isActive }) =>
+                    `flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium transition-all ${
+                      isActive
+                        ? "bg-purple-600 text-white shadow-md shadow-purple-200 dark:shadow-none"
+                        : "hover:bg-base-200 text-slate-600 dark:text-slate-300"
+                    }`
+                  }
+                >
+                  <FaRegCreditCard className="size-4" />
+                  <span>Payment History</span>
+                </NavLink>
+              </li>
 
-            {/* List item */}
-            <li>
-              <button className="is-drawer-close:tooltip-right is-drawer-close:tooltip" data-tip="Settings">
-                {/* Settings icon */}
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" strokeLinejoin="round" strokeLinecap="round" strokeWidth="2" fill="none" stroke="currentColor" className="inline-block my-1.5 size-4"><path d="M20 7h-9"></path><path d="M14 17H5"></path><circle cx="17" cy="17" r="3"></circle><circle cx="7" cy="7" r="3"></circle></svg>
-                <span className="is-drawer-close:hidden">Settings</span>
-              </button>
-            </li>
-          </ul>
+              {/* Candidate Specific Links */}
+              {role === "candidate" && (
+                <>
+                  <div className="px-3 pt-4 pb-1 font-semibold text-slate-400 text-xs uppercase tracking-wider">
+                    Organizer Menu
+                  </div>
+                  <li>
+                    <NavLink
+                      to="/dashboard/contest-management"
+                      className={({ isActive }) =>
+                        `flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium transition-all ${
+                          isActive
+                            ? "bg-purple-600 text-white shadow-md shadow-purple-200 dark:shadow-none"
+                            : "hover:bg-base-200 text-slate-600 dark:text-slate-300"
+                        }`
+                      }
+                    >
+                      <HiOutlineDocumentReport className="size-5" />
+                      <span>Contest Management</span>
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to="/dashboard/prize-delivered"
+                      className={({ isActive }) =>
+                        `flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium transition-all ${
+                          isActive
+                            ? "bg-purple-600 text-white shadow-md shadow-purple-200 dark:shadow-none"
+                            : "hover:bg-base-200 text-slate-600 dark:text-slate-300"
+                        }`
+                      }
+                    >
+                      <GrCompliance className="size-4" />
+                      <span>Prize Delivered</span>
+                    </NavLink>
+                  </li>
+                </>
+              )}
+
+              {/* Admin Specific Links */}
+              {role === "admin" && (
+                <>
+                  <div className="px-3 pt-4 pb-1 font-semibold text-slate-400 text-xs uppercase tracking-wider">
+                    Admin Menu
+                  </div>
+                  <li>
+                    <NavLink
+                      to="/dashboard/approve-candidates"
+                      className={({ isActive }) =>
+                        `flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium transition-all ${
+                          isActive
+                            ? "bg-purple-600 text-white shadow-md shadow-purple-200 dark:shadow-none"
+                            : "hover:bg-base-200 text-slate-600 dark:text-slate-300"
+                        }`
+                      }
+                    >
+                      <GrUserWorker className="size-4" />
+                      <span>Approve Candidates</span>
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to="/dashboard/assign-candidates"
+                      className={({ isActive }) =>
+                        `flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium transition-all ${
+                          isActive
+                            ? "bg-purple-600 text-white shadow-md shadow-purple-200 dark:shadow-none"
+                            : "hover:bg-base-200 text-slate-600 dark:text-slate-300"
+                        }`
+                      }
+                    >
+                      <MdAssignmentInd className="size-5" />
+                      <span>Assign Candidates</span>
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to="/dashboard/users-management"
+                      className={({ isActive }) =>
+                        `flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium transition-all ${
+                          isActive
+                            ? "bg-purple-600 text-white shadow-md shadow-purple-200 dark:shadow-none"
+                            : "hover:bg-base-200 text-slate-600 dark:text-slate-300"
+                        }`
+                      }
+                    >
+                      <FaUsers className="size-4" />
+                      <span>Users Management</span>
+                    </NavLink>
+                  </li>
+                </>
+              )}
+            </ul>
+          </div>
+
+          {/* User Role Badge in Sidebar Footer */}
+          <div className="mt-auto pt-4 border-base-200 border-t">
+            <div className="flex justify-between items-center bg-base-200/60 px-3 py-2 rounded-xl">
+              <span className="font-medium text-slate-500 text-xs">Current Role</span>
+              <span className="bg-purple-100 dark:bg-purple-900/50 px-2 py-0.5 rounded-md font-bold text-purple-700 dark:text-purple-300 text-xs uppercase">
+                {role || "User"}
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
