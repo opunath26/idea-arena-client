@@ -1,42 +1,72 @@
 import React from 'react';
+import { Link, useRouteError } from 'react-router';
+import { motion } from 'framer-motion';
+import { FaHome, FaExclamationTriangle, FaArrowLeft } from 'react-icons/fa';
 
 const Error = () => {
+    const error = useRouteError();
+
     return (
-        <div className="flex flex-col justify-center items-center bg-gray-100 px-4 min-h-screen">
-            <div className="text-center">
-                {/* Error Number/Illustration */}
-                <h1 className="font-extrabold text-blue-600 text-9xl tracking-widest">404</h1>
+        <div className="flex justify-center items-center bg-slate-50 px-4 min-h-screen">
+            <div className="mx-auto max-w-lg text-center">
                 
-                {/* Message */}
-                <div className="absolute bg-blue-600 -mt-16 ml-24 px-2 rounded text-white text-sm rotate-12">
-                    Page Not Found
-                </div>
+                {/* Animated Graphic Container */}
+                <motion.div 
+                    initial={{ scale: 0.8, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{ duration: 0.5 }}
+                    className="relative flex justify-center items-center mx-auto mb-6"
+                >
+                    {/* Glowing Accent Background */}
+                    <div className="top-1/2 left-1/2 -z-10 absolute bg-purple-500/20 blur-3xl rounded-full w-48 h-48 -translate-x-1/2 -translate-y-1/2"></div>
+                    
+                    <span className="opacity-20 font-black text-purple-600 text-8xl sm:text-9xl tracking-widest select-none">
+                        404
+                    </span>
+                    <div className="absolute inset-0 flex justify-center items-center">
+                        <div className="flex justify-center items-center bg-purple-100 shadow-purple-500/10 shadow-xl p-5 rounded-3xl text-purple-600">
+                            <FaExclamationTriangle className="text-4xl sm:text-5xl" />
+                        </div>
+                    </div>
+                </motion.div>
 
-                <h2 className="mt-8 font-bold text-gray-800 text-3xl md:text-4xl">
-                    Oops! Kichu ekta vul hoyeche.
-                </h2>
-                
-                <p className="mt-4 text-gray-600 text-lg">
-                    Apni jei page-ti khujchen seta hoyto delete hoye geche ba link-e vul ache.
-                </p>
+                {/* Error Text Content */}
+                <motion.div
+                    initial={{ y: 20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ delay: 0.2 }}
+                    className="space-y-3"
+                >
+                    <h1 className="font-black text-slate-900 text-3xl sm:text-4xl tracking-tight">
+                        Oops! Page Not Found
+                    </h1>
+                    <p className="mx-auto max-w-md font-medium text-slate-500 text-sm sm:text-base leading-relaxed">
+                        {error?.statusText || error?.message || "The page you are looking for doesn't exist, has been removed, or is temporarily unavailable."}
+                    </p>
+                </motion.div>
 
-                {/* Navigation Button */}
-                <div className="mt-10">
-                    <a
-                        href="/"
-                        className="bg-blue-600 hover:bg-blue-700 shadow-lg px-8 py-3 rounded-full font-semibold text-white transition duration-300 ease-in-out"
+                {/* Navigation Buttons */}
+                <motion.div 
+                    initial={{ y: 20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ delay: 0.3 }}
+                    className="flex sm:flex-row flex-col justify-center items-center gap-3 sm:gap-4 mt-8"
+                >
+                    <button 
+                        onClick={() => window.history.back()}
+                        className="flex justify-center items-center gap-2 bg-white hover:bg-slate-100 shadow-sm px-6 py-3 border border-slate-200 rounded-xl w-full sm:w-auto font-bold text-slate-700 text-sm active:scale-95 transition-all cursor-pointer"
                     >
-                        Back to Home
-                    </a>
-                </div>
-            </div>
+                        <FaArrowLeft /> Go Back
+                    </button>
 
-            <div className="mt-12">
-                <img 
-                    src="https://cdn-icons-png.flaticon.com/512/2748/2748558.png" 
-                    alt="Error Illustration" 
-                    className="opacity-80 w-64 h-64 object-contain"
-                 />
+                    <Link 
+                        to="/" 
+                        className="flex justify-center items-center gap-2 bg-purple-600 hover:bg-purple-700 shadow-lg shadow-purple-500/25 px-6 py-3 rounded-xl w-full sm:w-auto font-bold text-white text-sm active:scale-95 transition-all cursor-pointer"
+                    >
+                        <FaHome /> Back to Home
+                    </Link>
+                </motion.div>
+
             </div>
         </div>
     );
