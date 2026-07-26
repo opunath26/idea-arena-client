@@ -1,116 +1,170 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { FaUsers, FaLightbulb, FaTrophy, FaRocket, FaGlobe, FaHandshake } from 'react-icons/fa';
+import { Link } from 'react-router';
+import { 
+  FaUsers, 
+  FaLightbulb, 
+  FaTrophy, 
+  FaRocket, 
+  FaGlobe, 
+  FaHandshake, 
+  FaPlusCircle, 
+  FaPaperPlane, 
+  FaAward,
+  FaCheckCircle
+} from 'react-icons/fa';
 
 const About = () => {
     return (
-        <div className="bg-white min-h-screen">
-            {/* 1. Hero Section with Animated Background */}
-            <div className="relative bg-purple-200 px-6 pt-32 pb-40 overflow-hidden">
-                <div className="absolute inset-0 opacity-20">
-                    <img src="https://www.transparenttextures.com/patterns/cubes.png" alt="pattern" />
-                </div>
-                <div className="z-10 relative mx-auto max-w-7xl text-center">
+        <div className="bg-gradient-to-br from-slate-50 via-purple-50/30 to-indigo-50/20 min-h-screen text-slate-800">
+            
+            {/* 1. Hero Section */}
+            <div className="relative px-6 pt-24 pb-20 overflow-hidden text-center">
+                <div className="z-10 relative mx-auto max-w-4xl">
                     <motion.span 
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        className="block mb-4 font-bold text-2xs text-gray-800 uppercase tracking-[0.4em]"
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="inline-block bg-purple-100 mb-4 px-4 py-1.5 border border-purple-200 rounded-full font-bold text-purple-700 text-xs uppercase tracking-widest"
                     >
-                        Learn our story
+                        About IdeaArena
                     </motion.span>
                     <motion.h1 
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="mb-6 font-black text-gray-800 text-6xl md:text-7xl tracking-tighter"
+                        className="mb-6 font-black text-slate-900 text-4xl sm:text-6xl leading-tight tracking-tight"
                     >
-                        Empowering <span className="text-purple-600">Ideas</span>, <br /> Building Future.
+                        Where <span className="text-purple-600">Great Ideas</span> Turn Into Winning Solutions
                     </motion.h1>
-                    <p className="opacity-80 mx-auto max-w-3xl text-gray-800 text-xl leading-relaxed">
-                        IdeaArena is more than a platform; it's a global stage where brilliant minds collide to solve real-world problems through innovation and healthy competition.
-                    </p>
+                    <motion.p 
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.2 }}
+                        className="mx-auto max-w-2xl text-slate-600 text-base sm:text-lg leading-relaxed"
+                    >
+                        IdeaArena is a next-generation contest platform connecting creators, developers, and innovators with real-world challenges, prizes, and career opportunities.
+                    </motion.p>
                 </div>
             </div>
 
-            {/* 2. Our Journey / Story Section (New) */}
-            <div className="items-center gap-16 grid md:grid-cols-2 mx-auto px-6 py-24 max-w-7xl">
-                <div>
-                    <h2 className="mb-6 font-black text-gray-900 text-4xl">How <span className="text-purple-600">IdeaArena</span> Started?</h2>
-                    <div className="space-y-4 text-gray-600 text-lg leading-relaxed">
-                        <p>
-                            Founded in 2024, IdeaArena began with a simple question: "Why is it so hard for talented innovators to find the right opportunities?" We saw a gap between creative minds and meaningful challenges.
-                        </p>
-                        <p>
-                            Our journey started in a small room with a big vision. Today, we host hundreds of contests ranging from UI/UX design and App development to Business strategy and Marketing hacks.
-                        </p>
-                        <div className="flex gap-8 pt-4">
-                            <div>
-                                <h4 className="font-black text-purple-600 text-3xl">10k+</h4>
-                                <p className="font-bold text-gray-400 text-sm uppercase">Users</p>
+            {/* 2. How IdeaArena Works (Core Workflow for Visitors) */}
+            <div className="mx-auto px-6 py-16 max-w-7xl">
+                <div className="mb-14 text-center">
+                    <h2 className="font-black text-slate-900 text-3xl sm:text-4xl">How IdeaArena Works</h2>
+                    <p className="mt-2 font-medium text-slate-500 text-sm">Everything you need to know about what happens on this platform</p>
+                </div>
+
+                <div className="gap-8 grid md:grid-cols-3">
+                    {[
+                        {
+                            step: "01",
+                            icon: <FaPlusCircle className="text-purple-600" />,
+                            title: "1. Create & Host Contests",
+                            desc: "Organizers and admins create various creative challenges—ranging from Web Development, UI/UX Design, to Business Ideas & Content Writing."
+                        },
+                        {
+                            step: "02",
+                            icon: <FaPaperPlane className="text-purple-600" />,
+                            title: "2. Register & Submit Tasks",
+                            desc: "Participants browse through active contests, register using secure payment/registration methods, and submit their creative task solutions before time runs out."
+                        },
+                        {
+                            step: "03",
+                            icon: <FaAward className="text-purple-600" />,
+                            title: "3. Declare Winners & Rewards",
+                            desc: "Submissions are reviewed by contest admins. Winning ideas earn cash prizes, badges, and recognition on our global leaderboard."
+                        }
+                    ].map((step, idx) => (
+                        <div key={idx} className="relative bg-white shadow-sm hover:shadow-xl p-8 border border-slate-200/80 hover:border-purple-200 rounded-3xl transition-all">
+                            <div className="top-6 right-6 absolute font-black text-slate-100 text-4xl">{step.step}</div>
+                            <div className="flex justify-center items-center bg-purple-50 mb-6 rounded-2xl w-14 h-14 text-2xl">
+                                {step.icon}
                             </div>
-                            <div>
-                                <h4 className="font-black text-purple-600 text-3xl">500+</h4>
-                                <p className="font-bold text-gray-400 text-sm uppercase">Contests</p>
-                            </div>
-                            <div>
-                                <h4 className="font-black text-purple-600 text-3xl">50+</h4>
-                                <p className="font-bold text-gray-400 text-sm uppercase">Partners</p>
-                            </div>
+                            <h3 className="mb-3 font-bold text-slate-900 text-xl">{step.title}</h3>
+                            <p className="text-slate-600 text-sm leading-relaxed">{step.desc}</p>
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+            {/* 3. Who Is IdeaArena For? (User Roles Breakdown) */}
+            <div className="bg-white/80 backdrop-blur-md my-10 py-16 border-slate-200/60 border-y">
+                <div className="mx-auto px-6 max-w-7xl">
+                    <div className="mb-12 text-center">
+                        <h2 className="font-black text-slate-900 text-3xl sm:text-4xl">Who Can Join Us?</h2>
+                        <p className="mt-2 font-medium text-slate-500 text-sm">IdeaArena brings two major groups together under one roof</p>
+                    </div>
+
+                    <div className="gap-8 grid md:grid-cols-2">
+                        {/* Role 1 */}
+                        <div className="bg-gradient-to-br from-purple-50/50 to-indigo-50/30 p-8 sm:p-10 border border-purple-100 rounded-3xl">
+                            <span className="inline-block mb-3 font-bold text-purple-700 text-xs uppercase tracking-wider">For Participants</span>
+                            <h3 className="mb-4 font-black text-slate-900 text-2xl">Showcase Your Skill & Win Rewards</h3>
+                            <ul className="space-y-3 text-slate-600 text-sm">
+                                <li className="flex items-center gap-2"><FaCheckCircle className="text-purple-600" /> Explore category-wise active contests</li>
+                                <li className="flex items-center gap-2"><FaCheckCircle className="text-purple-600" /> Submit tasks with detailed instructions</li>
+                                <li className="flex items-center gap-2"><FaCheckCircle className="text-purple-600" /> Track countdown timers in real-time</li>
+                                <li className="flex items-center gap-2"><FaCheckCircle className="text-purple-600" /> Win prize money and build your portfolio</li>
+                            </ul>
+                        </div>
+
+                        {/* Role 2 */}
+                        <div className="bg-gradient-to-br from-slate-50 to-purple-50/30 p-8 sm:p-10 border border-slate-200/80 rounded-3xl">
+                            <span className="inline-block mb-3 font-bold text-indigo-700 text-xs uppercase tracking-wider">For Hosts & Creators</span>
+                            <h3 className="mb-4 font-black text-slate-900 text-2xl">Crowdsource Innovation Effortlessly</h3>
+                            <ul className="space-y-3 text-slate-600 text-sm">
+                                <li className="flex items-center gap-2"><FaCheckCircle className="text-purple-600" /> Host custom contests with tailored guidelines</li>
+                                <li className="flex items-center gap-2"><FaCheckCircle className="text-purple-600" /> Manage submissions via clean Dashboard UI</li>
+                                <li className="flex items-center gap-2"><FaCheckCircle className="text-purple-600" /> Inspect user submissions and declare winners</li>
+                                <li className="flex items-center gap-2"><FaCheckCircle className="text-purple-600" /> Connect with top tech and creative talent</li>
+                            </ul>
                         </div>
                     </div>
                 </div>
-                <div className="relative">
-                    <div className="absolute -inset-4 bg-purple-100 rounded-[3rem] rotate-3"></div>
-                    <img 
-                        src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=2070" 
-                        alt="Team meeting" 
-                        className="z-10 relative shadow-2xl rounded-[3rem] w-full h-[400px] object-cover"
-                    />
+            </div>
+
+            {/* 4. Core Values Section */}
+            <div className="mx-auto px-6 py-16 max-w-7xl">
+                <div className="mb-14 text-center">
+                    <h2 className="font-black text-slate-900 text-3xl sm:text-4xl">Our Core Values</h2>
+                    <p className="mt-2 font-medium text-slate-500 text-sm">The foundation powering IdeaArena</p>
+                </div>
+                
+                <div className="gap-6 grid sm:grid-cols-2 md:grid-cols-3">
+                    {[
+                        { icon: <FaLightbulb />, title: "Innovation", desc: "Encouraging out-of-the-box thinking to solve modern problems." },
+                        { icon: <FaUsers />, title: "Community", desc: "A supportive environment where creators learn and grow together." },
+                        { icon: <FaTrophy />, title: "Excellence", desc: "Rewarding hard work, quality, and exceptional talent fairly." },
+                        { icon: <FaRocket />, title: "Agility", desc: "Adapting fast to modern tech trends and user feedback." },
+                        { icon: <FaGlobe />, title: "Inclusivity", desc: "Open to passionate minds regardless of geographical location." },
+                        { icon: <FaHandshake />, title: "Transparency", desc: "Fair judging, secure transactions, and clear instructions." }
+                    ].map((val, idx) => (
+                        <div key={idx} className="bg-white shadow-sm hover:shadow-md p-8 border border-slate-200/70 rounded-2xl transition-shadow">
+                            <div className="mb-4 text-purple-600 text-3xl">{val.icon}</div>
+                            <h3 className="mb-2 font-bold text-slate-900 text-lg">{val.title}</h3>
+                            <p className="text-slate-500 text-xs leading-relaxed">{val.desc}</p>
+                        </div>
+                    ))}
                 </div>
             </div>
 
-            {/* 3. Core Values Section */}
-            <div className="bg-gray-50 px-6 py-24">
-                <div className="mx-auto max-w-7xl">
-                    <div className="mb-16 text-center">
-                        <h2 className="mb-2 font-black text-gray-900 text-4xl">Our Core Values</h2>
-                        <p className="font-bold text-[10px] text-gray-400 uppercase tracking-[0.3em]">The principles that guide us</p>
-                    </div>
-                    
-                    <div className="gap-8 grid md:grid-cols-3">
-                        {[
-                            { icon: <FaLightbulb />, title: "Innovation", desc: "We push the boundaries of what's possible, encouraging out-of-the-box thinking." },
-                            { icon: <FaUsers />, title: "Community", desc: "Collaboration is our strength. We grow together by sharing knowledge and ideas." },
-                            { icon: <FaTrophy />, title: "Excellence", desc: "We celebrate quality and hard work, rewarding the best talents fairly." },
-                            { icon: <FaRocket />, title: "Agility", desc: "In a fast-paced world, we adapt and move quickly to stay ahead of the curve." },
-                            { icon: <FaGlobe />, title: "Diversity", desc: "Ideas have no borders. We welcome innovators from every corner of the world." },
-                            { icon: <FaHandshake />, title: "Integrity", desc: "Transparency and trust are at the heart of every contest we host." }
-                        ].map((val, idx) => (
-                            <motion.div 
-                                whileHover={{ y: -10 }}
-                                key={idx} 
-                                className="bg-white shadow-sm hover:shadow-xl p-10 border border-gray-100 rounded-[2.5rem] transition-all"
-                            >
-                                <div className="mb-6 text-purple-600 text-4xl">{val.icon}</div>
-                                <h3 className="mb-3 font-black text-xl">{val.title}</h3>
-                                <p className="text-gray-500 leading-relaxed">{val.desc}</p>
-                            </motion.div>
-                        ))}
-                    </div>
-                </div>
-            </div>
-
-            {/* 4. CTA / Final Message */}
-            <div className="px-6 py-24 text-center">
-                <div className="bg-purple-600 shadow-2xl shadow-purple-200 mx-auto p-16 rounded-[4rem] max-w-4xl text-white">
-                    <h2 className="mb-6 font-black text-4xl md:text-5xl italic">Ready to make your mark?</h2>
-                    <p className="opacity-90 mb-10 text-purple-100 text-lg">
-                        Join IdeaArena today and turn your abstract thoughts into concrete solutions. The next big thing starts with you.
+            {/* 5. CTA Section */}
+            <div className="mx-auto px-6 pt-10 pb-20 max-w-5xl text-center">
+                <div className="bg-purple-600 shadow-purple-200 shadow-xl p-10 sm:p-14 rounded-3xl text-white">
+                    <h2 className="mb-4 font-black text-3xl sm:text-4xl">Ready to Start Your Journey?</h2>
+                    <p className="opacity-90 mx-auto mb-8 max-w-2xl text-purple-100 text-sm sm:text-base">
+                        Explore active challenges, participate in your favorite category, or post a contest to find brilliant solutions today.
                     </p>
-                    <button className="bg-white hover:bg-purple-400 px-12 py-5 rounded-2xl font-black text-purple-600 hover:text-gray-100 text-lg hover:scale-105 active:scale-95 transition-all transform">
-                        Get Started Now
-                    </button>
+                    <div className="flex flex-wrap justify-center gap-4">
+                        <Link 
+                            to="/all-contests" 
+                            className="bg-white hover:bg-purple-50 shadow-md px-8 py-3.5 rounded-xl font-bold text-purple-700 text-sm active:scale-95 transition-all"
+                        >
+                            Explore Contests
+                        </Link>
+                    </div>
                 </div>
             </div>
+
         </div>
     );
 };
