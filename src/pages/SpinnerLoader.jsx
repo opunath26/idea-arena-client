@@ -4,43 +4,41 @@ import styled from "styled-components";
 const SpinnerLoader = () => {
   return (
     <StyledWrapper>
-      <div className="pl">
-        <div className="pl__dot" />
-        <div className="pl__dot" />
-        <div className="pl__dot" />
-        <div className="pl__dot" />
-        <div className="pl__dot" />
-        <div className="pl__dot" />
-        <div className="pl__dot" />
-        <div className="pl__dot" />
-        <div className="pl__dot" />
-        <div className="pl__dot" />
-        <div className="pl__dot" />
-        <div className="pl__dot" />
-        <div className="pl__text">Loading…</div>
+      <div className="loader-container">
+        <div className="pl">
+          {[...Array(12)].map((_, index) => (
+            <div key={index} className="pl__dot" />
+          ))}
+          <div className="pl__text">Loading…</div>
+        </div>
       </div>
     </StyledWrapper>
   );
 };
 
 const StyledWrapper = styled.div`
-  /* ===== COLORS ===== */
-  --bg: #1e1e2f;
-  --primary1: #4f46e5;
-  --primary2: #22d3ee;
-  --fg-t: rgba(255, 255, 255, 0.75);
+  /* ===== PROJECT COLOR SYSTEM ===== */
+  --bg: #f8fafc;
+  --primary-color: #9333ea; /* Purple Theme Accent */
+  --secondary-color: #3b82f6; /* Accent Blue */
+  --text-color: #475569;
 
-  /* ===== CENTER SCREEN ===== */
-  min-height: 100vh;
+  min-height: 80vh;
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #0f172a;
+
+  .loader-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
 
   .pl {
-    box-shadow: 2em 0 2em rgba(0, 0, 0, 0.2) inset,
-      -2em 0 2em rgba(255, 255, 255, 0.1) inset;
+    box-shadow: 1.5em 0 1.5em rgba(147, 51, 234, 0.08) inset,
+      -1.5em 0 1.5em rgba(255, 255, 255, 0.8) inset;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -48,9 +46,9 @@ const StyledWrapper = styled.div`
     letter-spacing: 0.1em;
     text-transform: uppercase;
     transform: rotateX(30deg) rotateZ(45deg);
-    width: 14em;
-    height: 14em;
-    color: white;
+    width: 13em;
+    height: 13em;
+    color: var(--text-color);
   }
 
   .pl,
@@ -59,9 +57,9 @@ const StyledWrapper = styled.div`
   }
 
   .pl__dot {
-    animation-name: shadow724;
-    box-shadow: 0.1em 0.1em 0 0.1em black,
-      0.3em 0 0.3em rgba(0, 0, 0, 0.5);
+    animation-name: shadowAnimation;
+    box-shadow: 0.1em 0.1em 0 0.1em rgba(147, 51, 234, 0.2),
+      0.2em 0 0.4em rgba(0, 0, 0, 0.15);
     top: calc(50% - 0.75em);
     left: calc(50% - 0.75em);
     width: 1.5em;
@@ -85,21 +83,20 @@ const StyledWrapper = styled.div`
   }
 
   .pl__dot:before {
-    animation-name: pushInOut1724;
+    animation-name: pushInOutUpper;
     background-color: var(--bg);
     border-radius: inherit;
-    box-shadow: 0.05em 0 0.1em rgba(255, 255, 255, 0.2) inset;
+    box-shadow: 0.05em 0 0.1em rgba(255, 255, 255, 0.5) inset;
     height: inherit;
     z-index: 1;
   }
 
   .pl__dot:after {
-    animation-name: pushInOut2724;
-    background-color: var(--primary1);
+    animation-name: pushInOutLower;
+    background-color: var(--primary-color);
     border-radius: 0.75em;
     box-shadow: 0.1em 0.3em 0.2em rgba(255, 255, 255, 0.4) inset,
-      0 -0.4em 0.2em #2e3138 inset,
-      0 -1em 0.25em rgba(0, 0, 0, 0.3) inset;
+      0 -0.4em 0.2em rgba(126, 34, 206, 0.6) inset;
     bottom: 0;
     clip-path: polygon(0 75%, 100% 75%, 100% 100%, 0 100%);
     height: 3em;
@@ -111,7 +108,7 @@ const StyledWrapper = styled.div`
     .map(
       (_, i) => `
     .pl__dot:nth-child(${i + 1}) {
-      transform: rotate(${-30 * i}deg) translateX(5em) rotate(${30 * i}deg);
+      transform: rotate(${-30 * i}deg) translateX(4.5em) rotate(${30 * i}deg);
       z-index: ${i < 6 ? i + 1 : 12 - i};
     }
     .pl__dot:nth-child(${i + 1}),
@@ -124,35 +121,35 @@ const StyledWrapper = styled.div`
     .join("")}
 
   .pl__text {
-    font-size: 0.75em;
-    max-width: 5rem;
-    position: relative;
-    text-shadow: 0 0 0.1em var(--fg-t);
+    font-size: 0.8em;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--primary-color);
     transform: rotateZ(-45deg);
   }
 
-  @keyframes shadow724 {
+  @keyframes shadowAnimation {
     from {
-      box-shadow: 0.1em 0.1em 0 0.1em black,
-        0.3em 0 0.3em rgba(0, 0, 0, 0.3);
+      box-shadow: 0.1em 0.1em 0 0.1em rgba(147, 51, 234, 0.2),
+        0.3em 0 0.3em rgba(0, 0, 0, 0.1);
     }
     25% {
-      box-shadow: 0.1em 0.1em 0 0.1em black,
-        0.8em 0 0.8em rgba(0, 0, 0, 0.5);
+      box-shadow: 0.1em 0.1em 0 0.1em rgba(147, 51, 234, 0.3),
+        0.6em 0 0.6em rgba(0, 0, 0, 0.2);
     }
     to {
-      box-shadow: 0.1em 0.1em 0 0.1em black,
-        0.3em 0 0.3em rgba(0, 0, 0, 0.3);
+      box-shadow: 0.1em 0.1em 0 0.1em rgba(147, 51, 234, 0.2),
+        0.3em 0 0.3em rgba(0, 0, 0, 0.1);
     }
   }
 
-  @keyframes pushInOut1724 {
+  @keyframes pushInOutUpper {
     from {
       background-color: var(--bg);
       transform: translate(0, 0);
     }
     25% {
-      background-color: var(--primary2);
+      background-color: var(--secondary-color);
       transform: translate(-71%, -71%);
     }
     to {
@@ -161,13 +158,13 @@ const StyledWrapper = styled.div`
     }
   }
 
-  @keyframes pushInOut2724 {
+  @keyframes pushInOutLower {
     from {
       background-color: var(--bg);
       clip-path: polygon(0 75%, 100% 75%, 100% 100%, 0 100%);
     }
     25% {
-      background-color: var(--primary1);
+      background-color: var(--primary-color);
       clip-path: polygon(0 25%, 100% 25%, 100% 100%, 0 100%);
     }
     to {
