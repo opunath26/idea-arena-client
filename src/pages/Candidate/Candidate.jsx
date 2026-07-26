@@ -50,12 +50,14 @@ const Candidate = () => {
             if (res.data.insertedId) {
                 Swal.fire({
                     icon: 'success',
-                    title: 'Application Submitted!',
-                    text: 'Your request has been received. We will review it and get back to you within 7 days.',
-                    confirmButtonColor: '#9333ea',
+                    title: '<span style="font-size: 22px; font-weight: 800; color: #1e293b;">Application Submitted!</span>',
+                    html: '<p style="font-size: 14px; color: #64748b; line-height: 1.5;">Your request has been received successfully. Our admin team will review it and get back to you within 7 days.</p>',
+                    confirmButtonText: 'Awesome, Thanks!',
+                    buttonsStyling: false,
                     customClass: {
-                        popup: 'rounded-2xl',
-                        confirmButton: 'rounded-xl px-6 py-2.5 font-bold'
+                        popup: 'rounded-3xl p-6 border border-slate-100 shadow-2xl bg-white',
+                        confirmButton: 'bg-purple-600 hover:bg-purple-700 text-white font-bold px-6 py-3 rounded-2xl shadow-lg shadow-purple-500/25 transition-all text-sm w-full cursor-pointer',
+                        icon: 'border-0 bg-purple-50 text-purple-600 w-16 h-16 flex items-center justify-center rounded-2xl mx-auto mb-4'
                     }
                 });
                 reset();
@@ -64,12 +66,14 @@ const Candidate = () => {
             console.error('Candidate Submission Error:', error);
             Swal.fire({
                 icon: 'error',
-                title: 'Submission Failed',
-                text: error?.response?.data?.message || 'Something went wrong. Please try again later.',
-                confirmButtonColor: '#9333ea',
+                title: '<span style="font-size: 22px; font-weight: 800; color: #1e293b;">Submission Failed</span>',
+                html: `<p style="font-size: 14px; color: #64748b; line-height: 1.5;">${error?.response?.data?.message || 'Something went wrong. Please try again later.'}</p>`,
+                confirmButtonText: 'Try Again',
+                buttonsStyling: false,
                 customClass: {
-                    popup: 'rounded-2xl',
-                    confirmButton: 'rounded-xl px-6 py-2.5 font-bold'
+                    popup: 'rounded-3xl p-6 border border-slate-100 shadow-2xl bg-white',
+                    confirmButton: 'bg-rose-600 hover:bg-rose-700 text-white font-bold px-6 py-3 rounded-2xl shadow-lg shadow-rose-500/25 transition-all text-sm w-full cursor-pointer',
+                    icon: 'border-0 bg-rose-50 text-rose-600 w-16 h-16 flex items-center justify-center rounded-2xl mx-auto mb-4'
                 }
             });
         } finally {
