@@ -31,6 +31,7 @@ import About from "../pages/About/About";
 import Contact from "../pages/Contact/Contact";
 import PrivacyPolicy from "../pages/PrivacyPolicy/PrivacyPolicy";
 import Profile from "../pages/Dashboard/profile/Profile";
+import Forbidden from "../pages/Shared/Forbidden";
 
 export const router = createBrowserRouter([
   {
@@ -106,7 +107,7 @@ export const router = createBrowserRouter([
         Component: DashboardHome
       },
       {
-        path: "profile", // URL: /dashboard/profile
+        path: "profile",
         element: <Profile />
       },
       {
@@ -155,6 +156,10 @@ export const router = createBrowserRouter([
         element: <AdminRoute><UsersManagement></UsersManagement></AdminRoute>
       }
     ]
+  },
+  {
+    path: 'forbidden',
+    Component: Forbidden
   },
   {
     path: '*',
