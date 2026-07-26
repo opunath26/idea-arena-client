@@ -30,6 +30,7 @@ import MyParticipated from "../pages/Dashboard/DashboardHome/MyParticipated";
 import About from "../pages/About/About";
 import Contact from "../pages/Contact/Contact";
 import PrivacyPolicy from "../pages/PrivacyPolicy/PrivacyPolicy";
+import Profile from "../pages/Dashboard/profile/Profile";
 
 export const router = createBrowserRouter([
   {
@@ -103,6 +104,10 @@ export const router = createBrowserRouter([
       {
         index: true,
         Component: DashboardHome
+      },
+      {
+        path: "profile", // URL: /dashboard/profile
+        element: <Profile />
       },
       {
         path: 'my-contests',
