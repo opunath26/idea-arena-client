@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8B5CF6" />
+      <stop offset="100%" stop-color="#6D28D9" />
+    </linearGradient>
+
+    <!-- Trophy Accent Gradient -->
+    <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FBBF24" />
+      <stop offset="100%" stop-color="#F59E0B" />
+    </linearGradient>
+  </defs>
+
+  <!-- Rounded Squircle Background -->
+  <rect width="512" height="512" rx="128" fill="url(#bgGradient)" />
+
+  <!-- Shield Shape Backdrop -->
+  <path d="M256 80 L380 120 V240 C380 330 256 410 256 410 C256 410 132 330 132 240 V120 L256 80 Z" 
+        fill="white" opacity="0.15" />
+
+  <!-- Pet Paw Pad (Center Main Pad) -->
+  <path d="M256 260 C210 260 180 295 180 325 C180 355 210 375 256 375 C302 375 332 355 332 325 C332 295 302 260 256 260 Z" 
+        fill="url(#goldGradient)" />
+
+  <!-- Paw Toe 1 -->
+  <ellipse cx="170" cy="225" rx="25" ry="35" fill="white" transform="rotate(-20 170 225)" />
+  
+  <!-- Paw Toe 2 -->
+  <ellipse cx="225" cy="190" rx="25" ry="35" fill="white" />
+  
+  <!-- Paw Toe 3 -->
+  <ellipse cx="287" cy="190" rx="25" ry="35" fill="white" />
+  
+  <!-- Paw Toe 4 -->
+  <ellipse cx="342" cy="225" rx="25" ry="35" fill="white" transform="rotate(20 342 225)" />
+
+  <!-- Top Crown/Trophy Star Accent -->
+  <path d="M256 115 L263 135 L284 135 L267 147 L273 167 L256 155 L239 167 L245 147 L228 135 L249 135 Z" 
+        fill="url(#goldGradient)" />
+</svg>
