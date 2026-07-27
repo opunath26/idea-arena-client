@@ -59,13 +59,12 @@ const AuthProvider = ({ children }) => {
         registerUser,
         signInUser,
         signInGoogle,
-        googleSignIn: signInGoogle, // 👈 ব্যাকআপ হিসেবে দুটি নামই রাখা হলো যেন কোথাও এরর না আসে
+        googleSignIn: signInGoogle,
         logOut,
         updateUserProfile
     };
 
     return (
-        // 👈 '.Provider' যোগ করা হলো
         <AuthContext.Provider value={authInfo}>
             {children}
         </AuthContext.Provider>

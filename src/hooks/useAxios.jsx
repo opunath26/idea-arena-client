@@ -1,9 +1,8 @@
 import axios from 'axios';
-import React from 'react';
 
 const axiosInstance = axios.create({
-    baseURL: 'https://idea-arena-server.vercel.app'
-})
+    baseURL: import.meta.env.VITE_API_URL || 'https://idea-arena-server-7gxifh8b6-artistop26-2257s-projects.vercel.app'
+});
 
 const useAxios = () => {
     return axiosInstance;
