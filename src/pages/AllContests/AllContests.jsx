@@ -1,6 +1,6 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, useCallback } from "react";
 import ContestCard from "../ContestCard/ContestCard";
-import useAxiosSecure from "../../hooks/useAxiosSecure";
+import useAxios from "../../hooks/useAxios";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaSearch, FaFilter, FaRedo, FaTrophy, FaThLarge } from "react-icons/fa";
 
@@ -10,41 +10,49 @@ const AllContests = () => {
     const [searchText, setSearchText] = useState('');
     const [activeTab, setActiveTab] = useState('All');
     const [isLoading, setIsLoading] = useState(true);
-    const axiosSecure = useAxiosSecure();
+    
+    const axiosPublic = useAxios();
 
     useEffect(() => {
-        axiosSecure.get('/contests')
+        axiosPublic.get('/contests')
             .then(res => {
-                setAllContestsData(res.data || []);
+                const data = Array.isArray(res.data) ? res.data : [];
+                setAllContestsData(data);
             })
-            .catch(err => console.error("Error fetching initial contests:", err));
-    }, [axiosSecure]);
+            .catch(err => {
+                console.error("Error fetching initial contests:", err);
+                setAllContestsData([]);
+            });
+    }, [axiosPublic]);
 
     const categories = useMemo(() => {
-        const extractedCategories = allContestsData
-            .map(item => item.contestType)
+        const safeAllData = Array.isArray(allContestsData) ? allContestsData : [];
+        const extractedCategories = safeAllData
+            .map(item => item?.contestType)
             .filter(Boolean);
         return ['All', ...new Set(extractedCategories)];
     }, [allContestsData]);
 
-    const fetchContests = (search = '', category = 'All') => {
+    const fetchContests = useCallback((search = '', category = 'All') => {
         setIsLoading(true);
         const contestType = category === 'All' ? '' : category;
         
-        axiosSecure.get(`/contests?search=${search}&contestType=${contestType}`)
+        axiosPublic.get(`/contests?search=${search}&contestType=${contestType}`)
             .then(res => {
-                setContests(res.data);
+                const data = Array.isArray(res.data) ? res.data : [];
+                setContests(data);
                 setIsLoading(false);
             })
             .catch(err => {
                 console.error("Error fetching contests:", err);
+                setContests([]);
                 setIsLoading(false);
             });
-    };
+    }, [axiosPublic]);
 
     useEffect(() => {
         fetchContests(searchText, activeTab);
-    }, [activeTab]);
+    }, [activeTab, fetchContests]);
 
     const handleSearch = (e) => {
         e.preventDefault();
@@ -56,6 +64,9 @@ const AllContests = () => {
         setActiveTab('All');
         fetchContests('', 'All');
     };
+
+    // Safe Array Variables
+    const safeContests = Array.isArray(contests) ? contests : [];
 
     const SkeletonCard = () => (
         <div className="flex flex-col justify-between bg-white dark:bg-slate-900 shadow-sm p-4 border border-slate-200/80 dark:border-slate-800 rounded-2xl h-[420px] animate-pulse">
@@ -77,9 +88,8 @@ const AllContests = () => {
     return (
         <div className="bg-slate-50 dark:bg-slate-950 min-h-screen text-slate-800 dark:text-slate-100 transition-colors duration-300">
             
-            {/* Ultra-Professional Hero Header Section */}
+            {/* Hero Header Section */}
             <div className="relative bg-slate-900 py-20 sm:py-24 border-slate-800 border-b overflow-hidden text-white">
-                {/* Subtle Background Glows */}
                 <div className="top-0 left-1/4 absolute bg-purple-600/20 blur-3xl rounded-full w-96 h-96 pointer-events-none"></div>
                 <div className="right-1/4 bottom-0 absolute bg-indigo-600/20 blur-3xl rounded-full w-96 h-96 pointer-events-none"></div>
 
@@ -169,10 +179,10 @@ const AllContests = () => {
                     <AnimatePresence mode="wait">
                         {isLoading ? (
                             [...Array(8)].map((_, i) => <SkeletonCard key={i} />)
-                        ) : contests.length > 0 ? (
-                            contests.map((contest, idx) => (
+                        ) : safeContests.length > 0 ? (
+                            safeContests.map((contest, idx) => (
                                 <motion.div
-                                    key={contest._id}
+                                    key={contest._id || idx}
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ duration: 0.3, delay: idx * 0.04 }}

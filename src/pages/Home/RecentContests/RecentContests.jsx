@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import useAxiosSecure from '../../../hooks/useAxiosSecure';
+import useAxios from '../../../hooks/useAxios'; // axiosPublic / useAxios ব্যবহার করা নিরাপদ
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router';
 import ContestCard from '../../ContestCard/ContestCard';
@@ -42,21 +42,23 @@ const ContestCardSkeleton = () => {
 };
 
 const RecentContests = () => {
-    const axiosSecure = useAxiosSecure();
+    const axiosPublic = useAxios();
     const [selectedFilter, setSelectedFilter] = useState('all');
 
     const { data: contests = [], isLoading } = useQuery({
         queryKey: ['recentContests'],
         queryFn: async () => {
-            const res = await axiosSecure.get('/contests?limit=8');
-            return res.data;
+            const res = await axiosPublic.get('/contests?limit=8');
+            return Array.isArray(res.data) ? res.data : [];
         }
     });
 
-    // Client-side quick filtering
-    const filteredContests = contests.filter(contest => {
-        if (selectedFilter === 'trending') return contest.participantsCount > 5 || contest.isPopular;
-        if (selectedFilter === 'highPrize') return contest.prizeMoney > 500;
+    const safeContests = Array.isArray(contests) ? contests : [];
+
+    const filteredContests = safeContests.filter(contest => {
+        if (!contest) return false;
+        if (selectedFilter === 'trending') return (contest.participantsCount > 5) || contest.isPopular;
+        if (selectedFilter === 'highPrize') return (contest.prizeMoney > 500);
         return true;
     });
 
