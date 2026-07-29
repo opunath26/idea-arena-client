@@ -12,7 +12,8 @@ const Contests = () => {
         queryKey: ['contests'],
         queryFn: async () => {
             const res = await axiosSecure.get('/contests');
-            return res.data;
+            // Ensure response is always an Array
+            return Array.isArray(res.data) ? res.data : (res.data?.contests || res.data?.data || []);
         }
     });
 
@@ -71,11 +72,11 @@ const Contests = () => {
                 </div>
                 
                 {/* Contests Grid */}
-                {contests.length > 0 ? (
-                    <div className="gap-8 grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4">
+                {Array.isArray(contests) && contests.length > 0 ? (
+                    <div className="gap-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
                         {contests.map((contest, idx) => (
                             <motion.div
-                                key={contest._id}
+                                key={contest._id || idx}
                                 initial={{ opacity: 0, y: 30 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
