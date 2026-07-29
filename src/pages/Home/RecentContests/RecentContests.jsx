@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import useAxios from '../../../hooks/useAxios'; // axiosPublic / useAxios ব্যবহার করা নিরাপদ
+import useAxios from '../../../hooks/useAxios';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router';
 import ContestCard from '../../ContestCard/ContestCard';
@@ -45,17 +45,16 @@ const RecentContests = () => {
     const axiosPublic = useAxios();
     const [selectedFilter, setSelectedFilter] = useState('all');
 
-    const { data: contests = [], isLoading } = useQuery({
+    const { data: contests = [], isLoading, isError } = useQuery({
         queryKey: ['recentContests'],
         queryFn: async () => {
             const res = await axiosPublic.get('/contests?limit=8');
-            return Array.isArray(res.data) ? res.data : [];
+            const data = res.data?.data || res.data?.contests || res.data;
+            return Array.isArray(data) ? data : [];
         }
     });
 
-    const safeContests = Array.isArray(contests) ? contests : [];
-
-    const filteredContests = safeContests.filter(contest => {
+    const filteredContests = contests.filter(contest => {
         if (!contest) return false;
         if (selectedFilter === 'trending') return (contest.participantsCount > 5) || contest.isPopular;
         if (selectedFilter === 'highPrize') return (contest.prizeMoney > 500);
@@ -140,6 +139,10 @@ const RecentContests = () => {
                         {[...Array(8)].map((_, i) => (
                             <ContestCardSkeleton key={i} />
                         ))}
+                    </div>
+                ) : isError ? (
+                    <div className="bg-white shadow-sm mx-auto py-12 border border-slate-200 rounded-3xl max-w-lg text-center">
+                        <p className="font-semibold text-red-500 text-sm">Failed to load recent contests.</p>
                     </div>
                 ) : filteredContests.length > 0 ? (
                     <motion.div 
