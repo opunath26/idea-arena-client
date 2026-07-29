@@ -1,7 +1,8 @@
-import { useParams, useNavigate } from "react-router";
-import { useEffect, useState } from "react";
-import useAxiosSecure from "../../hooks/useAxiosSecure";
-import Countdown from "react-countdown";
+import React from 'react';
+import { useParams, useNavigate } from 'react-router';
+import { useQuery } from '@tanstack/react-query';
+import Countdown from 'react-countdown';
+import useAxiosSecure from '../../hooks/useAxiosSecure';
 import { 
   FaClock, 
   FaTag, 
@@ -12,20 +13,23 @@ import {
   FaCheckCircle, 
   FaExclamationCircle,
   FaFileAlt
-} from "react-icons/fa";
+} from 'react-icons/fa';
 
 const ContestDetails = () => {
     const { id } = useParams();
-    const [contest, setContest] = useState(null);
     const axiosSecure = useAxiosSecure();
     const navigate = useNavigate();
 
-    useEffect(() => {
-        axiosSecure.get(`/contests/${id}`)
-            .then(res => setContest(res.data));
-    }, [id, axiosSecure]);
+    const { data: contest, isLoading, isError } = useQuery({
+        queryKey: ['contest', id],
+        queryFn: async () => {
+            const res = await axiosSecure.get(`/contests/${id}`);
+            return res.data?.data || res.data?.contest || res.data;
+        },
+        enabled: !!id,
+    });
 
-    if (!contest) {
+    if (isLoading) {
         return (
             <div className="flex justify-center items-center bg-slate-50 min-h-screen">
                 <div className="relative flex justify-center items-center">
@@ -36,7 +40,31 @@ const ContestDetails = () => {
         );
     }
 
-    const isDeadlinePassed = new Date() > new Date(contest.contestDeadline);
+    if (isError || !contest) {
+        return (
+            <div className="flex flex-col justify-center items-center bg-slate-50 min-h-screen text-center">
+                <div className="bg-red-50 mb-4 p-4 rounded-full text-red-500 text-3xl">
+                    <FaExclamationCircle />
+                </div>
+                <h3 className="font-bold text-slate-800 text-xl">Contest Not Found!</h3>
+                <p className="mt-1 text-slate-500 text-sm">Could not load details for this contest.</p>
+                <button 
+                    onClick={() => navigate(-1)} 
+                    className="bg-purple-600 hover:bg-purple-700 mt-6 px-5 py-2.5 rounded-xl font-semibold text-white text-sm transition-all"
+                >
+                    Go Back
+                </button>
+            </div>
+        );
+    }
+
+    // Safe Deadline Check
+    const deadlineDate = contest?.contestDeadline ? new Date(contest.contestDeadline) : new Date();
+    const isDeadlinePassed = new Date() > deadlineDate;
+
+    // Safe Created Date Check (handles createdAt or createAt)
+    const rawCreatedDate = contest?.createdAt || contest?.createAt;
+    const formattedCreatedDate = rawCreatedDate ? new Date(rawCreatedDate).toLocaleDateString() : 'N/A';
 
     // Countdown Renderer
     const renderer = ({ days, hours, minutes, seconds, completed }) => {
@@ -68,7 +96,7 @@ const ContestDetails = () => {
 
     return (
         <div className="relative bg-slate-50 pt-6 pb-20 min-h-screen overflow-hidden text-slate-800">
-            {/* Ambient Background Glows for Light Theme */}
+            {/* Ambient Background Glows */}
             <div className="top-10 left-1/2 -z-10 absolute bg-purple-300/30 blur-[140px] rounded-full w-[600px] h-[300px] -translate-x-1/2 pointer-events-none" />
             <div className="right-10 bottom-20 -z-10 absolute bg-indigo-200/40 blur-[150px] rounded-full w-[400px] h-[400px] pointer-events-none" />
 
@@ -88,8 +116,8 @@ const ContestDetails = () => {
                     {/* Hero Banner Section */}
                     <div className="relative w-full h-[280px] sm:h-[420px] overflow-hidden">
                         <img 
-                            src={contest.contestImage || "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&q=80"} 
-                            alt={contest.contestTitle} 
+                            src={contest?.contestImage || "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&q=80"} 
+                            alt={contest?.contestTitle || "Contest"} 
                             className="w-full h-full object-center object-cover"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-white via-white/40 to-transparent" />
@@ -97,7 +125,7 @@ const ContestDetails = () => {
                         {/* Top Badges */}
                         <div className="top-6 right-6 left-6 z-10 absolute flex justify-between items-center">
                             <span className="inline-flex items-center gap-2 bg-white/90 shadow-md backdrop-blur-md px-4 py-1.5 border border-purple-100 rounded-full font-bold text-purple-700 text-xs uppercase tracking-widest">
-                                <FaTag className="text-purple-600" /> {contest.contestType}
+                                <FaTag className="text-purple-600" /> {contest?.contestType || "General"}
                             </span>
                             
                             <span className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider backdrop-blur-md shadow-md ${
@@ -120,12 +148,12 @@ const ContestDetails = () => {
                                 
                                 <div className="space-y-3">
                                     <h1 className="font-black text-slate-900 text-2xl sm:text-4xl leading-tight tracking-tight">
-                                        {contest.contestTitle}
+                                        {contest?.contestTitle}
                                     </h1>
                                     
                                     <div className="flex flex-wrap items-center gap-4 font-semibold text-slate-500 text-xs">
                                         <span className="flex items-center gap-1.5">
-                                            <FaCalendarAlt className="text-purple-600" /> Posted: {new Date(contest.createAt).toLocaleDateString()}
+                                            <FaCalendarAlt className="text-purple-600" /> Posted: {formattedCreatedDate}
                                         </span>
                                     </div>
                                 </div>
@@ -139,7 +167,7 @@ const ContestDetails = () => {
                                         <span className="block font-bold text-[10px] text-purple-600 uppercase tracking-widest">Prize Pool</span>
                                         <div className="flex items-center font-black text-slate-900 text-2xl">
                                             <FaDollarSign className="text-purple-600 text-xl" />
-                                            <span>{contest.contestPrice}</span>
+                                            <span>{contest?.contestPrice || 0}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -152,11 +180,11 @@ const ContestDetails = () => {
                                     <p className="flex items-center gap-2 mb-3 font-bold text-slate-500 text-xs uppercase tracking-wider">
                                         <FaClock className="text-purple-600" /> Time Remaining
                                     </p>
-                                    <Countdown date={new Date(contest.contestDeadline)} renderer={renderer} />
+                                    <Countdown date={deadlineDate} renderer={renderer} />
                                 </div>
 
                                 <button 
-                                    onClick={() => navigate(`/dashboard/payment/${contest._id}`)}
+                                    onClick={() => navigate(`/dashboard/payment/${contest?._id}`)}
                                     disabled={isDeadlinePassed}
                                     className={`w-full md:w-auto px-8 py-4 rounded-xl font-bold text-sm tracking-wide uppercase transition-all duration-300 transform active:scale-95 shadow-lg ${
                                         isDeadlinePassed 
@@ -184,12 +212,12 @@ const ContestDetails = () => {
                                         About Competition
                                     </h3>
                                     <p className="text-slate-600 text-sm sm:text-base leading-relaxed whitespace-pre-line">
-                                        {contest.contestDescription}
+                                        {contest?.contestDescription || "No description provided."}
                                     </p>
                                 </div>
 
                                 {/* Submission Rules */}
-                                {contest.contestTaskInstructions && (
+                                {contest?.contestTaskInstructions && (
                                     <div className="relative bg-purple-50/60 p-6 sm:p-8 border border-purple-100 rounded-2xl overflow-hidden">
                                         <div className="z-10 relative">
                                             <h3 className="flex items-center gap-2 mb-3 font-bold text-purple-900 text-lg">
@@ -213,7 +241,7 @@ const ContestDetails = () => {
                                     <div className="space-y-4 text-sm">
                                         <div className="flex justify-between items-center text-slate-500">
                                             <span>Category</span>
-                                            <span className="font-semibold text-slate-900">{contest.contestType}</span>
+                                            <span className="font-semibold text-slate-900">{contest?.contestType || "General"}</span>
                                         </div>
                                         <div className="flex justify-between items-center text-slate-500">
                                             <span>Entry Fee</span>
@@ -221,7 +249,7 @@ const ContestDetails = () => {
                                         </div>
                                         <div className="flex justify-between items-center text-slate-500">
                                             <span>Prize Pool</span>
-                                            <span className="font-bold text-purple-600">${contest.contestPrice}</span>
+                                            <span className="font-bold text-purple-600">${contest?.contestPrice || 0}</span>
                                         </div>
                                         <div className="flex justify-between items-center text-slate-500">
                                             <span>Deadline Status</span>
