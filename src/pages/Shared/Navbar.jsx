@@ -90,9 +90,7 @@ const Navbar = () => {
                             {links}
                         </ul>
                     </div>
-                    <Link to="/" className="flex items-center">
-                        <Logo />
-                    </Link>
+                    <Logo />
                 </div>
 
                 {/* Navbar Center */}
