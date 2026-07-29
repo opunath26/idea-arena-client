@@ -1,72 +1,53 @@
-import { useEffect, useState, useMemo, useCallback } from "react";
+import { useState, useMemo } from "react";
+import { useQuery } from "@tanstack/react-query";
 import ContestCard from "../ContestCard/ContestCard";
 import useAxios from "../../hooks/useAxios";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaSearch, FaFilter, FaRedo, FaTrophy, FaThLarge } from "react-icons/fa";
 
 const AllContests = () => {
-    const [contests, setContests] = useState([]);
-    const [allContestsData, setAllContestsData] = useState([]);
     const [searchText, setSearchText] = useState('');
+    const [submittedSearch, setSubmittedSearch] = useState('');
     const [activeTab, setActiveTab] = useState('All');
-    const [isLoading, setIsLoading] = useState(true);
     
     const axiosPublic = useAxios();
 
-    useEffect(() => {
-        axiosPublic.get('/contests')
-            .then(res => {
-                const data = Array.isArray(res.data) ? res.data : [];
-                setAllContestsData(data);
-            })
-            .catch(err => {
-                console.error("Error fetching initial contests:", err);
-                setAllContestsData([]);
-            });
-    }, [axiosPublic]);
+    const { data: contests = [], isLoading, isError } = useQuery({
+        queryKey: ['contests', activeTab, submittedSearch],
+        queryFn: async () => {
+            const contestType = activeTab === 'All' ? '' : activeTab;
+            const res = await axiosPublic.get(`/contests?search=${submittedSearch}&contestType=${contestType}`);
+            const data = res.data?.data || res.data?.contests || res.data;
+            return Array.isArray(data) ? data : [];
+        }
+    });
+
+    const { data: allCategoriesSource = [] } = useQuery({
+        queryKey: ['all-contests-categories'],
+        queryFn: async () => {
+            const res = await axiosPublic.get(`/contests?search=&contestType=`);
+            const data = res.data?.data || res.data?.contests || res.data;
+            return Array.isArray(data) ? data : [];
+        }
+    });
 
     const categories = useMemo(() => {
-        const safeAllData = Array.isArray(allContestsData) ? allContestsData : [];
-        const extractedCategories = safeAllData
+        const extractedCategories = allCategoriesSource
             .map(item => item?.contestType)
             .filter(Boolean);
         return ['All', ...new Set(extractedCategories)];
-    }, [allContestsData]);
-
-    const fetchContests = useCallback((search = '', category = 'All') => {
-        setIsLoading(true);
-        const contestType = category === 'All' ? '' : category;
-        
-        axiosPublic.get(`/contests?search=${search}&contestType=${contestType}`)
-            .then(res => {
-                const data = Array.isArray(res.data) ? res.data : [];
-                setContests(data);
-                setIsLoading(false);
-            })
-            .catch(err => {
-                console.error("Error fetching contests:", err);
-                setContests([]);
-                setIsLoading(false);
-            });
-    }, [axiosPublic]);
-
-    useEffect(() => {
-        fetchContests(searchText, activeTab);
-    }, [activeTab, fetchContests]);
+    }, [allCategoriesSource]);
 
     const handleSearch = (e) => {
         e.preventDefault();
-        fetchContests(searchText, activeTab);
+        setSubmittedSearch(searchText);
     };
 
     const handleReset = () => {
         setSearchText('');
+        setSubmittedSearch('');
         setActiveTab('All');
-        fetchContests('', 'All');
     };
-
-    // Safe Array Variables
-    const safeContests = Array.isArray(contests) ? contests : [];
 
     const SkeletonCard = () => (
         <div className="flex flex-col justify-between bg-white dark:bg-slate-900 shadow-sm p-4 border border-slate-200/80 dark:border-slate-800 rounded-2xl h-[420px] animate-pulse">
@@ -144,7 +125,7 @@ const AllContests = () => {
                         <h2 className="flex items-center gap-2 font-bold text-slate-500 dark:text-slate-400 text-sm uppercase tracking-wider">
                             <FaThLarge className="text-purple-600" /> Browse Categories
                         </h2>
-                        {activeTab !== 'All' || searchText ? (
+                        {activeTab !== 'All' || submittedSearch ? (
                             <button 
                                 onClick={handleReset}
                                 className="flex items-center gap-1 font-semibold text-purple-600 dark:text-purple-400 text-xs hover:underline cursor-pointer"
@@ -179,8 +160,12 @@ const AllContests = () => {
                     <AnimatePresence mode="wait">
                         {isLoading ? (
                             [...Array(8)].map((_, i) => <SkeletonCard key={i} />)
-                        ) : safeContests.length > 0 ? (
-                            safeContests.map((contest, idx) => (
+                        ) : isError ? (
+                            <div className="col-span-full py-16 text-center">
+                                <p className="font-semibold text-red-500">Failed to load contests. Please try again later.</p>
+                            </div>
+                        ) : contests.length > 0 ? (
+                            contests.map((contest, idx) => (
                                 <motion.div
                                     key={contest._id || idx}
                                     initial={{ opacity: 0, y: 20 }}
@@ -191,7 +176,7 @@ const AllContests = () => {
                                 </motion.div>
                             ))
                         ) : (
-                            /* Professional Empty State */
+                            /* Empty State */
                             <div className="col-span-full py-16 text-center">
                                 <div className="bg-white dark:bg-slate-900 shadow-sm mx-auto p-8 sm:p-12 border border-slate-200/80 dark:border-slate-800 rounded-3xl max-w-md">
                                     <div className="flex justify-center items-center bg-purple-50 dark:bg-purple-900/30 mx-auto mb-4 rounded-2xl w-16 h-16 text-purple-600 dark:text-purple-400">
@@ -199,7 +184,7 @@ const AllContests = () => {
                                     </div>
                                     <h3 className="font-bold text-slate-800 dark:text-slate-100 text-xl">No Contests Found</h3>
                                     <p className="mt-2 text-slate-500 dark:text-slate-400 text-sm">
-                                        We couldn't find any contest matching <span className="font-semibold text-purple-600">"{searchText || activeTab}"</span>.
+                                        We couldn't find any contest matching <span className="font-semibold text-purple-600">"{submittedSearch || activeTab}"</span>.
                                     </p>
                                     <button 
                                         onClick={handleReset}
