@@ -1,22 +1,33 @@
 import { useState, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import ContestCard from "../ContestCard/ContestCard";
-import useAxios from "../../hooks/useAxios";
+import axios from "axios";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaSearch, FaFilter, FaRedo, FaTrophy, FaThLarge } from "react-icons/fa";
+
+const getApiUrl = () => {
+    if (import.meta.env.VITE_API_URL) {
+        let url = import.meta.env.VITE_API_URL;
+        if (!url.startsWith('http://') && !url.startsWith('https://')) {
+            url = `https://${url}`;
+        }
+        return url;
+    }
+    return 'https://idea-arena-server-2nzwvmbbl-artistop26-2257s-projects.vercel.app';
+};
+
+const API_URL = getApiUrl();
 
 const AllContests = () => {
     const [searchText, setSearchText] = useState('');
     const [submittedSearch, setSubmittedSearch] = useState('');
     const [activeTab, setActiveTab] = useState('All');
-    
-    const axiosPublic = useAxios();
 
     const { data: contests = [], isLoading, isError } = useQuery({
         queryKey: ['contests', activeTab, submittedSearch],
         queryFn: async () => {
             const contestType = activeTab === 'All' ? '' : activeTab;
-            const res = await axiosPublic.get(`/contests?search=${submittedSearch}&contestType=${contestType}`);
+            const res = await axios.get(`${API_URL}/contests?search=${submittedSearch}&contestType=${contestType}`);
             const data = res.data?.data || res.data?.contests || res.data;
             return Array.isArray(data) ? data : [];
         }
@@ -25,10 +36,11 @@ const AllContests = () => {
     const { data: allCategoriesSource = [] } = useQuery({
         queryKey: ['all-contests-categories'],
         queryFn: async () => {
-            const res = await axiosPublic.get(`/contests?search=&contestType=`);
+            const res = await axios.get(`${API_URL}/contests`);
             const data = res.data?.data || res.data?.contests || res.data;
             return Array.isArray(data) ? data : [];
-        }
+        },
+        staleTime: 1000 * 60 * 10,
     });
 
     const categories = useMemo(() => {
@@ -41,6 +53,14 @@ const AllContests = () => {
     const handleSearch = (e) => {
         e.preventDefault();
         setSubmittedSearch(searchText);
+    };
+
+    const handleSearchChange = (e) => {
+        const val = e.target.value;
+        setSearchText(val);
+        if (val === '') {
+            setSubmittedSearch('');
+        }
     };
 
     const handleReset = () => {
@@ -103,7 +123,7 @@ const AllContests = () => {
                                 placeholder="Search by contest title or tags..." 
                                 className="bg-slate-800/80 shadow-2xl backdrop-blur-md py-4 pr-32 pl-11 border border-slate-700/80 focus:border-purple-500 rounded-2xl outline-none focus:ring-4 focus:ring-purple-500/20 w-full text-white text-sm sm:text-base transition-all placeholder-slate-400"
                                 value={searchText}
-                                onChange={(e) => setSearchText(e.target.value)}
+                                onChange={handleSearchChange}
                             />
                             <button 
                                 type="submit" 
