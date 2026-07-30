@@ -3,8 +3,25 @@ import { useEffect } from 'react';
 import useAuth from './useAuth';
 import { useNavigate } from 'react-router';
 
+const getBaseURL = () => {
+    if (import.meta.env.VITE_API_URL) {
+        let url = import.meta.env.VITE_API_URL;
+        if (!url.startsWith('http://') && !url.startsWith('https://')) {
+            url = `https://${url}`;
+        }
+        return url;
+    }
+    
+    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+        return 'http://localhost:3000';
+    }
+
+    return 'https://idea-arena-server-2nzwvmbbl-artistop26-2257s-projects.vercel.app';
+};
+
 const axiosSecure = axios.create({
-    baseURL: import.meta.env.VITE_API_URL || 'https://idea-arena-server-7gxifh8b6-artistop26-2257s-projects.vercel.app'
+    baseURL: getBaseURL(),
+    withCredentials: true
 });
 
 const useAxiosSecure = () => {
@@ -35,7 +52,6 @@ const useAxiosSecure = () => {
             return Promise.reject(error);
         });
 
-        // Cleanup interceptors
         return () => {
             axiosSecure.interceptors.request.eject(reqInterceptor);
             axiosSecure.interceptors.response.eject(resInterceptor);
