@@ -1,8 +1,8 @@
 import React from 'react';
-import { useParams, useNavigate } from 'react-router';
+import { useParams, useNavigate, Link } from 'react-router';
 import { useQuery } from '@tanstack/react-query';
 import Countdown from 'react-countdown';
-import useAxiosSecure from '../../hooks/useAxiosSecure';
+import axios from 'axios';
 import { 
   FaClock, 
   FaTag, 
@@ -15,15 +15,27 @@ import {
   FaFileAlt
 } from 'react-icons/fa';
 
+const getApiUrl = () => {
+    if (import.meta.env.VITE_API_URL) {
+        let url = import.meta.env.VITE_API_URL;
+        if (!url.startsWith('http://') && !url.startsWith('https://')) {
+            url = `https://${url}`;
+        }
+        return url;
+    }
+    return 'https://idea-arena-server-2nzwvmbbl-artistop26-2257s-projects.vercel.app';
+};
+
+const API_URL = getApiUrl();
+
 const ContestDetails = () => {
     const { id } = useParams();
-    const axiosSecure = useAxiosSecure();
     const navigate = useNavigate();
 
     const { data: contest, isLoading, isError } = useQuery({
         queryKey: ['contest', id],
         queryFn: async () => {
-            const res = await axiosSecure.get(`/contests/${id}`);
+            const res = await axios.get(`${API_URL}/contests/${id}`);
             return res.data?.data || res.data?.contest || res.data;
         },
         enabled: !!id,
@@ -50,7 +62,7 @@ const ContestDetails = () => {
                 <p className="mt-1 text-slate-500 text-sm">Could not load details for this contest.</p>
                 <button 
                     onClick={() => navigate(-1)} 
-                    className="bg-purple-600 hover:bg-purple-700 mt-6 px-5 py-2.5 rounded-xl font-semibold text-white text-sm transition-all"
+                    className="bg-purple-600 hover:bg-purple-700 mt-6 px-5 py-2.5 rounded-xl font-semibold text-white text-sm transition-all cursor-pointer"
                 >
                     Go Back
                 </button>
@@ -62,7 +74,7 @@ const ContestDetails = () => {
     const deadlineDate = contest?.contestDeadline ? new Date(contest.contestDeadline) : new Date();
     const isDeadlinePassed = new Date() > deadlineDate;
 
-    // Safe Created Date Check (handles createdAt or createAt)
+    // Safe Created Date Check
     const rawCreatedDate = contest?.createdAt || contest?.createAt;
     const formattedCreatedDate = rawCreatedDate ? new Date(rawCreatedDate).toLocaleDateString() : 'N/A';
 
@@ -105,7 +117,7 @@ const ContestDetails = () => {
                 {/* Back Button */}
                 <button 
                     onClick={() => navigate(-1)} 
-                    className="group inline-flex items-center gap-2 bg-white shadow-sm backdrop-blur-md mb-8 px-4 py-2 border border-slate-200/80 hover:border-purple-300 rounded-xl font-semibold text-slate-600 hover:text-purple-700 text-sm transition-all duration-300"
+                    className="group inline-flex items-center gap-2 bg-white shadow-sm backdrop-blur-md mb-8 px-4 py-2 border border-slate-200/80 hover:border-purple-300 rounded-xl font-semibold text-slate-600 hover:text-purple-700 text-sm transition-all duration-300 cursor-pointer"
                 >
                     <FaChevronLeft className="transition-transform group-hover:-translate-x-1" /> Back to Explore
                 </button>
@@ -186,7 +198,7 @@ const ContestDetails = () => {
                                 <button 
                                     onClick={() => navigate(`/dashboard/payment/${contest?._id}`)}
                                     disabled={isDeadlinePassed}
-                                    className={`w-full md:w-auto px-8 py-4 rounded-xl font-bold text-sm tracking-wide uppercase transition-all duration-300 transform active:scale-95 shadow-lg ${
+                                    className={`w-full md:w-auto px-8 py-4 rounded-xl font-bold text-sm tracking-wide uppercase transition-all duration-300 transform active:scale-95 shadow-lg cursor-pointer ${
                                         isDeadlinePassed 
                                             ? 'bg-slate-200 text-slate-400 border border-slate-300 cursor-not-allowed shadow-none' 
                                             : 'bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white shadow-purple-500/25 hover:shadow-purple-500/40'
