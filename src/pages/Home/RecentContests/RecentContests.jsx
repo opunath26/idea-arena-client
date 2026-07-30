@@ -1,10 +1,23 @@
 import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import useAxios from '../../../hooks/useAxios';
+import axios from 'axios';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router';
 import ContestCard from '../../ContestCard/ContestCard';
-import { FaFire, FaTrophy, FaArrowRight, FaClock } from 'react-icons/fa';
+import { FaFire, FaTrophy, FaArrowRight, FaClock, FaDollarSign } from 'react-icons/fa';
+
+const getApiUrl = () => {
+    if (import.meta.env.VITE_API_URL) {
+        let url = import.meta.env.VITE_API_URL;
+        if (!url.startsWith('http://') && !url.startsWith('https://')) {
+            url = `https://${url}`;
+        }
+        return url;
+    }
+    return 'https://idea-arena-server-2nzwvmbbl-artistop26-2257s-projects.vercel.app';
+};
+
+const API_URL = getApiUrl();
 
 const ContestCardSkeleton = () => {
     return (
@@ -42,13 +55,12 @@ const ContestCardSkeleton = () => {
 };
 
 const RecentContests = () => {
-    const axiosPublic = useAxios();
     const [selectedFilter, setSelectedFilter] = useState('all');
 
     const { data: contests = [], isLoading, isError } = useQuery({
         queryKey: ['recentContests'],
         queryFn: async () => {
-            const res = await axiosPublic.get('/contests?limit=8');
+            const res = await axios.get(`${API_URL}/contests?limit=8`);
             const data = res.data?.data || res.data?.contests || res.data;
             return Array.isArray(data) ? data : [];
         }
@@ -108,11 +120,11 @@ const RecentContests = () => {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ delay: 0.25 }}
-                        className="flex items-center self-start md:self-auto gap-2 bg-white shadow-sm p-1.5 border border-slate-200/80 rounded-2xl"
+                        className="flex items-center self-start md:self-auto gap-1.5 sm:gap-2 bg-white shadow-sm p-1.5 border border-slate-200/80 rounded-2xl"
                     >
                         <button
                             onClick={() => setSelectedFilter('all')}
-                            className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer ${
+                            className={`px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer ${
                                 selectedFilter === 'all' 
                                 ? 'bg-purple-600 text-white shadow-md shadow-purple-500/20' 
                                 : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
@@ -120,15 +132,27 @@ const RecentContests = () => {
                         >
                             All Recent
                         </button>
+
                         <button
                             onClick={() => setSelectedFilter('trending')}
-                            className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer flex items-center gap-1.5 ${
+                            className={`px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer flex items-center gap-1.5 ${
                                 selectedFilter === 'trending' 
                                 ? 'bg-purple-600 text-white shadow-md shadow-purple-500/20' 
                                 : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
                             }`}
                         >
                             <FaFire className={selectedFilter === 'trending' ? 'text-amber-300' : 'text-amber-500'} /> Trending
+                        </button>
+
+                        <button
+                            onClick={() => setSelectedFilter('highPrize')}
+                            className={`px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer flex items-center gap-1.5 ${
+                                selectedFilter === 'highPrize' 
+                                ? 'bg-purple-600 text-white shadow-md shadow-purple-500/20' 
+                                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+                            }`}
+                        >
+                            <FaDollarSign className={selectedFilter === 'highPrize' ? 'text-emerald-300' : 'text-emerald-500'} /> High Prize
                         </button>
                     </motion.div>
                 </div>
@@ -149,15 +173,15 @@ const RecentContests = () => {
                         layout 
                         className="gap-6 lg:gap-8 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4"
                     >
-                        <AnimatePresence>
+                        <AnimatePresence mode="popLayout">
                             {filteredContests.slice(0, 8).map((contest, idx) => (
                                 <motion.div
                                     key={contest._id || idx}
                                     layout
                                     initial={{ opacity: 0, y: 25 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    viewport={{ once: true }}
-                                    transition={{ duration: 0.4, delay: idx * 0.08 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    exit={{ opacity: 0, scale: 0.95 }}
+                                    transition={{ duration: 0.3, delay: idx * 0.05 }}
                                     whileHover={{ y: -6 }}
                                     className="h-full"
                                 >
