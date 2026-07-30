@@ -21,7 +21,6 @@ const getBaseURL = () => {
 
 const axiosSecure = axios.create({
     baseURL: getBaseURL(),
-    withCredentials: true
 });
 
 const useAxiosSecure = () => {
@@ -29,28 +28,36 @@ const useAxiosSecure = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
+        // Request Interceptor
         const reqInterceptor = axiosSecure.interceptors.request.use(async (config) => {
-            if (user) {
-                const token = await user.getIdToken();
+            const token = localStorage.getItem('access-token');
+            if (token) {
                 config.headers.Authorization = `Bearer ${token}`;
+            } else if (user) {
+                const firebaseToken = await user.getIdToken();
+                config.headers.Authorization = `Bearer ${firebaseToken}`;
             }
             return config;
         }, (error) => {
             return Promise.reject(error);
         });
 
-        const resInterceptor = axiosSecure.interceptors.response.use((response) => {
-            return response;
-        }, async (error) => {
-            const statusCode = error.response?.status;
+        // Response Interceptor
+        const resInterceptor = axiosSecure.interceptors.response.use(
+            (response) => response,
+            async (error) => {
+                const statusCode = error.response?.status;
 
-            if (statusCode === 401 || statusCode === 403) {
-                await logOut();
-                navigate('/login');
+                if (statusCode === 401 || statusCode === 403) {
+                    if (user) {
+                        await logOut();
+                        navigate('/login');
+                    }
+                }
+
+                return Promise.reject(error);
             }
-
-            return Promise.reject(error);
-        });
+        );
 
         return () => {
             axiosSecure.interceptors.request.eject(reqInterceptor);

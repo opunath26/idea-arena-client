@@ -1,17 +1,28 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import ContestCard from '../ContestCard/ContestCard';
-import useAxiosSecure from '../../hooks/useAxiosSecure';
+import axios from 'axios';
 import { motion } from 'framer-motion'; 
 import { FaTrophy, FaExclamationTriangle } from 'react-icons/fa';
 
-const Contests = () => {
-    const axiosSecure = useAxiosSecure();
+const getApiUrl = () => {
+    if (import.meta.env.VITE_API_URL) {
+        let url = import.meta.env.VITE_API_URL;
+        if (!url.startsWith('http://') && !url.startsWith('https://')) {
+            url = `https://${url}`;
+        }
+        return url;
+    }
+    return 'https://idea-arena-server-2nzwvmbbl-artistop26-2257s-projects.vercel.app';
+};
 
+const API_URL = getApiUrl();
+
+const Contests = () => {
     const { data: contests = [], isLoading, isError } = useQuery({
         queryKey: ['contests'],
         queryFn: async () => {
-            const res = await axiosSecure.get('/contests');
+            const res = await axios.get(`${API_URL}/contests`);
             // Ensure response is always an Array
             return Array.isArray(res.data) ? res.data : (res.data?.contests || res.data?.data || []);
         }
