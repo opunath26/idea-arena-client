@@ -93,20 +93,20 @@ const Reviews = () => {
     ];
 
     return (
-        <section className="relative bg-gradient-to-b from-slate-50 via-purple-50/20 to-white py-20 lg:py-28 overflow-hidden text-slate-800">
+        <section className="relative bg-gradient-to-b from-slate-50 via-purple-50/20 to-white py-12 sm:py-16 lg:py-24 overflow-hidden text-slate-800">
             {/* Background Ambient Glows */}
-            <div className="top-10 left-10 absolute bg-purple-200/30 blur-[130px] rounded-full w-96 h-96 pointer-events-none"></div>
-            <div className="right-10 bottom-10 absolute bg-indigo-100/40 blur-[100px] rounded-full w-80 h-80 pointer-events-none"></div>
+            <div className="top-10 left-10 -z-10 absolute bg-purple-200/30 blur-[100px] sm:blur-[130px] rounded-full w-72 sm:w-96 h-72 sm:h-96 pointer-events-none" />
+            <div className="right-10 bottom-10 -z-10 absolute bg-indigo-100/40 blur-[80px] sm:blur-[100px] rounded-full w-60 sm:w-80 h-60 sm:h-80 pointer-events-none" />
 
             <div className="z-10 relative mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
                 
                 {/* Section Header */}
-                <div className="mx-auto mb-16 max-w-3xl text-center">
+                <div className="mx-auto mb-10 sm:mb-16 max-w-3xl text-center">
                     <motion.div 
                         initial={{ opacity: 0, y: 15 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        className="inline-flex items-center gap-2 bg-purple-100 mb-4 px-3.5 py-1.5 border border-purple-200 rounded-full font-semibold text-purple-700 text-xs uppercase tracking-wider"
+                        className="inline-flex items-center gap-2 bg-purple-100 mb-3 sm:mb-4 px-3.5 py-1.5 border border-purple-200/80 rounded-full font-semibold text-purple-700 text-xs uppercase tracking-wider"
                     >
                         Community Feedback
                     </motion.div>
@@ -116,7 +116,7 @@ const Reviews = () => {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ delay: 0.1 }}
-                        className="font-black text-slate-900 text-3xl sm:text-4xl lg:text-5xl leading-tight tracking-tight"
+                        className="font-black text-slate-900 text-2xl sm:text-4xl lg:text-5xl leading-tight tracking-tight"
                     >
                         Loved By Innovators Across <span className="bg-clip-text bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-700 text-transparent">Bangladesh</span>
                     </motion.h2>
@@ -126,7 +126,7 @@ const Reviews = () => {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ delay: 0.2 }}
-                        className="mt-4 text-slate-600 text-base sm:text-lg"
+                        className="mt-2.5 sm:mt-4 text-slate-600 text-sm sm:text-base lg:text-lg"
                     >
                         See how students, creators, and professionals are learning, competing, and winning on IdeaArena.
                     </motion.p>
@@ -136,63 +136,63 @@ const Reviews = () => {
                 <div className="relative">
                     <Swiper
                         modules={[Autoplay, Pagination]}
-                        spaceBetween={24}
+                        spaceBetween={20}
                         slidesPerView={1}
                         loop={true}
                         breakpoints={{
-                            640: { slidesPerView: 1 },
-                            768: { slidesPerView: 2 },
-                            1024: { slidesPerView: 3 },
+                            640: { slidesPerView: 1, spaceBetween: 20 },
+                            768: { slidesPerView: 2, spaceBetween: 24 },
+                            1024: { slidesPerView: 3, spaceBetween: 24 },
                         }}
                         autoplay={{ delay: 3500, disableOnInteraction: false }}
                         pagination={{ clickable: true, dynamicBullets: true }}
-                        className="px-2 pt-4 pb-16"
+                        className="[&_.swiper-pagination-bullet-active]:bg-purple-600 px-1 pt-2 pb-14"
                     >
                         {testimonials.map((item) => (
                             <SwiperSlide key={item.id} className="h-auto">
                                 <motion.div 
                                     whileHover={{ y: -6 }}
                                     transition={{ duration: 0.2 }}
-                                    className="relative flex flex-col justify-between bg-white shadow-md hover:shadow-xl p-7 sm:p-8 border border-slate-200/80 hover:border-purple-200 rounded-3xl h-full transition-all duration-300"
+                                    className="relative flex flex-col justify-between bg-white/90 shadow-sm hover:shadow-xl backdrop-blur-md p-6 sm:p-8 border border-slate-200/80 hover:border-purple-300 rounded-2xl sm:rounded-3xl h-full transition-all duration-300"
                                 >
-                                    <FaQuoteLeft className="top-6 right-6 absolute text-purple-100 text-4xl pointer-events-none" />
+                                    <FaQuoteLeft className="top-6 right-6 absolute text-purple-100 text-3xl sm:text-4xl pointer-events-none" />
                                     
                                     <div>
                                         {/* Rating & Badge */}
                                         <div className="flex justify-between items-center gap-2 mb-4">
-                                            <div className="flex gap-1 text-amber-400 text-sm">
+                                            <div className="flex gap-1 text-amber-400 text-xs sm:text-sm">
                                                 {[...Array(5)].map((_, i) => (
                                                     <FaStar key={i} className={i < item.rating ? 'text-amber-400' : 'text-slate-200'} />
                                                 ))}
                                             </div>
-                                            <span className="inline-flex items-center gap-1 bg-purple-50 px-2.5 py-0.5 border border-purple-100 rounded-md font-bold text-[11px] text-purple-700">
-                                                <FaCheckCircle className="text-[10px]" /> {item.badge}
+                                            <span className="inline-flex items-center gap-1 bg-purple-50 px-2.5 py-0.5 border border-purple-100 rounded-md font-bold text-[10px] text-purple-700 sm:text-[11px]">
+                                                <FaCheckCircle className="text-[9px] sm:text-[10px]" /> {item.badge}
                                             </span>
                                         </div>
 
                                         {/* Review Text */}
-                                        <p className="mb-8 text-slate-600 text-sm sm:text-base italic leading-relaxed">
+                                        <p className="mb-6 sm:mb-8 text-slate-600 text-xs sm:text-sm lg:text-base italic leading-relaxed">
                                             "{item.review}"
                                         </p>
                                     </div>
 
                                     {/* User Profile Footer */}
-                                    <div className="flex items-center gap-4 pt-4 border-slate-100 border-t">
-                                        <div className="relative">
+                                    <div className="flex items-center gap-3.5 pt-4 border-slate-100 border-t">
+                                        <div className="relative shrink-0">
                                             <img 
                                                 src={item.image} 
                                                 alt={item.name} 
-                                                className="rounded-full ring-2 ring-purple-500 ring-offset-2 w-12 h-12 object-cover"
+                                                className="rounded-full ring-2 ring-purple-500 ring-offset-2 w-10 sm:w-12 h-10 sm:h-12 object-cover"
                                             />
                                         </div>
-                                        <div>
-                                            <h4 className="flex items-center gap-1.5 font-bold text-slate-900 text-base">
+                                        <div className="min-w-0">
+                                            <h4 className="font-bold text-slate-900 text-sm sm:text-base truncate">
                                                 {item.name}
                                             </h4>
-                                            <div className="flex items-center gap-2 mt-0.5 text-slate-500 text-xs">
-                                                <span className="font-semibold text-purple-600">{item.role}</span>
-                                                <span>•</span>
-                                                <span className="flex items-center gap-0.5 text-slate-400">
+                                            <div className="flex flex-wrap items-center gap-1.5 mt-0.5 text-slate-500 text-xs">
+                                                <span className="font-semibold text-purple-600 truncate">{item.role}</span>
+                                                <span className="hidden sm:inline">•</span>
+                                                <span className="inline-flex items-center gap-0.5 text-slate-400">
                                                     <FaMapMarkerAlt className="text-[10px]" /> {item.location.split(',')[0]}
                                                 </span>
                                             </div>
