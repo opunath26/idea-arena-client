@@ -6,7 +6,6 @@ import useAxiosSecure from '../../hooks/useAxiosSecure';
 import { useQuery } from '@tanstack/react-query';
 import {
     FaUserCircle,
-    FaTrophy,
     FaPlusCircle,
     FaThLarge,
     FaSignOutAlt,
@@ -30,7 +29,16 @@ const Navbar = () => {
 
     const role = roleData?.role || 'user';
 
+    // Close dropdown on click (DaisyUI UX fix)
+    const closeDropdown = () => {
+        const elem = document.activeElement;
+        if (elem && typeof elem.blur === 'function') {
+            elem.blur();
+        }
+    };
+
     const handleLogOut = () => {
+        closeDropdown();
         logOut()
             .then(() => { })
             .catch(error => console.error("Logout Error:", error));
@@ -38,22 +46,22 @@ const Navbar = () => {
 
     // NavLinks configuration
     const navItemClass = ({ isActive }) =>
-        `px-3 py-2 rounded-xl text-sm font-semibold transition-all duration-200 ${isActive
+        `px-3.5 py-2 rounded-xl text-sm font-semibold transition-all duration-200 block ${isActive
             ? 'bg-purple-600 text-white shadow-md shadow-purple-500/20'
             : 'text-slate-600 hover:text-purple-600 hover:bg-purple-50'
         }`;
 
     const links = (
         <>
-            <li><NavLink to="/" className={navItemClass}>Home</NavLink></li>
-            <li><NavLink to="/all-contests" className={navItemClass}>All Contests</NavLink></li>
-            <li><NavLink to="/about" className={navItemClass}>About Us</NavLink></li>
-            <li><NavLink to="/contact" className={navItemClass}>Contact</NavLink></li>
+            <li><NavLink to="/" onClick={closeDropdown} className={navItemClass}>Home</NavLink></li>
+            <li><NavLink to="/all-contests" onClick={closeDropdown} className={navItemClass}>All Contests</NavLink></li>
+            <li><NavLink to="/about" onClick={closeDropdown} className={navItemClass}>About Us</NavLink></li>
+            <li><NavLink to="/contact" onClick={closeDropdown} className={navItemClass}>Contact</NavLink></li>
 
             {/* Conditional Links based on Role */}
             {user && role === 'user' && (
                 <li>
-                    <NavLink to="/candidate" className={navItemClass}>
+                    <NavLink to="/candidate" onClick={closeDropdown} className={navItemClass}>
                         Become Creator
                     </NavLink>
                 </li>
@@ -61,14 +69,14 @@ const Navbar = () => {
 
             {user && role === 'candidate' && (
                 <>
-                    <li><NavLink to="/add-contest" className={navItemClass}>Add Contest</NavLink></li>
-                    <li><NavLink to="/dashboard/my-contests" className={navItemClass}>My Contests</NavLink></li>
+                    <li><NavLink to="/add-contest" onClick={closeDropdown} className={navItemClass}>Add Contest</NavLink></li>
+                    <li><NavLink to="/dashboard/my-contests" onClick={closeDropdown} className={navItemClass}>My Contests</NavLink></li>
                 </>
             )}
 
             {user && role === 'admin' && (
                 <>
-                    <li><NavLink to="/add-contest" className={navItemClass}>Add Contest</NavLink></li>
+                    <li><NavLink to="/add-contest" onClick={closeDropdown} className={navItemClass}>Add Contest</NavLink></li>
                 </>
             )}
         </>
@@ -105,10 +113,15 @@ const Navbar = () => {
                     {user ? (
                         <div className="dropdown dropdown-end">
                             <div tabIndex={0} role="button" className="ring-2 ring-purple-500/30 hover:ring-purple-600 transition-all btn btn-ghost btn-circle avatar">
-                                <div className="rounded-full w-10">
+                                <div className="rounded-full w-10 overflow-hidden">
                                     <img
                                         alt="User Avatar"
+                                        referrerPolicy="no-referrer"
                                         src={user?.photoURL || "https://i.ibb.co/mJR9QPG/placeholder.png"}
+                                        onError={(e) => {
+                                            e.target.onerror = null;
+                                            e.target.src = "https://i.ibb.co/mJR9QPG/placeholder.png";
+                                        }}
                                     />
                                 </div>
                             </div>
@@ -124,30 +137,36 @@ const Navbar = () => {
                                         <span className="text-slate-500 text-xs truncate">
                                             {user?.email}
                                         </span>
-                                        <span className="inline-flex items-center self-start gap-1 bg-purple-50 mt-1.5 px-2 py-0.5 border border-purple-100 rounded-full font-semibold text-[11px] text-purple-700 uppercase">
-                                            {role === 'admin' && <FaUserShield className="text-purple-600" />}
-                                            {role === 'candidate' && <FaBriefcase className="text-purple-600" />}
-                                            {role === 'user' && <FaUserCircle className="text-purple-600" />}
-                                            {role}
-                                        </span>
+                                        <div className="mt-1.5">
+                                            {isRoleLoading ? (
+                                                <span className="inline-block bg-slate-100 rounded-full w-16 h-4 animate-pulse"></span>
+                                            ) : (
+                                                <span className="inline-flex items-center gap-1 bg-purple-50 px-2.5 py-0.5 border border-purple-100 rounded-full font-semibold text-[11px] text-purple-700 uppercase">
+                                                    {role === 'admin' && <FaUserShield className="text-purple-600" />}
+                                                    {role === 'candidate' && <FaBriefcase className="text-purple-600" />}
+                                                    {role === 'user' && <FaUserCircle className="text-purple-600" />}
+                                                    {role}
+                                                </span>
+                                            )}
+                                        </div>
                                     </div>
                                 </li>
 
                                 {/* Navigation Links */}
                                 <div className="space-y-1 py-1">
                                     <li>
-                                        <Link to="/dashboard" className="flex items-center gap-2.5 py-2 rounded-xl text-slate-700 hover:text-purple-600">
+                                        <Link to="/dashboard" onClick={closeDropdown} className="flex items-center gap-2.5 py-2 rounded-xl text-slate-700 hover:text-purple-600">
                                             <FaThLarge className="text-purple-500" /> Dashboard
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link to="/dashboard/profile" className="flex items-center gap-2.5 py-2 rounded-xl text-slate-700 hover:text-purple-600">
+                                        <Link to="/dashboard/profile" onClick={closeDropdown} className="flex items-center gap-2.5 py-2 rounded-xl text-slate-700 hover:text-purple-600">
                                             <FaUserCircle className="text-purple-500" /> My Profile
                                         </Link>
                                     </li>
                                     {(role === 'candidate' || role === 'admin') && (
                                         <li>
-                                            <Link to="/add-contest" className="flex items-center gap-2.5 py-2 rounded-xl text-slate-700 hover:text-purple-600">
+                                            <Link to="/add-contest" onClick={closeDropdown} className="flex items-center gap-2.5 py-2 rounded-xl text-slate-700 hover:text-purple-600">
                                                 <FaPlusCircle className="text-purple-500" /> Create Contest
                                             </Link>
                                         </li>
@@ -160,7 +179,7 @@ const Navbar = () => {
                                 <li>
                                     <button
                                         onClick={handleLogOut}
-                                        className="flex items-center gap-2.5 hover:bg-rose-50 py-2 rounded-xl font-medium text-rose-600 hover:text-rose-700 transition-colors"
+                                        className="flex items-center gap-2.5 hover:bg-rose-50 py-2 rounded-xl w-full font-medium text-rose-600 hover:text-rose-700 text-left transition-colors"
                                     >
                                         <FaSignOutAlt /> Logout
                                     </button>

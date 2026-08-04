@@ -80,7 +80,7 @@ const Logo = ({ isFooter = false }) => {
             >
                 {/* "Idea" Section */}
                 <div className={`flex font-extrabold ${
-                    isFooter ? 'text-white' : 'text-slate-900 dark:text-white'
+                    isFooter ? 'text-white' : 'text-slate-900'
                 }`}>
                     {["I", "d", "e", "a"].map((letter, index) => (
                         <motion.span 
