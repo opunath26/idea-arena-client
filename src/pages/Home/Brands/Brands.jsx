@@ -43,17 +43,17 @@ const Brands = () => {
     };
 
     return (
-        <section className="bg-white dark:bg-gray-900 py-16 overflow-hidden transition-colors duration-300">
-            <div className="mx-auto px-6 max-w-7xl">
+        <section className="bg-white py-10 md:py-16 overflow-hidden">
+            <div className="mx-auto px-4 sm:px-6 max-w-7xl">
                 
                 {/* Header with Framer Motion Animation */}
-                <div className="flex flex-col items-center mb-12">
+                <div className="flex flex-col items-center mb-8 md:mb-12">
                     <motion.span 
                         initial={{ opacity: 0, y: -10 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.4 }}
-                        className="mb-2 font-semibold text-purple-600 dark:text-purple-400 text-xs uppercase tracking-widest"
+                        className="mb-2 font-semibold text-purple-600 text-xs uppercase tracking-widest text-center"
                     >
                         Our Strategic Partners
                     </motion.span>
@@ -63,7 +63,7 @@ const Brands = () => {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.5, delay: 0.1 }}
-                        className="font-extrabold text-slate-800 dark:text-white text-2xl md:text-3xl text-center tracking-tight"
+                        className="font-extrabold text-slate-800 text-xl sm:text-2xl md:text-3xl text-center tracking-tight"
                     >
                         Trusted By Industry Leaders
                     </motion.h2>
@@ -86,17 +86,17 @@ const Brands = () => {
                     className="relative"
                 >
                     {/* Left & Right Gradient Fade Masks */}
-                    <div className="top-0 bottom-0 left-0 z-10 absolute bg-gradient-to-r from-white dark:from-gray-900 to-transparent w-24 pointer-events-none" />
-                    <div className="top-0 right-0 bottom-0 z-10 absolute bg-gradient-to-l from-white dark:from-gray-900 to-transparent w-24 pointer-events-none" />
+                    <div className="top-0 bottom-0 left-0 z-10 absolute bg-gradient-to-r from-white to-transparent w-8 sm:w-16 md:w-24 pointer-events-none" />
+                    <div className="top-0 right-0 bottom-0 z-10 absolute bg-gradient-to-l from-white to-transparent w-8 sm:w-16 md:w-24 pointer-events-none" />
 
                     <Slider {...settings} className="flex items-center brand-slider">
                         {clientLogos.map((logo) => (
-                            <div key={logo.id} className="p-3 focus:outline-none">
-                                <div className="group flex justify-center items-center bg-gray-50/50 hover:bg-white dark:bg-gray-800/40 dark:hover:bg-gray-800 shadow-xs hover:shadow-purple-500/10 hover:shadow-xl p-4 border border-transparent hover:border-purple-200 dark:hover:border-purple-800/50 rounded-2xl h-20 transition-all group-hover:-translate-y-1 duration-300 transform">
+                            <div key={logo.id} className="p-2 sm:p-3 focus:outline-none">
+                                <div className="group flex justify-center items-center bg-gray-50/80 hover:bg-white shadow-xs hover:shadow-purple-500/10 hover:shadow-xl p-3 sm:p-4 border border-slate-100 hover:border-purple-200 rounded-xl sm:rounded-2xl h-16 sm:h-20 transition-all group-hover:-translate-y-1 duration-300 transform">
                                     <img 
                                         src={logo.src} 
                                         alt={logo.alt} 
-                                        className="opacity-50 group-hover:opacity-100 grayscale group-hover:grayscale-0 w-auto max-h-10 object-contain group-hover:scale-105 transition-all duration-300"
+                                        className="opacity-60 group-hover:opacity-100 grayscale group-hover:grayscale-0 w-auto max-h-8 sm:max-h-10 object-contain group-hover:scale-105 transition-all duration-300"
                                     />
                                 </div>
                             </div>
@@ -106,7 +106,7 @@ const Brands = () => {
             </div>
 
             {/* Subtle Gradient Divider */}
-            <div className="bg-gradient-to-r from-transparent via-slate-200 dark:via-gray-800 to-transparent mx-auto mt-12 max-w-4xl h-[1px]"></div>
+            <div className="bg-gradient-to-r from-transparent via-slate-200 to-transparent mx-auto mt-8 md:mt-12 max-w-4xl h-[1px]"></div>
         </section>
     );
 };
