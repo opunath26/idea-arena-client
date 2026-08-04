@@ -15,6 +15,7 @@ import banner1 from "../../../assets/banner.jpg";
 
 const Banner = ({ onSearch }) => {
     const [activeIndex, setActiveIndex] = useState(0);
+    const [searchValue, setSearchValue] = useState('');
 
     const slidesData = [
         {
@@ -39,29 +40,30 @@ const Banner = ({ onSearch }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const searchText = e.target.searchField.value;
         if (onSearch) {
-            onSearch(searchText);
+            onSearch(searchValue);
         }
     };
 
     const handleQuickSearch = (category) => {
+        setSearchValue(category);
         if (onSearch) {
             onSearch(category);
         }
     };
 
     return (
-        <div className="relative w-full h-[80vh] min-h-[550px] max-h-[750px] overflow-hidden">
+        <div className="relative w-full h-[85vh] min-h-[600px] max-h-[800px] overflow-hidden">
             
             {/* Background Swiper Slider */}
             <Swiper
                 modules={[Autoplay, EffectFade, Pagination]}
                 effect={'fade'}
                 autoplay={{ delay: 6000, disableOnInteraction: false }}
+                pagination={{ clickable: true, dynamicBullets: true }}
                 loop={true}
                 onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
-                className="w-full h-full"
+                className="[&_.swiper-pagination-bullet-active]:bg-purple-500 w-full h-full"
             >
                 {slidesData.map((slide, index) => (
                     <SwiperSlide key={index}>
@@ -90,18 +92,18 @@ const Banner = ({ onSearch }) => {
                         className="flex flex-col items-center max-w-4xl"
                     >
                         {/* Badge */}
-                        <div className="inline-flex items-center gap-2 bg-purple-500/20 backdrop-blur-md mb-4 px-4 py-1.5 border border-purple-400/30 rounded-full font-semibold text-purple-300 text-xs sm:text-sm uppercase tracking-wider">
+                        <div className="inline-flex items-center gap-2 bg-purple-500/20 backdrop-blur-md mb-3 sm:mb-4 px-3.5 sm:px-4 py-1.5 border border-purple-400/30 rounded-full font-semibold text-purple-300 text-xs sm:text-sm uppercase tracking-wider">
                             <FaRocket className="text-purple-400" />
                             {slidesData[activeIndex].badge}
                         </div>
 
                         {/* Title */}
-                        <h1 className="mb-4 font-black text-4xl sm:text-6xl lg:text-7xl leading-tight tracking-tight">
+                        <h1 className="mb-3 sm:mb-4 font-black text-3xl sm:text-5xl lg:text-7xl leading-tight sm:leading-none tracking-tight">
                             {slidesData[activeIndex].title}
                         </h1>
 
                         {/* Description */}
-                        <p className="mb-8 max-w-2xl font-normal text-gray-200 text-base sm:text-xl leading-relaxed">
+                        <p className="mb-6 sm:mb-8 max-w-2xl font-normal text-gray-200 text-sm sm:text-lg lg:text-xl leading-relaxed">
                             {slidesData[activeIndex].desc}
                         </p>
                     </motion.div>
@@ -115,18 +117,20 @@ const Banner = ({ onSearch }) => {
                     onSubmit={handleSubmit} 
                     className="flex items-center bg-white/90 dark:bg-gray-900/90 shadow-2xl backdrop-blur-md p-1.5 border border-white/20 dark:border-gray-700/50 rounded-full w-full max-w-2xl"
                 >
-                    <div className="pl-5 text-gray-400 text-xl">
+                    <div className="pl-4 sm:pl-5 text-gray-400 text-lg sm:text-xl">
                         <FiSearch />
                     </div>
                     <input
                         name="searchField"
                         type="text"
+                        value={searchValue}
+                        onChange={(e) => setSearchValue(e.target.value)}
                         placeholder="Search innovative contests, tags, categories..."
-                        className="flex-grow bg-transparent px-4 py-3 rounded-l-full focus:outline-none font-medium text-gray-800 dark:text-gray-100 text-sm sm:text-base placeholder-gray-400"
+                        className="flex-grow bg-transparent px-3 sm:px-4 py-2.5 sm:py-3 rounded-l-full focus:outline-none font-medium text-gray-800 dark:text-gray-100 text-xs sm:text-base placeholder-gray-400"
                     />
                     <button 
                         type="submit" 
-                        className="bg-gradient-to-r from-purple-600 hover:from-purple-700 to-indigo-600 hover:to-indigo-700 shadow-lg shadow-purple-500/25 px-7 sm:px-9 py-3 sm:py-3.5 rounded-full font-bold text-white text-sm sm:text-base active:scale-95 transition-all transform"
+                        className="bg-gradient-to-r from-purple-600 hover:from-purple-700 to-indigo-600 hover:to-indigo-700 shadow-lg shadow-purple-500/25 px-5 sm:px-9 py-2.5 sm:py-3.5 rounded-full font-bold text-white text-xs sm:text-base whitespace-nowrap active:scale-95 transition-all cursor-pointer transform"
                     >
                         Search
                     </button>
@@ -157,17 +161,17 @@ const Banner = ({ onSearch }) => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.6 }}
-                    className="flex flex-wrap justify-center gap-4 mt-8"
+                    className="flex flex-wrap justify-center gap-3 sm:gap-4 mt-6 sm:mt-8"
                 >
                     <Link 
                         to="/all-contests"
-                        className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-600 hover:from-purple-700 to-indigo-600 hover:to-indigo-700 shadow-lg shadow-purple-600/30 px-8 py-3.5 rounded-xl font-bold text-white transition-all hover:-translate-y-0.5 transform"
+                        className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-600 hover:from-purple-700 to-indigo-600 hover:to-indigo-700 shadow-lg shadow-purple-600/30 px-6 sm:px-8 py-3 sm:py-3.5 rounded-xl font-bold text-white text-xs sm:text-sm transition-all hover:-translate-y-0.5 transform"
                     >
                         <FaTrophy className="text-yellow-300" /> Explore Contests
                     </Link>
                     <Link 
                         to="/dashboard"
-                        className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 backdrop-blur-md px-8 py-3.5 border border-white/20 rounded-xl font-bold text-white transition-all hover:-translate-y-0.5 transform"
+                        className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 backdrop-blur-md px-6 sm:px-8 py-3 sm:py-3.5 border border-white/20 rounded-xl font-bold text-white text-xs sm:text-sm transition-all hover:-translate-y-0.5 transform"
                     >
                         Get Started
                     </Link>
