@@ -26,20 +26,28 @@ const FAQSection = () => {
         });
     }, [activeCategory, searchQuery]);
 
+    const handleCategoryChange = (cat) => {
+        setActiveCategory(cat);
+        // Reset open accordion if the currently opened one is filtered out
+        const firstMatching = faqs.find(f => cat === "All" || f.category === cat);
+        setOpenId(firstMatching ? firstMatching.id : null);
+    };
+
     return (
-        <section className="relative bg-gradient-to-b from-white via-slate-50 to-purple-50/20 py-20 lg:py-28 overflow-hidden text-slate-800">
+        <section className="relative bg-gradient-to-b from-white via-slate-50 to-purple-50/20 py-16 sm:py-20 lg:py-28 overflow-hidden text-slate-800">
             {/* Background Decor */}
-            <div className="top-1/3 right-10 absolute bg-purple-100/50 blur-[120px] rounded-full w-96 h-96 pointer-events-none"></div>
-            <div className="bottom-10 left-10 absolute bg-indigo-100/40 blur-[100px] rounded-full w-80 h-80 pointer-events-none"></div>
+            <div className="top-1/3 right-10 absolute bg-purple-100/50 blur-[120px] rounded-full w-72 sm:w-96 h-72 sm:h-96 pointer-events-none" />
+            <div className="bottom-10 left-10 absolute bg-indigo-100/40 blur-[100px] rounded-full w-60 sm:w-80 h-60 sm:h-80 pointer-events-none" />
 
             <div className="z-10 relative mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl">
+                
                 {/* Header Section */}
-                <div className="mx-auto mb-12 max-w-2xl text-center">
+                <div className="mx-auto mb-10 sm:mb-12 max-w-2xl text-center">
                     <motion.div
                         initial={{ opacity: 0, y: 15 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        className="inline-flex items-center gap-2 bg-purple-100 mb-4 px-3.5 py-1.5 border border-purple-200 rounded-full font-semibold text-purple-700 text-xs uppercase tracking-wider"
+                        className="inline-flex items-center gap-2 bg-purple-100 mb-3 sm:mb-4 px-3.5 py-1.5 border border-purple-200 rounded-full font-semibold text-purple-700 text-xs uppercase tracking-wider"
                     >
                         <FaQuestionCircle className="text-purple-600" /> Help Center
                     </motion.div>
@@ -49,7 +57,7 @@ const FAQSection = () => {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ delay: 0.1 }}
-                        className="font-black text-slate-900 text-3xl sm:text-4xl lg:text-5xl leading-tight tracking-tight"
+                        className="font-black text-slate-900 text-2xl sm:text-4xl lg:text-5xl leading-tight tracking-tight"
                     >
                         Got Questions? <span className="bg-clip-text bg-gradient-to-r from-purple-600 to-indigo-600 text-transparent">We've Got Answers</span>
                     </motion.h2>
@@ -59,7 +67,7 @@ const FAQSection = () => {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ delay: 0.2 }}
-                        className="mt-3 text-slate-600 text-base sm:text-lg"
+                        className="mt-2.5 sm:mt-3 text-slate-600 text-sm sm:text-base lg:text-lg"
                     >
                         Everything you need to know about joining, creating, and winning on IdeaArena.
                     </motion.p>
@@ -71,23 +79,24 @@ const FAQSection = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: 0.25 }}
-                    className="relative mx-auto mb-8 max-w-xl"
+                    className="relative mx-auto mb-6 sm:mb-8 max-w-xl"
                 >
                     <div className="relative flex items-center bg-white shadow-sm border border-slate-200 focus-within:border-purple-500 rounded-2xl focus-within:ring-4 focus-within:ring-purple-500/10 transition-all duration-300">
-                        <FaSearch className="ml-4 text-slate-400 text-base" />
+                        <FaSearch className="ml-4 text-slate-400 text-sm sm:text-base" />
                         <input 
                             type="text" 
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                             placeholder="Search questions or keywords..."
-                            className="bg-transparent px-3 py-3.5 border-none outline-none w-full text-slate-800 text-sm placeholder-slate-400"
+                            className="bg-transparent px-3 py-3 sm:py-3.5 border-none outline-none w-full text-slate-800 text-xs sm:text-sm placeholder-slate-400"
                         />
                         {searchQuery && (
                             <button 
                                 onClick={() => setSearchQuery("")}
                                 className="mr-2 p-2 text-slate-400 hover:text-slate-600 cursor-pointer"
+                                aria-label="Clear search"
                             >
-                                <FaTimes className="text-sm" />
+                                <FaTimes className="text-xs sm:text-sm" />
                             </button>
                         )}
                     </div>
@@ -99,7 +108,7 @@ const FAQSection = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: 0.3 }}
-                    className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-10"
+                    className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-8 sm:mb-10"
                 >
                     {categories.map((cat) => {
                         const count = cat === "All" 
@@ -109,11 +118,11 @@ const FAQSection = () => {
                         return (
                             <button
                                 key={cat}
-                                onClick={() => setActiveCategory(cat)}
-                                className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-300 flex items-center gap-2 cursor-pointer ${
+                                onClick={() => handleCategoryChange(cat)}
+                                className={`px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-300 flex items-center gap-2 cursor-pointer ${
                                     activeCategory === cat 
-                                    ? 'bg-slate-900 text-white shadow-lg shadow-slate-900/10' 
-                                    : 'bg-white border border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+                                    ? 'bg-slate-900 text-white shadow-md shadow-slate-900/10' 
+                                    : 'bg-white border border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-50'
                                 }`}
                             >
                                 <span>{cat}</span>
@@ -128,8 +137,8 @@ const FAQSection = () => {
                 </motion.div>
 
                 {/* Accordion List */}
-                <div className="space-y-4">
-                    <AnimatePresence>
+                <div className="space-y-3.5 sm:space-y-4">
+                    <AnimatePresence mode="popLayout">
                         {filteredFaqs.length > 0 ? (
                             filteredFaqs.map((faq) => {
                                 const isOpen = openId === faq.id;
@@ -142,35 +151,37 @@ const FAQSection = () => {
                                         exit={{ opacity: 0, y: -10 }}
                                         className={`rounded-2xl border transition-all duration-300 bg-white overflow-hidden ${
                                             isOpen 
-                                            ? 'border-purple-300 shadow-xl shadow-purple-500/5 ring-1 ring-purple-500/20' 
+                                            ? 'border-purple-300 shadow-lg shadow-purple-500/5 ring-1 ring-purple-500/20' 
                                             : 'border-slate-200 hover:border-slate-300 shadow-sm'
                                         }`}
                                     >
                                         <button
                                             onClick={() => setOpenId(isOpen ? null : faq.id)}
-                                            className="flex justify-between items-center p-5 sm:p-6 focus:outline-none w-full text-left cursor-pointer"
+                                            aria-expanded={isOpen}
+                                            className="flex justify-between items-center p-4 sm:p-6 focus:outline-none w-full text-left cursor-pointer"
                                         >
-                                            <span className={`text-base sm:text-lg font-bold pr-4 transition-colors ${
+                                            <span className={`text-sm sm:text-base lg:text-lg font-bold pr-4 transition-colors ${
                                                 isOpen ? 'text-purple-700' : 'text-slate-800'
                                             }`}>
                                                 {faq.question}
                                             </span>
-                                            <div className={`p-2 rounded-xl transition-all duration-300 flex-shrink-0 ${
+                                            <div className={`p-1.5 sm:p-2 rounded-xl transition-all duration-300 shrink-0 ${
                                                 isOpen ? 'bg-purple-600 text-white rotate-180' : 'bg-slate-100 text-slate-500'
                                             }`}>
                                                 <FaChevronDown className="text-xs" />
                                             </div>
                                         </button>
 
-                                        <AnimatePresence>
+                                        <AnimatePresence initial={false}>
                                             {isOpen && (
                                                 <motion.div 
                                                     initial={{ height: 0, opacity: 0 }}
                                                     animate={{ height: "auto", opacity: 1 }}
                                                     exit={{ height: 0, opacity: 0 }}
-                                                    transition={{ duration: 0.3 }}
+                                                    transition={{ duration: 0.3, ease: "easeInOut" }}
+                                                    className="overflow-hidden"
                                                 >
-                                                    <div className="px-5 sm:px-6 pt-2 pb-6 border-slate-100 border-t text-slate-600 text-sm sm:text-base leading-relaxed">
+                                                    <div className="px-4 sm:px-6 pt-2 pb-5 sm:pb-6 border-slate-100 border-t text-slate-600 text-xs sm:text-sm lg:text-base leading-relaxed">
                                                         {faq.answer}
                                                     </div>
                                                 </motion.div>
@@ -180,15 +191,19 @@ const FAQSection = () => {
                                 );
                             })
                         ) : (
-                            <div className="bg-white shadow-sm py-12 border border-slate-200 rounded-2xl text-center">
-                                <p className="font-medium text-slate-500">No matching questions found.</p>
+                            <motion.div 
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                className="bg-white shadow-sm py-12 border border-slate-200 rounded-2xl text-center"
+                            >
+                                <p className="font-medium text-slate-500 text-sm">No matching questions found.</p>
                                 <button 
-                                    onClick={() => { setSearchQuery(""); setActiveCategory("All"); }}
+                                    onClick={() => { setSearchQuery(""); setActiveCategory("All"); setOpenId(1); }}
                                     className="mt-3 font-bold text-purple-600 text-xs hover:underline cursor-pointer"
                                 >
                                     Clear all filters
                                 </button>
-                            </div>
+                            </motion.div>
                         )}
                     </AnimatePresence>
                 </div>
@@ -198,11 +213,11 @@ const FAQSection = () => {
                     initial={{ opacity: 0, y: 15 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    className="flex sm:flex-row flex-col justify-between items-center gap-4 bg-purple-50/60 mt-12 p-6 border border-purple-100 rounded-2xl text-center"
+                    className="flex sm:flex-row flex-col justify-between items-center gap-4 bg-purple-50/60 mt-10 sm:mt-12 p-5 sm:p-6 border border-purple-100 rounded-2xl sm:text-left text-center"
                 >
-                    <div className="flex items-center gap-3 text-left">
-                        <div className="bg-purple-600 p-3 rounded-xl text-white">
-                            <FaHeadset className="text-xl" />
+                    <div className="flex sm:flex-row flex-col items-center sm:items-start gap-3">
+                        <div className="bg-purple-600 p-3 rounded-xl text-white shrink-0">
+                            <FaHeadset className="text-lg sm:text-xl" />
                         </div>
                         <div>
                             <h4 className="font-bold text-slate-900 text-sm">Still have questions?</h4>
