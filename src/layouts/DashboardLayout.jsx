@@ -11,19 +11,27 @@ import logoImg from "../assets/Idea.png";
 const DashboardLayout = () => {
   const { role } = useRole();
 
+  // Mobile Drawer Auto-Close Handler
+  const closeDrawer = () => {
+    const drawerCheckbox = document.getElementById("my-drawer-4");
+    if (drawerCheckbox) {
+      drawerCheckbox.checked = false;
+    }
+  };
+
   return (
-    <div className="bg-slate-50 dark:bg-base-300 mx-auto max-w-7xl min-h-screen drawer lg:drawer-open">
+    <div className="bg-slate-50 mx-auto max-w-7xl min-h-screen drawer lg:drawer-open">
       <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
       
       {/* Main Content Area */}
       <div className="flex flex-col drawer-content">
-        {/* Navbar */}
-        <nav className="top-0 z-10 sticky flex justify-between items-center bg-base-100/80 shadow-sm backdrop-blur-md px-4 py-2.5 border-base-200 border-b w-full">
-          <div className="flex items-center gap-3">
+        {/* Top Navbar */}
+        <nav className="top-0 z-10 sticky flex justify-between items-center bg-white/80 shadow-sm backdrop-blur-md px-4 sm:px-6 py-2.5 border-slate-200/80 border-b w-full">
+          <div className="flex items-center gap-2 sm:gap-3">
             <label
               htmlFor="my-drawer-4"
               aria-label="open sidebar"
-              className="lg:hidden text-base-content btn btn-square btn-ghost btn-sm"
+              className="lg:hidden text-slate-700 hover:text-purple-600 btn btn-square btn-ghost btn-sm"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -40,11 +48,12 @@ const DashboardLayout = () => {
                 <path d="M14 10l2 2l-2 2"></path>
               </svg>
             </label>
-            <div className="flex items-center gap-2 font-bold text-slate-800 dark:text-white text-lg">
-              <span className="bg-purple-100 dark:bg-purple-900/40 p-1.5 rounded-lg text-purple-600 dark:text-purple-300">
+
+            <div className="flex items-center gap-2 font-bold text-slate-800 text-base sm:text-lg">
+              <span className="bg-purple-100 p-1.5 rounded-lg text-purple-600">
                 <MdOutlineDashboard className="size-5" />
               </span>
-              <span>Idea Arena Dashboard</span>
+              <span className="truncate">Idea Arena Dashboard</span>
             </div>
           </div>
 
@@ -53,13 +62,13 @@ const DashboardLayout = () => {
               to="/"
               className="hover:bg-purple-600 border-purple-500 hover:border-purple-600 rounded-lg btn-outline text-purple-600 hover:text-white transition-all btn btn-sm"
             >
-              <FaHome /> Back to Home
+              <FaHome /> <span className="hidden sm:inline">Back to Home</span>
             </Link>
           </div>
         </nav>
 
         {/* Dynamic Page Content */}
-        <main className="p-4 md:p-6 grow">
+        <main className="p-4 sm:p-6 grow">
           <Outlet />
         </main>
       </div>
@@ -71,12 +80,13 @@ const DashboardLayout = () => {
           aria-label="close sidebar"
           className="drawer-overlay"
         ></label>
-        <div className="flex flex-col justify-between bg-base-100 shadow-lg lg:shadow-none p-4 border-base-200 border-r w-64 min-h-full text-base-content">
+        
+        <div className="flex flex-col justify-between bg-white shadow-xl lg:shadow-none p-4 border-slate-200/80 border-r w-64 sm:w-72 lg:w-64 min-h-full text-slate-700">
           <div className="w-full">
             {/* Logo Section */}
-            <div className="mb-6 px-3 py-2 pb-4 border-base-200 border-b">
-              <Link to="/" className="flex items-center gap-3">
-                <img src={logoImg} alt="Idea Arena Logo" className="w-auto h-9 object-contain" />
+            <div className="mb-6 px-2 py-2 pb-4 border-slate-100 border-b">
+              <Link to="/" onClick={closeDrawer} className="flex items-center gap-3">
+                <img src={logoImg} alt="Idea Arena Logo" className="w-auto h-8 sm:h-9 object-contain" />
                 <span className="bg-clip-text bg-gradient-to-r from-purple-600 to-indigo-600 font-extrabold text-transparent text-xl tracking-wide">
                   Idea Arena
                 </span>
@@ -89,11 +99,12 @@ const DashboardLayout = () => {
                 <NavLink
                   to="/dashboard"
                   end
+                  onClick={closeDrawer}
                   className={({ isActive }) =>
                     `flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium transition-all ${
                       isActive
-                        ? "bg-purple-600 text-white shadow-md shadow-purple-200 dark:shadow-none"
-                        : "hover:bg-base-200 text-slate-600 dark:text-slate-300"
+                        ? "bg-purple-600 text-white shadow-md shadow-purple-200"
+                        : "hover:bg-purple-50 text-slate-600 hover:text-purple-600"
                     }`
                   }
                 >
@@ -105,11 +116,12 @@ const DashboardLayout = () => {
               <li>
                 <NavLink
                   to="/dashboard/profile"
+                  onClick={closeDrawer}
                   className={({ isActive }) =>
                     `flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium transition-all ${
                       isActive
-                        ? "bg-purple-600 text-white shadow-md shadow-purple-200 dark:shadow-none"
-                        : "hover:bg-base-200 text-slate-600 dark:text-slate-300"
+                        ? "bg-purple-600 text-white shadow-md shadow-purple-200"
+                        : "hover:bg-purple-50 text-slate-600 hover:text-purple-600"
                     }`
                   }
                 >
@@ -121,11 +133,12 @@ const DashboardLayout = () => {
               <li>
                 <NavLink
                   to="/dashboard/my-contests"
+                  onClick={closeDrawer}
                   className={({ isActive }) =>
                     `flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium transition-all ${
                       isActive
-                        ? "bg-purple-600 text-white shadow-md shadow-purple-200 dark:shadow-none"
-                        : "hover:bg-base-200 text-slate-600 dark:text-slate-300"
+                        ? "bg-purple-600 text-white shadow-md shadow-purple-200"
+                        : "hover:bg-purple-50 text-slate-600 hover:text-purple-600"
                     }`
                   }
                 >
@@ -137,11 +150,12 @@ const DashboardLayout = () => {
               <li>
                 <NavLink
                   to="/dashboard/payment-history"
+                  onClick={closeDrawer}
                   className={({ isActive }) =>
                     `flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium transition-all ${
                       isActive
-                        ? "bg-purple-600 text-white shadow-md shadow-purple-200 dark:shadow-none"
-                        : "hover:bg-base-200 text-slate-600 dark:text-slate-300"
+                        ? "bg-purple-600 text-white shadow-md shadow-purple-200"
+                        : "hover:bg-purple-50 text-slate-600 hover:text-purple-600"
                     }`
                   }
                 >
@@ -159,11 +173,12 @@ const DashboardLayout = () => {
                   <li>
                     <NavLink
                       to="/dashboard/contest-management"
+                      onClick={closeDrawer}
                       className={({ isActive }) =>
                         `flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium transition-all ${
                           isActive
-                            ? "bg-purple-600 text-white shadow-md shadow-purple-200 dark:shadow-none"
-                            : "hover:bg-base-200 text-slate-600 dark:text-slate-300"
+                            ? "bg-purple-600 text-white shadow-md shadow-purple-200"
+                            : "hover:bg-purple-50 text-slate-600 hover:text-purple-600"
                         }`
                       }
                     >
@@ -174,11 +189,12 @@ const DashboardLayout = () => {
                   <li>
                     <NavLink
                       to="/dashboard/prize-delivered"
+                      onClick={closeDrawer}
                       className={({ isActive }) =>
                         `flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium transition-all ${
                           isActive
-                            ? "bg-purple-600 text-white shadow-md shadow-purple-200 dark:shadow-none"
-                            : "hover:bg-base-200 text-slate-600 dark:text-slate-300"
+                            ? "bg-purple-600 text-white shadow-md shadow-purple-200"
+                            : "hover:bg-purple-50 text-slate-600 hover:text-purple-600"
                         }`
                       }
                     >
@@ -198,11 +214,12 @@ const DashboardLayout = () => {
                   <li>
                     <NavLink
                       to="/dashboard/approve-candidates"
+                      onClick={closeDrawer}
                       className={({ isActive }) =>
                         `flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium transition-all ${
                           isActive
-                            ? "bg-purple-600 text-white shadow-md shadow-purple-200 dark:shadow-none"
-                            : "hover:bg-base-200 text-slate-600 dark:text-slate-300"
+                            ? "bg-purple-600 text-white shadow-md shadow-purple-200"
+                            : "hover:bg-purple-50 text-slate-600 hover:text-purple-600"
                         }`
                       }
                     >
@@ -213,11 +230,12 @@ const DashboardLayout = () => {
                   <li>
                     <NavLink
                       to="/dashboard/assign-candidates"
+                      onClick={closeDrawer}
                       className={({ isActive }) =>
                         `flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium transition-all ${
                           isActive
-                            ? "bg-purple-600 text-white shadow-md shadow-purple-200 dark:shadow-none"
-                            : "hover:bg-base-200 text-slate-600 dark:text-slate-300"
+                            ? "bg-purple-600 text-white shadow-md shadow-purple-200"
+                            : "hover:bg-purple-50 text-slate-600 hover:text-purple-600"
                         }`
                       }
                     >
@@ -228,11 +246,12 @@ const DashboardLayout = () => {
                   <li>
                     <NavLink
                       to="/dashboard/users-management"
+                      onClick={closeDrawer}
                       className={({ isActive }) =>
                         `flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium transition-all ${
                           isActive
-                            ? "bg-purple-600 text-white shadow-md shadow-purple-200 dark:shadow-none"
-                            : "hover:bg-base-200 text-slate-600 dark:text-slate-300"
+                            ? "bg-purple-600 text-white shadow-md shadow-purple-200"
+                            : "hover:bg-purple-50 text-slate-600 hover:text-purple-600"
                         }`
                       }
                     >
@@ -246,10 +265,10 @@ const DashboardLayout = () => {
           </div>
 
           {/* User Role Badge in Sidebar Footer */}
-          <div className="mt-auto pt-4 border-base-200 border-t">
-            <div className="flex justify-between items-center bg-base-200/60 px-3 py-2 rounded-xl">
+          <div className="mt-auto pt-4 border-slate-100 border-t">
+            <div className="flex justify-between items-center bg-slate-100/70 px-3 py-2 rounded-xl">
               <span className="font-medium text-slate-500 text-xs">Current Role</span>
-              <span className="bg-purple-100 dark:bg-purple-900/50 px-2 py-0.5 rounded-md font-bold text-purple-700 dark:text-purple-300 text-xs uppercase">
+              <span className="bg-purple-100 px-2.5 py-0.5 rounded-md font-bold text-purple-700 text-xs uppercase">
                 {role || "User"}
               </span>
             </div>
