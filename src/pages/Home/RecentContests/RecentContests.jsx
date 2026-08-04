@@ -74,21 +74,21 @@ const RecentContests = () => {
     });
 
     return (
-        <section className="relative bg-gradient-to-b from-slate-50 via-purple-50/30 to-white py-20 lg:py-28 overflow-hidden text-slate-800">
+        <section className="relative bg-gradient-to-b from-slate-50 via-purple-50/30 to-white py-12 sm:py-16 lg:py-24 overflow-hidden text-slate-800">
             {/* Ambient Background Glows */}
-            <div className="top-10 left-1/2 absolute bg-purple-200/40 blur-[120px] rounded-full w-[600px] h-[300px] -translate-x-1/2 pointer-events-none"></div>
-            <div className="bottom-10 left-10 absolute bg-indigo-100/50 blur-[100px] rounded-full w-96 h-96 pointer-events-none"></div>
+            <div className="top-10 left-1/2 absolute bg-purple-200/40 blur-[120px] rounded-full w-[300px] sm:w-[600px] h-[200px] sm:h-[300px] -translate-x-1/2 pointer-events-none"></div>
+            <div className="bottom-10 left-10 absolute bg-indigo-100/50 blur-[100px] rounded-full w-48 sm:w-96 h-48 sm:h-96 pointer-events-none"></div>
 
             <div className="z-10 relative mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
                 
                 {/* Header Section */}
-                <div className="flex md:flex-row flex-col justify-between md:items-end gap-6 mb-12 lg:mb-16">
+                <div className="flex md:flex-row flex-col justify-between items-start md:items-end gap-6 mb-10 lg:mb-16">
                     <div className="max-w-2xl">
                         <motion.div
                             initial={{ opacity: 0, y: 15 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
-                            className="inline-flex items-center gap-2 bg-purple-100 mb-4 px-3.5 py-1.5 border border-purple-200 rounded-full font-semibold text-purple-700 text-xs uppercase tracking-wider"
+                            className="inline-flex items-center gap-2 bg-purple-100 mb-3 sm:mb-4 px-3.5 py-1.5 border border-purple-200/80 rounded-full font-semibold text-purple-700 text-xs uppercase tracking-wider"
                         >
                             <FaTrophy className="text-amber-500" /> Active Competitions
                         </motion.div>
@@ -98,7 +98,7 @@ const RecentContests = () => {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ delay: 0.1 }}
-                            className="font-black text-slate-900 text-3xl sm:text-4xl lg:text-5xl leading-tight tracking-tight"
+                            className="font-black text-slate-900 text-2xl sm:text-4xl lg:text-5xl leading-tight tracking-tight"
                         >
                             Recent Innovation <span className="bg-clip-text bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-700 text-transparent">Contests</span>
                         </motion.h2>
@@ -108,7 +108,7 @@ const RecentContests = () => {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ delay: 0.2 }}
-                            className="mt-3 text-slate-600 text-base sm:text-lg"
+                            className="mt-2 sm:mt-3 text-slate-600 text-sm sm:text-base lg:text-lg"
                         >
                             Explore top challenges, pitch your ideas, and win reward prize pools.
                         </motion.p>
@@ -120,11 +120,11 @@ const RecentContests = () => {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ delay: 0.25 }}
-                        className="flex items-center self-start md:self-auto gap-1.5 sm:gap-2 bg-white shadow-sm p-1.5 border border-slate-200/80 rounded-2xl"
+                        className="flex items-center gap-1.5 sm:gap-2 bg-white shadow-sm p-1.5 border border-slate-200/80 rounded-2xl max-w-full overflow-x-auto no-scrollbar"
                     >
                         <button
                             onClick={() => setSelectedFilter('all')}
-                            className={`px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer ${
+                            className={`px-3 sm:px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all whitespace-nowrap cursor-pointer ${
                                 selectedFilter === 'all' 
                                 ? 'bg-purple-600 text-white shadow-md shadow-purple-500/20' 
                                 : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
@@ -135,7 +135,7 @@ const RecentContests = () => {
 
                         <button
                             onClick={() => setSelectedFilter('trending')}
-                            className={`px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer flex items-center gap-1.5 ${
+                            className={`px-3 sm:px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all whitespace-nowrap cursor-pointer flex items-center gap-1.5 ${
                                 selectedFilter === 'trending' 
                                 ? 'bg-purple-600 text-white shadow-md shadow-purple-500/20' 
                                 : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
@@ -146,7 +146,7 @@ const RecentContests = () => {
 
                         <button
                             onClick={() => setSelectedFilter('highPrize')}
-                            className={`px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer flex items-center gap-1.5 ${
+                            className={`px-3 sm:px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all whitespace-nowrap cursor-pointer flex items-center gap-1.5 ${
                                 selectedFilter === 'highPrize' 
                                 ? 'bg-purple-600 text-white shadow-md shadow-purple-500/20' 
                                 : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
@@ -159,7 +159,7 @@ const RecentContests = () => {
 
                 {/* Content Cards Grid */}
                 {isLoading ? (
-                    <div className="gap-6 lg:gap-8 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4">
+                    <div className="gap-5 sm:gap-6 lg:gap-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                         {[...Array(8)].map((_, i) => (
                             <ContestCardSkeleton key={i} />
                         ))}
@@ -171,7 +171,7 @@ const RecentContests = () => {
                 ) : filteredContests.length > 0 ? (
                     <motion.div 
                         layout 
-                        className="gap-6 lg:gap-8 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4"
+                        className="gap-5 sm:gap-6 lg:gap-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
                     >
                         <AnimatePresence mode="popLayout">
                             {filteredContests.slice(0, 8).map((contest, idx) => (
@@ -192,10 +192,10 @@ const RecentContests = () => {
                     </motion.div>
                 ) : (
                     /* Empty State Fallback */
-                    <div className="bg-white shadow-sm mx-auto py-16 border border-slate-200 rounded-3xl max-w-lg text-center">
-                        <FaClock className="opacity-60 mx-auto mb-3 text-purple-500 text-4xl" />
-                        <h3 className="font-bold text-slate-800 text-lg">No Contests Available</h3>
-                        <p className="mt-1 text-slate-500 text-sm">Check back soon for new exciting challenges!</p>
+                    <div className="bg-white shadow-sm mx-auto py-12 sm:py-16 border border-slate-200 rounded-3xl max-w-lg text-center">
+                        <FaClock className="opacity-60 mx-auto mb-3 text-purple-500 text-3xl sm:text-4xl" />
+                        <h3 className="font-bold text-slate-800 text-base sm:text-lg">No Contests Available</h3>
+                        <p className="mt-1 text-slate-500 text-xs sm:text-sm">Check back soon for new exciting challenges!</p>
                     </div>
                 )}
 
@@ -204,11 +204,11 @@ const RecentContests = () => {
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    className="flex justify-center mt-14 lg:mt-20"
+                    className="flex justify-center mt-10 sm:mt-14 lg:mt-20"
                 >
                     <Link
                         to="/all-contests"
-                        className="group inline-flex relative items-center gap-3 bg-slate-900 hover:bg-purple-600 shadow-purple-500/10 shadow-xl hover:shadow-purple-500/20 px-8 py-4 rounded-2xl font-bold text-white text-sm sm:text-base active:scale-95 transition-all duration-300"
+                        className="group inline-flex relative items-center gap-3 bg-slate-900 hover:bg-purple-600 shadow-purple-500/10 shadow-xl hover:shadow-purple-500/20 px-6 sm:px-8 py-3.5 sm:py-4 rounded-2xl font-bold text-white text-sm sm:text-base active:scale-95 transition-all duration-300"
                     >
                         <span>Explore All Contests</span>
                         <FaArrowRight className="text-sm transition-transform group-hover:translate-x-1.5 duration-300" />
