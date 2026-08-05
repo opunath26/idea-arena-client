@@ -59,76 +59,76 @@ const MyContests = () => {
     };
 
     return (
-        <div className="space-y-6">
+        <div className="space-y-6 bg-slate-50 p-4 sm:p-6 md:p-8 min-h-screen text-slate-800">
             {/* Header Section */}
-            <div className="flex sm:flex-row flex-col justify-between items-start sm:items-center gap-4 bg-base-100 shadow-sm p-6 border border-base-200 rounded-2xl">
+            <div className="flex sm:flex-row flex-col justify-between items-start sm:items-center gap-4 bg-white shadow-sm p-4 sm:p-6 border border-slate-200 rounded-2xl">
                 <div>
-                    <h2 className="flex items-center gap-2 font-bold text-slate-800 dark:text-white text-2xl">
-                        <FaTrophy className="text-purple-600" /> My Contests
+                    <h2 className="flex items-center gap-2 font-bold text-slate-900 text-xl sm:text-2xl tracking-tight">
+                        <FaTrophy className="text-purple-600 shrink-0" /> My Contests
                     </h2>
-                    <p className="mt-1 text-slate-500 text-sm">
+                    <p className="mt-1 text-slate-500 text-xs sm:text-sm">
                         View, manage, track, and pay for all your created contests.
                     </p>
                 </div>
-                <div className="bg-purple-50 dark:bg-purple-900/40 px-4 py-2 border border-purple-200 dark:border-purple-800 rounded-xl font-semibold text-purple-700 dark:text-purple-300 text-sm">
+                <div className="inline-flex items-center bg-purple-50 px-3.5 py-1.5 border border-purple-200 rounded-xl font-semibold text-purple-700 text-xs sm:text-sm shrink-0">
                     Total Contests: {contests.length}
                 </div>
             </div>
 
             {/* Table Card */}
-            <div className="bg-base-100 shadow-sm border border-base-200 rounded-2xl overflow-hidden">
+            <div className="bg-white shadow-sm border border-slate-200 rounded-2xl overflow-hidden">
                 <div className="overflow-x-auto">
-                    <table className="table w-full">
+                    <table className="w-full min-w-[680px] text-left border-collapse">
                         {/* Table Head */}
-                        <thead className="bg-base-200/60 text-slate-600 dark:text-slate-300">
-                            <tr>
-                                <th className="py-4">#</th>
-                                <th>Contest Title</th>
-                                <th>Creation Fee</th>
-                                <th>Payment</th>
-                                <th>Tracking ID</th>
-                                <th>Submit Status</th>
-                                <th className="text-center">Actions</th>
+                        <thead>
+                            <tr className="bg-slate-100/80 border-slate-200 border-b font-semibold text-slate-600 text-xs uppercase tracking-wider">
+                                <th className="px-4 py-3.5 w-12 text-center">#</th>
+                                <th className="px-4 py-3.5">Contest Title</th>
+                                <th className="px-4 py-3.5">Creation Fee</th>
+                                <th className="px-4 py-3.5">Payment</th>
+                                <th className="px-4 py-3.5">Tracking ID</th>
+                                <th className="px-4 py-3.5">Submit Status</th>
+                                <th className="px-4 py-3.5 text-center">Actions</th>
                             </tr>
                         </thead>
 
                         {/* Table Body */}
-                        <tbody>
+                        <tbody className="divide-y divide-slate-100 text-xs sm:text-sm">
                             {contests.length === 0 ? (
                                 <tr>
-                                    <td colSpan="7" className="py-10 text-slate-400 text-center">
+                                    <td colSpan="7" className="py-12 font-medium text-slate-400 text-center">
                                         You haven't created any contests yet.
                                     </td>
                                 </tr>
                             ) : (
                                 contests.map((contest, index) => (
-                                    <tr key={contest._id} className="hover:bg-base-200/40 border-base-200 border-b transition-colors">
-                                        <th className="font-medium text-slate-500">{index + 1}</th>
-                                        <td className="max-w-xs font-semibold text-slate-800 dark:text-slate-200 truncate">
+                                    <tr key={contest._id} className="hover:bg-slate-50/80 transition-colors">
+                                        <th className="px-4 py-3.5 font-medium text-slate-400 text-center">{index + 1}</th>
+                                        <td className="px-4 py-3.5 max-w-[200px] sm:max-w-xs font-semibold text-slate-800 truncate">
                                             {contest.contestTitle}
                                         </td>
-                                        <td className="font-semibold text-emerald-600 dark:text-emerald-400">
+                                        <td className="px-4 py-3.5 font-bold text-emerald-600">
                                             ${contest.contestCreationFee}
                                         </td>
-                                        <td>
+                                        <td className="px-4 py-3.5">
                                             {contest.paymentStatus === 'paid' ? (
-                                                <span className="bg-emerald-100 dark:bg-emerald-950/60 px-3 py-1 rounded-full font-semibold text-emerald-700 dark:text-emerald-400 text-xs">
+                                                <span className="inline-flex items-center bg-emerald-50 px-2.5 py-1 border border-emerald-200 rounded-full font-semibold text-emerald-700 text-xs">
                                                     Paid
                                                 </span>
                                             ) : (
                                                 <button
                                                     onClick={() => handlePayment(contest)}
-                                                    className="gap-1.5 bg-purple-600 hover:bg-purple-700 px-3 border-none rounded-lg text-white btn btn-xs"
+                                                    className="inline-flex items-center gap-1.5 bg-purple-600 hover:bg-purple-700 shadow-xs px-3 py-1.5 border border-transparent rounded-lg font-medium text-white text-xs transition-colors"
                                                 >
                                                     <FaCreditCard className="size-3" /> Pay Now
                                                 </button>
                                             )}
                                         </td>
-                                        <td>
+                                        <td className="px-4 py-3.5">
                                             {contest.trackingId ? (
                                                 <Link
                                                     to={`/contest-track/${contest.trackingId}`}
-                                                    className="inline-block bg-purple-50 hover:bg-purple-100 dark:bg-purple-950/50 px-2.5 py-1 border border-purple-200 dark:border-purple-800 rounded-lg font-mono font-medium text-purple-600 dark:text-purple-300 text-xs transition-colors"
+                                                    className="inline-block bg-purple-50 hover:bg-purple-100 px-2.5 py-1 border border-purple-200 rounded-lg font-mono font-medium text-purple-700 text-xs transition-colors"
                                                 >
                                                     #{contest.trackingId}
                                                 </Link>
@@ -136,27 +136,27 @@ const MyContests = () => {
                                                 <span className="text-slate-400 text-xs">N/A</span>
                                             )}
                                         </td>
-                                        <td>
-                                            <span className="bg-slate-100 dark:bg-slate-800 px-2.5 py-1 rounded-md font-medium text-slate-600 dark:text-slate-300 text-xs capitalize">
+                                        <td className="px-4 py-3.5">
+                                            <span className="inline-block bg-slate-100 px-2.5 py-1 border border-slate-200 rounded-md font-medium text-slate-700 text-xs capitalize">
                                                 {contest.submitStatus || 'Pending'}
                                             </span>
                                         </td>
-                                        <td>
+                                        <td className="px-4 py-3.5">
                                             <div className="flex justify-center items-center gap-1.5">
                                                 {/* View Details Button */}
                                                 <div className="tooltip" data-tip="Track Details">
                                                     <Link
                                                         to={`/contest-track/${contest.trackingId}`}
-                                                        className="hover:bg-sky-50 dark:hover:bg-sky-950/50 text-sky-600 btn btn-sm btn-square btn-ghost"
+                                                        className="inline-flex justify-center items-center hover:bg-sky-50 p-2 border border-transparent hover:border-sky-200 rounded-lg text-sky-600 transition-colors"
                                                     >
-                                                        <FaMagnifyingGlass className="size-4" />
+                                                        <FaMagnifyingGlass className="size-3.5" />
                                                     </Link>
                                                 </div>
 
                                                 {/* Edit Button */}
                                                 <div className="tooltip" data-tip="Edit Contest">
-                                                    <button className="hover:bg-amber-50 dark:hover:bg-amber-950/50 text-amber-600 btn btn-sm btn-square btn-ghost">
-                                                        <TbEdit className="size-4.5" />
+                                                    <button className="inline-flex justify-center items-center hover:bg-amber-50 p-2 border border-transparent hover:border-amber-200 rounded-lg text-amber-600 transition-colors">
+                                                        <TbEdit className="size-4" />
                                                     </button>
                                                 </div>
 
@@ -164,9 +164,9 @@ const MyContests = () => {
                                                 <div className="tooltip" data-tip="Delete Contest">
                                                     <button
                                                         onClick={() => handleContestDelete(contest._id)}
-                                                        className="hover:bg-rose-50 dark:hover:bg-rose-950/50 text-rose-600 btn btn-sm btn-square btn-ghost"
+                                                        className="inline-flex justify-center items-center hover:bg-rose-50 p-2 border border-transparent hover:border-rose-200 rounded-lg text-rose-600 transition-colors"
                                                     >
-                                                        <FaTrashCan className="size-4" />
+                                                        <FaTrashCan className="size-3.5" />
                                                     </button>
                                                 </div>
                                             </div>
