@@ -1,5 +1,5 @@
-import { useQuery } from '@tanstack/react-query';
-import React, { useState } from 'react';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import React, { useState, useEffect } from 'react';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import { FaUserShield, FaUsers } from 'react-icons/fa6';
 import { FiShieldOff, FiSearch } from 'react-icons/fi';
@@ -7,13 +7,50 @@ import Swal from 'sweetalert2';
 
 const UsersManagement = () => {
     const axiosSecure = useAxiosSecure();
+    const queryClient = useQueryClient();
     const [searchText, setSearchText] = useState('');
+    const [debouncedSearch, setDebouncedSearch] = useState('');
 
-    const { refetch, data: users = [] } = useQuery({
-        queryKey: ['users', searchText],
+    // Debounce search input to avoid API spam on every keystroke
+    useEffect(() => {
+        const handler = setTimeout(() => {
+            setDebouncedSearch(searchText);
+        }, 400);
+
+        return () => clearTimeout(handler);
+    }, [searchText]);
+
+    // Fetch users with TanStack Query
+    const { isLoading, data: users = [] } = useQuery({
+        queryKey: ['users', debouncedSearch],
         queryFn: async () => {
-            const res = await axiosSecure.get(`/users?searchText=${searchText}`);
+            const res = await axiosSecure.get(`/users?searchText=${debouncedSearch}`);
             return res.data;
+        }
+    });
+
+    // Role mutation handler
+    const roleMutation = useMutation({
+        mutationFn: async ({ userId, role }) => {
+            const res = await axiosSecure.patch(`/users/${userId}/role`, { role });
+            return res.data;
+        },
+        onSuccess: (_, variables) => {
+            queryClient.invalidateQueries({ queryKey: ['users'] });
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: `Role updated to ${variables.role}`,
+                showConfirmButton: false,
+                timer: 2000
+            });
+        },
+        onError: () => {
+            Swal.fire({
+                icon: 'error',
+                title: 'Failed to update role',
+                text: 'Something went wrong while updating user rights.'
+            });
         }
     });
 
@@ -28,20 +65,7 @@ const UsersManagement = () => {
             confirmButtonText: 'Yes, Make Admin'
         }).then((result) => {
             if (result.isConfirmed) {
-                const roleInfo = { role: 'admin' };
-                axiosSecure.patch(`/users/${user._id}/role`, roleInfo)
-                    .then(res => {
-                        if (res.data.modifiedCount) {
-                            refetch();
-                            Swal.fire({
-                                position: 'top-end',
-                                icon: 'success',
-                                title: `${user.displayName || 'User'} is now an Admin`,
-                                showConfirmButton: false,
-                                timer: 2000
-                            });
-                        }
-                    });
+                roleMutation.mutate({ userId: user._id, role: 'admin' });
             }
         });
     };
@@ -57,20 +81,7 @@ const UsersManagement = () => {
             confirmButtonText: 'Yes, Remove Admin'
         }).then((result) => {
             if (result.isConfirmed) {
-                const roleInfo = { role: 'user' };
-                axiosSecure.patch(`/users/${user._id}/role`, roleInfo)
-                    .then(res => {
-                        if (res.data.modifiedCount) {
-                            refetch();
-                            Swal.fire({
-                                position: 'top-end',
-                                icon: 'success',
-                                title: `Admin rights removed from ${user.displayName || 'User'}`,
-                                showConfirmButton: false,
-                                timer: 2000
-                            });
-                        }
-                    });
+                roleMutation.mutate({ userId: user._id, role: 'user' });
             }
         });
     };
@@ -125,7 +136,13 @@ const UsersManagement = () => {
 
                         {/* Table Body */}
                         <tbody>
-                            {users.length === 0 ? (
+                            {isLoading ? (
+                                <tr>
+                                    <td colSpan="5" className="py-12 text-center">
+                                        <span className="text-purple-600 loading-spinner loading-md loading"></span>
+                                    </td>
+                                </tr>
+                            ) : users.length === 0 ? (
                                 <tr>
                                     <td colSpan="5" className="py-10 text-slate-400 text-center">
                                         No users found matching your search.
@@ -172,6 +189,7 @@ const UsersManagement = () => {
                                                 <div className="tooltip" data-tip="Remove Admin Role">
                                                     <button
                                                         onClick={() => handleRemoveAdmin(user)}
+                                                        disabled={roleMutation.isPending}
                                                         className="hover:bg-rose-50 dark:hover:bg-rose-950/50 text-rose-600 btn btn-sm btn-square btn-ghost"
                                                     >
                                                         <FiShieldOff className="size-4.5" />
@@ -181,6 +199,7 @@ const UsersManagement = () => {
                                                 <div className="tooltip" data-tip="Make Admin">
                                                     <button
                                                         onClick={() => handleMakeAdmin(user)}
+                                                        disabled={roleMutation.isPending}
                                                         className="hover:bg-emerald-50 dark:hover:bg-emerald-950/50 text-emerald-600 btn btn-sm btn-square btn-ghost"
                                                     >
                                                         <FaUserShield className="size-4.5" />
