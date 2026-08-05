@@ -70,29 +70,29 @@ const AllContests = () => {
     };
 
     const SkeletonCard = () => (
-        <div className="flex flex-col justify-between bg-white dark:bg-slate-900 shadow-sm p-4 border border-slate-200/80 dark:border-slate-800 rounded-2xl h-[420px] animate-pulse">
+        <div className="flex flex-col justify-between bg-white shadow-sm p-4 border border-slate-200/80 rounded-2xl h-[420px] animate-pulse">
             <div>
-                <div className="bg-slate-200 dark:bg-slate-800 rounded-xl w-full h-48"></div>
+                <div className="bg-slate-200 rounded-xl w-full h-48"></div>
                 <div className="space-y-3 mt-5">
-                    <div className="bg-slate-200 dark:bg-slate-800 rounded-md w-3/4 h-5"></div>
-                    <div className="bg-slate-200 dark:bg-slate-800 rounded-md w-full h-3.5"></div>
-                    <div className="bg-slate-200 dark:bg-slate-800 rounded-md w-5/6 h-3.5"></div>
+                    <div className="bg-slate-200 rounded-md w-3/4 h-5"></div>
+                    <div className="bg-slate-200 rounded-md w-full h-3.5"></div>
+                    <div className="bg-slate-200 rounded-md w-5/6 h-3.5"></div>
                 </div>
             </div>
-            <div className="flex justify-between items-center pt-4 border-slate-100 dark:border-slate-800/80 border-t">
-                <div className="bg-slate-200 dark:bg-slate-800 rounded-md w-16 h-6"></div>
-                <div className="bg-slate-200 dark:bg-slate-800 rounded-xl w-24 h-9"></div>
+            <div className="flex justify-between items-center pt-4 border-slate-100 border-t">
+                <div className="bg-slate-200 rounded-md w-16 h-6"></div>
+                <div className="bg-slate-200 rounded-xl w-24 h-9"></div>
             </div>
         </div>
     );
 
     return (
-        <div className="bg-slate-50 dark:bg-slate-950 min-h-screen text-slate-800 dark:text-slate-100 transition-colors duration-300">
+        <div className="bg-slate-50 min-h-screen text-slate-800">
             
             {/* Hero Header Section */}
-            <div className="relative bg-slate-900 py-20 sm:py-24 border-slate-800 border-b overflow-hidden text-white">
-                <div className="top-0 left-1/4 absolute bg-purple-600/20 blur-3xl rounded-full w-96 h-96 pointer-events-none"></div>
-                <div className="right-1/4 bottom-0 absolute bg-indigo-600/20 blur-3xl rounded-full w-96 h-96 pointer-events-none"></div>
+            <div className="relative bg-slate-900 py-16 sm:py-24 border-slate-800 border-b overflow-hidden text-white">
+                <div className="top-0 left-1/4 absolute bg-purple-600/20 blur-3xl rounded-full w-72 sm:w-96 h-72 sm:h-96 pointer-events-none"></div>
+                <div className="right-1/4 bottom-0 absolute bg-indigo-600/20 blur-3xl rounded-full w-72 sm:w-96 h-72 sm:h-96 pointer-events-none"></div>
 
                 <div className="z-10 relative mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
                     <motion.div 
@@ -107,27 +107,27 @@ const AllContests = () => {
                         <h1 className="font-black text-white text-3xl sm:text-5xl lg:text-6xl leading-tight tracking-tight">
                             Explore Active <span className="bg-clip-text bg-gradient-to-r from-purple-400 to-indigo-400 text-transparent">Contests</span>
                         </h1>
-                        <p className="mt-4 text-slate-300 text-base sm:text-lg">
+                        <p className="mt-3 sm:mt-4 text-slate-300 text-sm sm:text-lg">
                             Discover top competitions, showcase your creativity, and earn rewards from worldwide clients.
                         </p>
                     </motion.div>
 
                     {/* Integrated Search Bar */}
-                    <div className="mx-auto mt-8 sm:mt-10 max-w-2xl">
+                    <div className="mx-auto mt-6 sm:mt-10 max-w-2xl">
                         <form onSubmit={handleSearch} className="relative flex items-center">
                             <div className="left-4 absolute text-slate-400">
-                                <FaSearch className="text-base" />
+                                <FaSearch className="text-sm sm:text-base" />
                             </div>
                             <input 
                                 type="text" 
                                 placeholder="Search by contest title or tags..." 
-                                className="bg-slate-800/80 shadow-2xl backdrop-blur-md py-4 pr-32 pl-11 border border-slate-700/80 focus:border-purple-500 rounded-2xl outline-none focus:ring-4 focus:ring-purple-500/20 w-full text-white text-sm sm:text-base transition-all placeholder-slate-400"
+                                className="bg-slate-800/90 shadow-2xl backdrop-blur-md py-3.5 sm:py-4 pr-28 sm:pr-32 pl-11 border border-slate-700/80 focus:border-purple-500 rounded-2xl outline-none focus:ring-4 focus:ring-purple-500/20 w-full text-white text-xs sm:text-base transition-all placeholder-slate-400"
                                 value={searchText}
                                 onChange={handleSearchChange}
                             />
                             <button 
                                 type="submit" 
-                                className="right-2 absolute bg-gradient-to-r from-purple-600 hover:from-purple-500 to-indigo-600 hover:to-indigo-500 shadow-lg px-6 py-2.5 rounded-xl font-bold text-white text-sm active:scale-95 transition-all cursor-pointer"
+                                className="right-2 absolute bg-gradient-to-r from-purple-600 hover:from-purple-500 to-indigo-600 hover:to-indigo-500 shadow-lg px-4 sm:px-6 py-2 sm:py-2.5 rounded-xl font-bold text-white text-xs sm:text-sm active:scale-95 transition-all cursor-pointer"
                             >
                                 Search
                             </button>
@@ -137,18 +137,18 @@ const AllContests = () => {
             </div>
 
             {/* Main Content Area */}
-            <div className="mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 max-w-7xl">
+            <div className="mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-14 max-w-7xl">
                 
                 {/* Dynamic Category Filter Tabs */}
-                <div className="mb-10">
+                <div className="mb-8 sm:mb-10">
                     <div className="flex justify-between items-center mb-4">
-                        <h2 className="flex items-center gap-2 font-bold text-slate-500 dark:text-slate-400 text-sm uppercase tracking-wider">
+                        <h2 className="flex items-center gap-2 font-bold text-slate-600 text-xs sm:text-sm uppercase tracking-wider">
                             <FaThLarge className="text-purple-600" /> Browse Categories
                         </h2>
                         {activeTab !== 'All' || submittedSearch ? (
                             <button 
                                 onClick={handleReset}
-                                className="flex items-center gap-1 font-semibold text-purple-600 dark:text-purple-400 text-xs hover:underline cursor-pointer"
+                                className="flex items-center gap-1 font-semibold text-purple-600 text-xs hover:underline cursor-pointer"
                             >
                                 <FaRedo className="text-[10px]" /> Reset Filters
                             </button>
@@ -162,10 +162,10 @@ const AllContests = () => {
                                 <button 
                                     key={cat} 
                                     onClick={() => setActiveTab(cat)}
-                                    className={`px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-all duration-200 cursor-pointer flex items-center gap-2 ${
+                                    className={`px-4 sm:px-5 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-all duration-200 cursor-pointer flex items-center gap-2 ${
                                         isSelected 
-                                        ? 'bg-purple-600 text-white shadow-lg shadow-purple-600/25' 
-                                        : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800'
+                                            ? 'bg-purple-600 text-white shadow-lg shadow-purple-600/25' 
+                                            : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-100'
                                     }`}
                                 >
                                     {cat}
@@ -176,13 +176,13 @@ const AllContests = () => {
                 </div>
 
                 {/* Cards Grid */}
-                <div className="gap-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+                <div className="gap-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                     <AnimatePresence mode="popLayout">
                         {isLoading ? (
                             [...Array(8)].map((_, i) => <SkeletonCard key={i} />)
                         ) : isError ? (
                             <div className="col-span-full py-16 text-center">
-                                <p className="font-semibold text-red-500">Failed to load contests. Please try again later.</p>
+                                <p className="font-semibold text-rose-500">Failed to load contests. Please try again later.</p>
                             </div>
                         ) : contests.length > 0 ? (
                             contests.map((contest, idx) => (
@@ -197,18 +197,18 @@ const AllContests = () => {
                             ))
                         ) : (
                             /* Empty State */
-                            <div className="col-span-full py-16 text-center">
-                                <div className="bg-white dark:bg-slate-900 shadow-sm mx-auto p-8 sm:p-12 border border-slate-200/80 dark:border-slate-800 rounded-3xl max-w-md">
-                                    <div className="flex justify-center items-center bg-purple-50 dark:bg-purple-900/30 mx-auto mb-4 rounded-2xl w-16 h-16 text-purple-600 dark:text-purple-400">
-                                        <FaFilter className="text-2xl" />
+                            <div className="col-span-full py-12 sm:py-16 text-center">
+                                <div className="bg-white shadow-sm mx-auto p-6 sm:p-12 border border-slate-200/80 rounded-3xl max-w-md">
+                                    <div className="flex justify-center items-center bg-purple-50 mx-auto mb-4 rounded-2xl w-14 sm:w-16 h-14 sm:h-16 text-purple-600">
+                                        <FaFilter className="text-xl sm:text-2xl" />
                                     </div>
-                                    <h3 className="font-bold text-slate-800 dark:text-slate-100 text-xl">No Contests Found</h3>
-                                    <p className="mt-2 text-slate-500 dark:text-slate-400 text-sm">
+                                    <h3 className="font-bold text-slate-800 text-lg sm:text-xl">No Contests Found</h3>
+                                    <p className="mt-2 text-slate-500 text-xs sm:text-sm">
                                         We couldn't find any contest matching <span className="font-semibold text-purple-600">"{submittedSearch || activeTab}"</span>.
                                     </p>
                                     <button 
                                         onClick={handleReset}
-                                        className="inline-flex items-center gap-2 bg-purple-600 hover:bg-purple-700 shadow-md mt-6 px-6 py-2.5 rounded-xl font-semibold text-white text-sm active:scale-95 transition-all cursor-pointer"
+                                        className="inline-flex items-center gap-2 bg-purple-600 hover:bg-purple-700 shadow-md mt-5 sm:mt-6 px-5 sm:px-6 py-2 sm:py-2.5 rounded-xl font-semibold text-white text-xs sm:text-sm active:scale-95 transition-all cursor-pointer"
                                     >
                                         <FaRedo className="text-xs" /> Clear Search & Filters
                                     </button>
