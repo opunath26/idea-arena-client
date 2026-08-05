@@ -31,66 +31,66 @@ const PaymentHistory = () => {
     };
 
     return (
-        <div className="space-y-6">
+        <div className="space-y-6 bg-slate-50 p-4 sm:p-6 md:p-8 min-h-screen text-slate-800">
             {/* Header Section */}
-            <div className="flex sm:flex-row flex-col justify-between items-start sm:items-center gap-4 bg-base-100 shadow-sm p-6 border border-base-200 rounded-2xl">
+            <div className="flex sm:flex-row flex-col justify-between items-start sm:items-center gap-4 bg-white shadow-sm p-4 sm:p-6 border border-slate-200 rounded-2xl">
                 <div>
-                    <h2 className="flex items-center gap-2 font-bold text-slate-800 dark:text-white text-2xl">
-                        <FaReceipt className="text-purple-600" /> Payment History
+                    <h2 className="flex items-center gap-2 font-bold text-slate-900 text-xl sm:text-2xl tracking-tight">
+                        <FaReceipt className="text-purple-600 shrink-0" /> Payment History
                     </h2>
-                    <p className="mt-1 text-slate-500 text-sm">
+                    <p className="mt-1 text-slate-500 text-xs sm:text-sm">
                         Track all your past contest creation payments and transaction receipts.
                     </p>
                 </div>
-                <div className="bg-purple-50 dark:bg-purple-900/40 px-4 py-2 border border-purple-200 dark:border-purple-800 rounded-xl font-semibold text-purple-700 dark:text-purple-300 text-sm">
+                <div className="inline-flex items-center bg-purple-50 px-3.5 py-1.5 border border-purple-200 rounded-xl font-semibold text-purple-700 text-xs sm:text-sm shrink-0">
                     Total Payments: {payments.length}
                 </div>
             </div>
 
             {/* Payments Table Card */}
-            <div className="bg-base-100 shadow-sm border border-base-200 rounded-2xl overflow-hidden">
+            <div className="bg-white shadow-sm border border-slate-200 rounded-2xl overflow-hidden">
                 <div className="overflow-x-auto">
-                    <table className="table w-full">
+                    <table className="w-full min-w-[640px] text-left border-collapse">
                         {/* Table Head */}
-                        <thead className="bg-base-200/60 text-slate-600 dark:text-slate-300">
-                            <tr>
-                                <th className="py-4">#</th>
-                                <th>Transaction ID</th>
-                                <th>Contest ID</th>
-                                <th>Amount</th>
-                                <th>Paid Time</th>
+                        <thead>
+                            <tr className="bg-slate-100/80 border-slate-200 border-b font-semibold text-slate-600 text-xs uppercase tracking-wider">
+                                <th className="px-4 py-3.5 w-12 text-center">#</th>
+                                <th className="px-4 py-3.5">Transaction ID</th>
+                                <th className="px-4 py-3.5">Contest ID</th>
+                                <th className="px-4 py-3.5">Amount</th>
+                                <th className="px-4 py-3.5">Paid Time</th>
                             </tr>
                         </thead>
 
                         {/* Table Body */}
-                        <tbody>
+                        <tbody className="divide-y divide-slate-100 text-xs sm:text-sm">
                             {isLoading ? (
                                 <tr>
-                                    <td colSpan="5" className="py-10 text-center">
+                                    <td colSpan="5" className="py-12 text-center">
                                         <span className="text-purple-600 loading loading-spinner loading-md"></span>
                                     </td>
                                 </tr>
                             ) : payments.length === 0 ? (
                                 <tr>
-                                    <td colSpan="5" className="py-10 text-slate-400 text-center">
+                                    <td colSpan="5" className="py-12 font-medium text-slate-400 text-center">
                                         No payment history found.
                                     </td>
                                 </tr>
                             ) : (
                                 payments.map((payment, index) => (
-                                    <tr key={payment._id || index} className="hover:bg-base-200/40 border-base-200 border-b transition-colors">
-                                        <th className="font-medium text-slate-500">{index + 1}</th>
-                                        
+                                    <tr key={payment._id || index} className="hover:bg-slate-50/80 transition-colors">
+                                        <th className="px-4 py-3.5 font-medium text-slate-400 text-center">{index + 1}</th>
+
                                         {/* Transaction ID with Copy Option */}
-                                        <td>
+                                        <td className="px-4 py-3.5">
                                             <div className="flex items-center gap-2">
-                                                <span className="bg-purple-50 dark:bg-purple-950/50 px-2.5 py-1 border border-purple-200 dark:border-purple-800 rounded-md font-mono font-semibold text-purple-600 dark:text-purple-400 text-xs">
+                                                <span className="bg-purple-50 px-2.5 py-1 border border-purple-200 rounded-md font-mono font-semibold text-purple-700 text-xs">
                                                     {payment.transactionId || 'N/A'}
                                                 </span>
                                                 {payment.transactionId && (
                                                     <button
                                                         onClick={() => handleCopy(payment.transactionId, 'Transaction ID')}
-                                                        className="text-slate-400 hover:text-purple-600 btn btn-xs btn-ghost btn-square"
+                                                        className="hover:bg-purple-50 p-1.5 rounded-lg text-slate-400 hover:text-purple-600 transition-colors shrink-0"
                                                         title="Copy Transaction ID"
                                                     >
                                                         <FaCopy className="size-3" />
@@ -100,19 +100,19 @@ const PaymentHistory = () => {
                                         </td>
 
                                         {/* Contest ID */}
-                                        <td>
-                                            <span className="font-mono text-slate-600 dark:text-slate-400 text-xs">
+                                        <td className="px-4 py-3.5">
+                                            <span className="font-mono text-slate-600 text-xs">
                                                 #{payment.contestId || 'N/A'}
                                             </span>
                                         </td>
 
                                         {/* Amount */}
-                                        <td className="font-bold text-emerald-600 dark:text-emerald-400">
+                                        <td className="px-4 py-3.5 font-bold text-emerald-600">
                                             ${payment.amount}
                                         </td>
 
                                         {/* Paid Time */}
-                                        <td className="text-slate-500 text-xs">
+                                        <td className="px-4 py-3.5 text-slate-500 text-xs">
                                             {payment.paidAt ? new Date(payment.paidAt).toLocaleString() : 'N/A'}
                                         </td>
                                     </tr>
