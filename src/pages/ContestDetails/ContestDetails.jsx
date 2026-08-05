@@ -1,5 +1,5 @@
-import React from 'react';
-import { useParams, useNavigate, Link } from 'react-router';
+import React, { useState } from 'react';
+import { useParams, useNavigate } from 'react-router';
 import { useQuery } from '@tanstack/react-query';
 import Countdown from 'react-countdown';
 import axios from 'axios';
@@ -14,6 +14,8 @@ import {
   FaExclamationCircle,
   FaFileAlt
 } from 'react-icons/fa';
+import useAuth from '../../hooks/useAuth';
+import SubmissionModal from './SubmissionModal';
 
 const getApiUrl = () => {
     if (import.meta.env.VITE_API_URL) {
@@ -32,6 +34,11 @@ const ContestDetails = () => {
     const { id } = useParams();
     const navigate = useNavigate();
 
+    const { user } = useAuth();
+
+    // Modal State
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
     const { data: contest, isLoading, isError } = useQuery({
         queryKey: ['contest', id],
         queryFn: async () => {
@@ -40,6 +47,16 @@ const ContestDetails = () => {
         },
         enabled: !!id,
     });
+
+    
+    const handleParticipateClick = () => {
+        if (!user) {
+            navigate('/login', { state: { from: `/contest/${id}` } });
+        } else {
+            
+            setIsModalOpen(true);
+        }
+    };
 
     if (isLoading) {
         return (
@@ -122,7 +139,7 @@ const ContestDetails = () => {
                     <FaChevronLeft className="transition-transform group-hover:-translate-x-1" /> Back to Explore
                 </button>
 
-                {/* Main Glassmorphic Container */}
+                {/* Main Container */}
                 <div className="bg-white/80 shadow-purple-900/5 shadow-xl backdrop-blur-xl border border-white rounded-3xl overflow-hidden">
                     
                     {/* Hero Banner Section */}
@@ -196,7 +213,7 @@ const ContestDetails = () => {
                                 </div>
 
                                 <button 
-                                    onClick={() => navigate(`/dashboard/payment/${contest?._id}`)}
+                                    onClick={handleParticipateClick}
                                     disabled={isDeadlinePassed}
                                     className={`w-full md:w-auto px-8 py-4 rounded-xl font-bold text-sm tracking-wide uppercase transition-all duration-300 transform active:scale-95 shadow-lg cursor-pointer ${
                                         isDeadlinePassed 
@@ -214,8 +231,6 @@ const ContestDetails = () => {
                             
                             {/* Main Content Info */}
                             <div className="space-y-8 lg:col-span-8">
-                                
-                                {/* About Section */}
                                 <div className="bg-white shadow-sm p-6 sm:p-8 border border-slate-100 rounded-2xl">
                                     <h3 className="flex items-center gap-3 mb-4 font-bold text-slate-900 text-lg">
                                         <span className="flex justify-center items-center bg-purple-100 rounded-lg w-8 h-8 font-bold text-purple-700 text-sm">
@@ -228,7 +243,6 @@ const ContestDetails = () => {
                                     </p>
                                 </div>
 
-                                {/* Submission Rules */}
                                 {contest?.contestTaskInstructions && (
                                     <div className="relative bg-purple-50/60 p-6 sm:p-8 border border-purple-100 rounded-2xl overflow-hidden">
                                         <div className="z-10 relative">
@@ -257,7 +271,7 @@ const ContestDetails = () => {
                                         </div>
                                         <div className="flex justify-between items-center text-slate-500">
                                             <span>Entry Fee</span>
-                                            <span className="font-semibold text-emerald-600">Free / Registered</span>
+                                            <span className="font-semibold text-emerald-600">Free Entry</span>
                                         </div>
                                         <div className="flex justify-between items-center text-slate-500">
                                             <span>Prize Pool</span>
@@ -287,6 +301,15 @@ const ContestDetails = () => {
                     </div>
                 </div>
             </div>
+
+            {/*  Separated Submission Modal */}
+            <SubmissionModal
+                isOpen={isModalOpen} 
+                onClose={() => setIsModalOpen(false)} 
+                contest={contest} 
+                apiUrl={API_URL} 
+            />
+
         </div>
     );
 };
