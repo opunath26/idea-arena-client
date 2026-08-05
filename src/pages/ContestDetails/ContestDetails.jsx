@@ -16,6 +16,7 @@ import {
 } from 'react-icons/fa';
 import useAuth from '../../hooks/useAuth';
 import SubmissionModal from './SubmissionModal';
+import SubmissionGuide from './SubmissionGuide';
 
 const getApiUrl = () => {
     if (import.meta.env.VITE_API_URL) {
@@ -36,7 +37,6 @@ const ContestDetails = () => {
 
     const { user } = useAuth();
 
-    // Modal State
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const { data: contest, isLoading, isError } = useQuery({
@@ -48,12 +48,10 @@ const ContestDetails = () => {
         enabled: !!id,
     });
 
-    
     const handleParticipateClick = () => {
         if (!user) {
             navigate('/login', { state: { from: `/contest/${id}` } });
         } else {
-            
             setIsModalOpen(true);
         }
     };
@@ -87,15 +85,12 @@ const ContestDetails = () => {
         );
     }
 
-    // Safe Deadline Check
     const deadlineDate = contest?.contestDeadline ? new Date(contest.contestDeadline) : new Date();
     const isDeadlinePassed = new Date() > deadlineDate;
 
-    // Safe Created Date Check
     const rawCreatedDate = contest?.createdAt || contest?.createAt;
     const formattedCreatedDate = rawCreatedDate ? new Date(rawCreatedDate).toLocaleDateString() : 'N/A';
 
-    // Countdown Renderer
     const renderer = ({ days, hours, minutes, seconds, completed }) => {
         if (completed) {
             return (
@@ -125,13 +120,11 @@ const ContestDetails = () => {
 
     return (
         <div className="relative bg-slate-50 pt-6 pb-20 min-h-screen overflow-hidden text-slate-800">
-            {/* Ambient Background Glows */}
             <div className="top-10 left-1/2 -z-10 absolute bg-purple-300/30 blur-[140px] rounded-full w-[600px] h-[300px] -translate-x-1/2 pointer-events-none" />
             <div className="right-10 bottom-20 -z-10 absolute bg-indigo-200/40 blur-[150px] rounded-full w-[400px] h-[400px] pointer-events-none" />
 
             <div className="mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
                 
-                {/* Back Button */}
                 <button 
                     onClick={() => navigate(-1)} 
                     className="group inline-flex items-center gap-2 bg-white shadow-sm backdrop-blur-md mb-8 px-4 py-2 border border-slate-200/80 hover:border-purple-300 rounded-xl font-semibold text-slate-600 hover:text-purple-700 text-sm transition-all duration-300 cursor-pointer"
@@ -139,10 +132,8 @@ const ContestDetails = () => {
                     <FaChevronLeft className="transition-transform group-hover:-translate-x-1" /> Back to Explore
                 </button>
 
-                {/* Main Container */}
                 <div className="bg-white/80 shadow-purple-900/5 shadow-xl backdrop-blur-xl border border-white rounded-3xl overflow-hidden">
                     
-                    {/* Hero Banner Section */}
                     <div className="relative w-full h-[280px] sm:h-[420px] overflow-hidden">
                         <img 
                             src={contest?.contestImage || "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&q=80"} 
@@ -151,7 +142,6 @@ const ContestDetails = () => {
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-white via-white/40 to-transparent" />
                         
-                        {/* Top Badges */}
                         <div className="top-6 right-6 left-6 z-10 absolute flex justify-between items-center">
                             <span className="inline-flex items-center gap-2 bg-white/90 shadow-md backdrop-blur-md px-4 py-1.5 border border-purple-100 rounded-full font-bold text-purple-700 text-xs uppercase tracking-widest">
                                 <FaTag className="text-purple-600" /> {contest?.contestType || "General"}
@@ -168,10 +158,8 @@ const ContestDetails = () => {
                         </div>
                     </div>
 
-                    {/* Content Body */}
                     <div className="z-10 relative -mt-16 sm:-mt-24 px-6 sm:px-10 pb-12">
                         
-                        {/* Header Box */}
                         <div className="bg-white shadow-lg shadow-purple-900/5 p-6 sm:p-8 border border-purple-50 rounded-2xl">
                             <div className="flex lg:flex-row flex-col justify-between lg:items-center gap-6">
                                 
@@ -187,7 +175,6 @@ const ContestDetails = () => {
                                     </div>
                                 </div>
 
-                                {/* Prize Money Card */}
                                 <div className="flex items-center gap-4 bg-gradient-to-r from-purple-50 to-indigo-50 p-4 sm:px-6 border border-purple-100 rounded-2xl min-w-[200px]">
                                     <div className="flex justify-center items-center bg-purple-600 shadow-md shadow-purple-200 rounded-xl w-12 h-12 text-white text-xl">
                                         <FaTrophy />
@@ -203,7 +190,6 @@ const ContestDetails = () => {
 
                             </div>
 
-                            {/* Timer and CTA Bar */}
                             <div className="flex md:flex-row flex-col justify-between items-start md:items-center gap-6 mt-8 pt-6 border-slate-100 border-t">
                                 <div>
                                     <p className="flex items-center gap-2 mb-3 font-bold text-slate-500 text-xs uppercase tracking-wider">
@@ -226,10 +212,8 @@ const ContestDetails = () => {
                             </div>
                         </div>
 
-                        {/* Details Grid */}
                         <div className="gap-8 grid grid-cols-1 lg:grid-cols-12 mt-10">
                             
-                            {/* Main Content Info */}
                             <div className="space-y-8 lg:col-span-8">
                                 <div className="bg-white shadow-sm p-6 sm:p-8 border border-slate-100 rounded-2xl">
                                     <h3 className="flex items-center gap-3 mb-4 font-bold text-slate-900 text-lg">
@@ -249,15 +233,17 @@ const ContestDetails = () => {
                                             <h3 className="flex items-center gap-2 mb-3 font-bold text-purple-900 text-lg">
                                                 <FaFileAlt className="text-purple-600" /> Submission Guidelines
                                             </h3>
-                                            <p className="bg-white/80 shadow-sm p-4 border border-purple-100/80 rounded-xl text-slate-700 text-sm italic leading-relaxed">
+                                            <p className="bg-white/80 shadow-sm mb-6 p-4 border border-purple-100/80 rounded-xl text-slate-700 text-sm italic leading-relaxed">
                                                 "{contest.contestTaskInstructions}"
                                             </p>
+                                            
+                                            
+                                            <SubmissionGuide contest={contest} />
                                         </div>
                                     </div>
                                 )}
                             </div>
 
-                            {/* Sidebar Info */}
                             <div className="lg:col-span-4">
                                 <div className="space-y-6 bg-white shadow-sm p-6 border border-slate-100 rounded-2xl">
                                     <h4 className="pb-3 border-slate-100 border-b font-bold text-purple-600 text-xs uppercase tracking-widest">
@@ -302,7 +288,6 @@ const ContestDetails = () => {
                 </div>
             </div>
 
-            {/*  Separated Submission Modal */}
             <SubmissionModal
                 isOpen={isModalOpen} 
                 onClose={() => setIsModalOpen(false)} 

@@ -3,8 +3,12 @@ import axios from 'axios';
 import { FaPaperPlane, FaTimes } from 'react-icons/fa';
 
 const SubmissionModal = ({ isOpen, onClose, contest, apiUrl }) => {
-    const [submissionLink, setSubmissionLink] = useState('');
-    const [submissionNotes, setSubmissionNotes] = useState('');
+    // Form States
+    const [title, setTitle] = useState('');
+    const [description, setDescription] = useState('');
+    const [projectLink, setProjectLink] = useState('');
+    const [fileLink, setFileLink] = useState('');
+    const [videoLink, setVideoLink] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     if (!isOpen) return null;
@@ -17,8 +21,11 @@ const SubmissionModal = ({ isOpen, onClose, contest, apiUrl }) => {
             const submissionData = {
                 contestId: contest?._id,
                 contestTitle: contest?.contestTitle,
-                submissionLink,
-                submissionNotes,
+                title,
+                description,
+                projectLink,
+                fileLink,
+                videoLink,
                 submittedAt: new Date(),
             };
 
@@ -26,8 +33,12 @@ const SubmissionModal = ({ isOpen, onClose, contest, apiUrl }) => {
 
             if (res.data) {
                 alert("🎉 Submission successful! Best of luck!");
-                setSubmissionLink('');
-                setSubmissionNotes('');
+                // Form Reset
+                setTitle('');
+                setDescription('');
+                setProjectLink('');
+                setFileLink('');
+                setVideoLink('');
                 onClose();
             }
         } catch (error) {
@@ -40,7 +51,7 @@ const SubmissionModal = ({ isOpen, onClose, contest, apiUrl }) => {
 
     return (
         <div className="z-50 fixed inset-0 flex justify-center items-center bg-black/60 backdrop-blur-sm p-4 animate-fadeIn">
-            <div className="relative bg-white shadow-2xl p-6 sm:p-8 border border-purple-100 rounded-3xl w-full max-w-lg">
+            <div className="relative bg-white shadow-2xl p-6 sm:p-8 border border-purple-100 rounded-3xl w-full max-w-xl max-h-[90vh] overflow-y-auto">
                 
                 {/* Header */}
                 <div className="flex justify-between items-center pb-4 border-slate-100 border-b">
@@ -57,35 +68,82 @@ const SubmissionModal = ({ isOpen, onClose, contest, apiUrl }) => {
 
                 {/* Form */}
                 <form onSubmit={handleSubmitTask} className="space-y-4 mt-6">
+                    
+                    {/* 1. Title */}
                     <div>
                         <label className="block mb-1.5 font-semibold text-slate-700 text-xs">
-                            Project / Submission Link <span className="text-red-500">*</span>
+                            Title / Idea Name <span className="text-red-500">*</span>
                         </label>
                         <input 
-                            type="url" 
+                            type="text" 
                             required
-                            placeholder="https://github.com/your-repo or Live Link"
-                            value={submissionLink}
-                            onChange={(e) => setSubmissionLink(e.target.value)}
+                            placeholder="e.g. AI Based Smart Attendance System"
+                            value={title}
+                            onChange={(e) => setTitle(e.target.value)}
                             className="px-4 py-2.5 border border-slate-200 focus:border-purple-500 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-200 w-full text-slate-800 text-sm transition-all"
                         />
                     </div>
 
+                    {/* 2. Description / Pitch */}
                     <div>
                         <label className="block mb-1.5 font-semibold text-slate-700 text-xs">
-                            Short Description / Notes (Optional)
+                            Description / Pitch <span className="text-red-500">*</span>
                         </label>
                         <textarea 
-                            rows="3"
-                            placeholder="Describe your idea or submission details briefly..."
-                            value={submissionNotes}
-                            onChange={(e) => setSubmissionNotes(e.target.value)}
+                            rows="4"
+                            required
+                            placeholder="Explain how your project or idea works in detail..."
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
+                            className="px-4 py-2.5 border border-slate-200 focus:border-purple-500 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-200 w-full text-slate-800 text-sm transition-all"
+                        />
+                    </div>
+
+                    {/* 3. Project Link / Live URL */}
+                    <div>
+                        <label className="block mb-1.5 font-semibold text-slate-700 text-xs">
+                            Project Link / Live URL <span className="text-red-500">*</span>
+                        </label>
+                        <input 
+                            type="url" 
+                            required
+                            placeholder="https://github.com/your-repo or Live Site Link"
+                            value={projectLink}
+                            onChange={(e) => setProjectLink(e.target.value)}
+                            className="px-4 py-2.5 border border-slate-200 focus:border-purple-500 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-200 w-full text-slate-800 text-sm transition-all"
+                        />
+                    </div>
+
+                    {/* 4. Submission File / Document / Image Link */}
+                    <div>
+                        <label className="block mb-1.5 font-semibold text-slate-700 text-xs">
+                            Submission File / Document / Image Link
+                        </label>
+                        <input 
+                            type="url" 
+                            placeholder="e.g. ImgBB, Cloudinary, Drive, or PDF Link"
+                            value={fileLink}
+                            onChange={(e) => setFileLink(e.target.value)}
+                            className="px-4 py-2.5 border border-slate-200 focus:border-purple-500 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-200 w-full text-slate-800 text-sm transition-all"
+                        />
+                    </div>
+
+                    {/* 5. Video Demo Link */}
+                    <div>
+                        <label className="block mb-1.5 font-semibold text-slate-700 text-xs">
+                            Video Demo Link <span className="font-normal text-slate-400">(Optional)</span>
+                        </label>
+                        <input 
+                            type="url" 
+                            placeholder="e.g. YouTube, Loom, or Drive Video Link"
+                            value={videoLink}
+                            onChange={(e) => setVideoLink(e.target.value)}
                             className="px-4 py-2.5 border border-slate-200 focus:border-purple-500 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-200 w-full text-slate-800 text-sm transition-all"
                         />
                     </div>
 
                     {/* Actions */}
-                    <div className="flex justify-end items-center gap-3 pt-4">
+                    <div className="flex justify-end items-center gap-3 pt-4 border-slate-100 border-t">
                         <button
                             type="button"
                             onClick={onClose}
