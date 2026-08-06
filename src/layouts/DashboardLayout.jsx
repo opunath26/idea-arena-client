@@ -1,5 +1,5 @@
 import React from "react";
-import { FaFlagCheckered, FaHome, FaUsers, FaUser } from "react-icons/fa";
+import { FaFlagCheckered, FaHome, FaUsers, FaUser, FaPaperPlane } from "react-icons/fa";
 import { FaRegCreditCard } from "react-icons/fa6";
 import { GrCompliance, GrUserWorker } from "react-icons/gr";
 import { Link, NavLink, Outlet } from "react-router";
@@ -144,6 +144,24 @@ const DashboardLayout = () => {
                 >
                   <FaFlagCheckered className="size-4" />
                   <span>My Contests</span>
+                </NavLink>
+              </li>
+
+              {/* Added My Submissions Link */}
+              <li>
+                <NavLink
+                  to="/dashboard/my-submissions"
+                  onClick={closeDrawer}
+                  className={({ isActive }) =>
+                    `flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium transition-all ${
+                      isActive
+                        ? "bg-purple-600 text-white shadow-md shadow-purple-200"
+                        : "hover:bg-purple-50 text-slate-600 hover:text-purple-600"
+                    }`
+                  }
+                >
+                  <FaPaperPlane className="size-4" />
+                  <span>My Submissions</span>
                 </NavLink>
               </li>
 

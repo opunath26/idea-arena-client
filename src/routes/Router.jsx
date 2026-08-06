@@ -32,6 +32,7 @@ import Contact from "../pages/Contact/Contact";
 import PrivacyPolicy from "../pages/PrivacyPolicy/PrivacyPolicy";
 import Profile from "../pages/Dashboard/profile/Profile";
 import Forbidden from "../pages/Shared/Forbidden";
+import MySubmissions from "../pages/Dashboard/MySubmissions/MySubmissions";
 
 export const router = createBrowserRouter([
   {
@@ -113,6 +114,10 @@ export const router = createBrowserRouter([
       {
         path: 'my-contests',
         Component: MyContests
+      },
+      {
+        path: 'my-submissions',
+        Component: MySubmissions
       },
 
       {
