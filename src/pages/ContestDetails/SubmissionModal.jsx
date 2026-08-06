@@ -1,59 +1,78 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import toast from 'react-hot-toast';
 import { FaPaperPlane, FaTimes } from 'react-icons/fa';
+import useAuth from '../../hooks/useAuth';
 
 const SubmissionModal = ({ isOpen, onClose, contest, apiUrl }) => {
-    // Form States
+    const { user } = useAuth();
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [projectLink, setProjectLink] = useState('');
     const [fileLink, setFileLink] = useState('');
     const [videoLink, setVideoLink] = useState('');
-    const [isSubmitting, setIsSubmitting] = useState(false);
+
+    const queryClient = useQueryClient();
+
+    const resetForm = () => {
+        setTitle('');
+        setDescription('');
+        setProjectLink('');
+        setFileLink('');
+        setVideoLink('');
+    };
+
+    const { mutate: submitTask, isPending } = useMutation({
+        mutationFn: async (submissionData) => {
+            const token = await user?.getIdToken();
+
+            const res = await axios.post(`${apiUrl}/submissions`, submissionData, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            return res.data;
+        },
+        onSuccess: (data) => {
+            toast.success('🎉 Submission successful! Best of luck!');
+            queryClient.invalidateQueries({ queryKey: ['submissions', contest?._id] });
+            resetForm();
+            onClose();
+        },
+        onError: (error) => {
+            console.error("Submission Error:", error);
+            const errorMessage = error.response?.data?.message || "Failed to submit entry. Please try again.";
+            toast.error(errorMessage);
+        }
+    });
 
     if (!isOpen) return null;
 
-    const handleSubmitTask = async (e) => {
+    const handleSubmitTask = (e) => {
         e.preventDefault();
-        setIsSubmitting(true);
 
-        try {
-            const submissionData = {
-                contestId: contest?._id,
-                contestTitle: contest?.contestTitle,
-                title,
-                description,
-                projectLink,
-                fileLink,
-                videoLink,
-                submittedAt: new Date(),
-            };
+        const submissionData = {
+            contestId: contest?._id,
+            contestTitle: contest?.contestTitle,
+            submittedByEmail: user?.email, 
+            submittedByName: user?.displayName,
+            submittedByPhoto: user?.photoURL,
+            title,
+            description,
+            projectLink,
+            fileLink,
+            videoLink,
+            submittedAt: new Date(),
+        };
 
-            const res = await axios.post(`${apiUrl}/submissions`, submissionData);
-
-            if (res.data) {
-                alert("🎉 Submission successful! Best of luck!");
-                // Form Reset
-                setTitle('');
-                setDescription('');
-                setProjectLink('');
-                setFileLink('');
-                setVideoLink('');
-                onClose();
-            }
-        } catch (error) {
-            console.error("Submission Error:", error);
-            alert("Failed to submit entry. Please try again.");
-        } finally {
-            setIsSubmitting(false);
-        }
+        submitTask(submissionData);
     };
 
     return (
         <div className="z-50 fixed inset-0 flex justify-center items-center bg-black/60 backdrop-blur-sm p-4 animate-fadeIn">
             <div className="relative bg-white shadow-2xl p-6 sm:p-8 border border-purple-100 rounded-3xl w-full max-w-xl max-h-[90vh] overflow-y-auto">
                 
-                {/* Header */}
                 <div className="flex justify-between items-center pb-4 border-slate-100 border-b">
                     <h3 className="flex items-center gap-2 font-bold text-slate-900 text-lg">
                         <FaPaperPlane className="text-purple-600" /> Submit Your Contest Entry
@@ -66,10 +85,8 @@ const SubmissionModal = ({ isOpen, onClose, contest, apiUrl }) => {
                     </button>
                 </div>
 
-                {/* Form */}
                 <form onSubmit={handleSubmitTask} className="space-y-4 mt-6">
                     
-                    {/* 1. Title */}
                     <div>
                         <label className="block mb-1.5 font-semibold text-slate-700 text-xs">
                             Title / Idea Name <span className="text-red-500">*</span>
@@ -84,7 +101,6 @@ const SubmissionModal = ({ isOpen, onClose, contest, apiUrl }) => {
                         />
                     </div>
 
-                    {/* 2. Description / Pitch */}
                     <div>
                         <label className="block mb-1.5 font-semibold text-slate-700 text-xs">
                             Description / Pitch <span className="text-red-500">*</span>
@@ -99,7 +115,6 @@ const SubmissionModal = ({ isOpen, onClose, contest, apiUrl }) => {
                         />
                     </div>
 
-                    {/* 3. Project Link / Live URL */}
                     <div>
                         <label className="block mb-1.5 font-semibold text-slate-700 text-xs">
                             Project Link / Live URL <span className="text-red-500">*</span>
@@ -114,7 +129,6 @@ const SubmissionModal = ({ isOpen, onClose, contest, apiUrl }) => {
                         />
                     </div>
 
-                    {/* 4. Submission File / Document / Image Link */}
                     <div>
                         <label className="block mb-1.5 font-semibold text-slate-700 text-xs">
                             Submission File / Document / Image Link
@@ -128,7 +142,6 @@ const SubmissionModal = ({ isOpen, onClose, contest, apiUrl }) => {
                         />
                     </div>
 
-                    {/* 5. Video Demo Link */}
                     <div>
                         <label className="block mb-1.5 font-semibold text-slate-700 text-xs">
                             Video Demo Link <span className="font-normal text-slate-400">(Optional)</span>
@@ -142,7 +155,6 @@ const SubmissionModal = ({ isOpen, onClose, contest, apiUrl }) => {
                         />
                     </div>
 
-                    {/* Actions */}
                     <div className="flex justify-end items-center gap-3 pt-4 border-slate-100 border-t">
                         <button
                             type="button"
@@ -153,10 +165,10 @@ const SubmissionModal = ({ isOpen, onClose, contest, apiUrl }) => {
                         </button>
                         <button
                             type="submit"
-                            disabled={isSubmitting}
+                            disabled={isPending}
                             className="bg-purple-600 hover:bg-purple-700 disabled:opacity-50 px-6 py-2.5 rounded-xl font-semibold text-white text-xs transition-all cursor-pointer"
                         >
-                            {isSubmitting ? "Submitting..." : "Confirm & Submit"}
+                            {isPending ? "Submitting..." : "Confirm & Submit"}
                         </button>
                     </div>
                 </form>
