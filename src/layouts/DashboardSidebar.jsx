@@ -18,6 +18,9 @@ const DashboardSidebar = () => {
     }
   };
 
+ 
+  const isOrganizerOrAdmin = role === "admin" || role === "candidate" || role === "organizer";
+
   return (
     <div className="z-20 drawer-side">
       <label
@@ -40,6 +43,7 @@ const DashboardSidebar = () => {
 
           {/* Menu Links */}
           <ul className="gap-1.5 p-0 w-full menu menu-md">
+            {/* Common Links */}
             <li>
               <NavLink
                 to="/dashboard"
@@ -126,11 +130,11 @@ const DashboardSidebar = () => {
               </NavLink>
             </li>
 
-            {/* Candidate Specific Links */}
-            {role === "candidate" && (
+            {/* Organizer & Admin Common Menu (Contest Management) */}
+            {isOrganizerOrAdmin && (
               <>
                 <div className="px-3 pt-4 pb-1 font-semibold text-slate-400 text-xs uppercase tracking-wider">
-                  Organizer Menu
+                  Contest Section
                 </div>
                 <li>
                   <NavLink
