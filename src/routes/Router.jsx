@@ -20,7 +20,6 @@ import AssignCandidates from "../pages/Dashboard/AssignCandidates/AssignCandidat
 import OrganizerRoute from "./OrganizerRoute";
 import ContestManagement from "../pages/Dashboard/ContestManagement/ContestManagement";
 import PrizeDelivered from "../pages/Dashboard/PrizeDelivered/PrizeDelivered";
-import Winner from "../pages/Winner/Winner";
 import DashboardHome from "../pages/Dashboard/DashboardHome/DashboardHome";
 import Contests from "../pages/Contests/Contests";
 import ContestDetails from "../pages/ContestDetails/ContestDetails";
@@ -33,6 +32,7 @@ import PrivacyPolicy from "../pages/PrivacyPolicy/PrivacyPolicy";
 import Profile from "../pages/Dashboard/profile/Profile";
 import Forbidden from "../pages/Shared/Forbidden";
 import MySubmissions from "../pages/Dashboard/MySubmissions/MySubmissions";
+import ContestSubmissionsList from "../pages/Dashboard/ContestManagement/ContestSubmissionsList";
 
 export const router = createBrowserRouter([
   {
@@ -64,10 +64,6 @@ export const router = createBrowserRouter([
         path: 'add-contest',
         element: <PrivateRoute><AddContest></AddContest></PrivateRoute>,
         loader: () => fetch('/addContest.json').then(res => res.json())
-      },
-      {
-        path: 'contest-track/:trackingId',
-        Component: Winner
       },
       {
         path: 'all-contests',
@@ -141,6 +137,10 @@ export const router = createBrowserRouter([
       {
         path: 'contest-management',
         element: <OrganizerRoute><ContestManagement></ContestManagement></OrganizerRoute>
+      },
+      {
+        path: 'contest-submissions/:contestId',
+        element: <OrganizerRoute><ContestSubmissionsList></ContestSubmissionsList></OrganizerRoute>
       },
       {
         path: 'prize-delivered',

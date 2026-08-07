@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import { MdOutlineAssignmentTurnedIn } from 'react-icons/md';
-import { FaArrowRight, FaTrophy } from 'react-icons/fa';
+import { FaArrowRight } from 'react-icons/fa';
 
 const ContestManagement = () => {
     const axiosSecure = useAxiosSecure();
@@ -33,7 +33,7 @@ const ContestManagement = () => {
                 </p>
             </div>
 
-            {/* Contest / Category List Grid */}
+            {/* Contest Grid */}
             <div className="gap-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
                 {contests.map((contest) => (
                     <div key={contest._id} className="flex flex-col justify-between bg-white shadow-sm hover:shadow-md p-5 border border-slate-200 rounded-2xl transition-all">

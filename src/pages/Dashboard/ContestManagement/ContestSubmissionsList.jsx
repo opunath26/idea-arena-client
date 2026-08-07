@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router';
 import { useQuery } from '@tanstack/react-query';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import Swal from 'sweetalert2';
-import { FaArrowLeft, FaEye, FaExternalLinkAlt, FaCheck, FaTimes, FaTrophy } from 'react-icons/fa';
+import { FaArrowLeft, FaEye, FaExternalLinkAlt, FaTimes, FaTrophy } from 'react-icons/fa';
 
 const ContestSubmissionsList = () => {
     const { contestId } = useParams();
@@ -15,11 +15,12 @@ const ContestSubmissionsList = () => {
     const { data: submissions = [], refetch, isLoading } = useQuery({
         queryKey: ['submissions-by-contest', contestId],
         queryFn: async () => {
-            const res = await axiosSecure.get(`/submissions/contest/${contestId}`);
+            const res = await axiosSecure.get(`/submissions?contestId=${contestId}`);
             return res.data;
         }
     });
 
+    // 1. Handle Reject Submission
     const handleReject = (id) => {
         Swal.fire({
             title: 'Reject Submission?',
@@ -38,11 +39,15 @@ const ContestSubmissionsList = () => {
                             setSelectedSubmission(null);
                             Swal.fire('Rejected!', 'The submission has been rejected.', 'success');
                         }
+                    })
+                    .catch(err => {
+                        Swal.fire('Error', err.response?.data?.message || 'Something went wrong', 'error');
                     });
             }
         });
     };
 
+    // 2. Handle Declare Winner
     const handleWinner = (submission) => {
         Swal.fire({
             title: 'Declare Winner?',
@@ -68,6 +73,9 @@ const ContestSubmissionsList = () => {
                             setSelectedSubmission(null);
                             Swal.fire('Winner Selected!', 'Winner declared successfully 🎉', 'success');
                         }
+                    })
+                    .catch(err => {
+                        Swal.fire('Error', err.response?.data?.message || 'Something went wrong', 'error');
                     });
             }
         });
@@ -163,7 +171,7 @@ const ContestSubmissionsList = () => {
                             </button>
                         </div>
 
-                        {/* Modal Body - Displaying Form Fields */}
+                        {/* Modal Body */}
                         <div className="space-y-3 text-sm">
                             <div>
                                 <label className="font-bold text-slate-500 text-xs uppercase">Title / Idea Name</label>
@@ -205,7 +213,7 @@ const ContestSubmissionsList = () => {
                             )}
                         </div>
 
-                        {/* Modal Footer / Actions */}
+                        {/* Modal Actions */}
                         <div className="flex justify-end gap-3 pt-4 border-slate-100 border-t">
                             {selectedSubmission.status !== 'rejected' && (
                                 <button
