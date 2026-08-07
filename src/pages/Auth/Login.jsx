@@ -155,7 +155,7 @@ const Login = () => {
                             </div>
                             <div className="flex gap-3">
                                 <button type="button" onClick={() => handleDemoLogin('user')} className="flex-1 hover:bg-purple-50 py-3 border-2 border-gray-100 hover:border-purple-200 rounded-xl font-black text-[10px] text-gray-500 hover:text-purple-700 uppercase tracking-widest transition-all">
-                                    User Demo
+                                    Organizer Demo
                                 </button>
                                 <button type="button" onClick={() => handleDemoLogin('admin')} className="flex-1 hover:bg-indigo-50 py-3 border-2 border-gray-100 hover:border-indigo-200 rounded-xl font-black text-[10px] text-gray-500 hover:text-indigo-700 uppercase tracking-widest transition-all">
                                     Admin Demo
