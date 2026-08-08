@@ -18,8 +18,8 @@ const DashboardSidebar = () => {
     }
   };
 
- 
-  const isOrganizerOrAdmin = role === "admin" || role === "candidate" || role === "organizer";
+  // Admin and Candidate can see "My Contests"
+  const canSeeMyContests = role === "admin" || role === "candidate";
 
   return (
     <div className="z-20 drawer-side">
@@ -79,22 +79,25 @@ const DashboardSidebar = () => {
               </NavLink>
             </li>
 
-            <li>
-              <NavLink
-                to="/dashboard/my-contests"
-                onClick={closeDrawer}
-                className={({ isActive }) =>
-                  `flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium transition-all ${
-                    isActive
-                      ? "bg-purple-600 text-white shadow-md shadow-purple-200"
-                      : "hover:bg-purple-50 text-slate-600 hover:text-purple-600"
-                  }`
-                }
-              >
-                <FaFlagCheckered className="size-4" />
-                <span>My Contests</span>
-              </NavLink>
-            </li>
+            {/* My Contests (Only for Admin & Candidate) */}
+            {canSeeMyContests && (
+              <li>
+                <NavLink
+                  to="/dashboard/my-contests"
+                  onClick={closeDrawer}
+                  className={({ isActive }) =>
+                    `flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium transition-all ${
+                      isActive
+                        ? "bg-purple-600 text-white shadow-md shadow-purple-200"
+                        : "hover:bg-purple-50 text-slate-600 hover:text-purple-600"
+                    }`
+                  }
+                >
+                  <FaFlagCheckered className="size-4" />
+                  <span>My Contests</span>
+                </NavLink>
+              </li>
+            )}
 
             <li>
               <NavLink
@@ -130,8 +133,8 @@ const DashboardSidebar = () => {
               </NavLink>
             </li>
 
-            {/* Organizer & Admin Common Menu (Contest Management) */}
-            {isOrganizerOrAdmin && (
+            {/* Admin Specific Links (Contest Management, Prize Delivered, Admin Menu) */}
+            {role === "admin" && (
               <>
                 <div className="px-3 pt-4 pb-1 font-semibold text-slate-400 text-xs uppercase tracking-wider">
                   Contest Section
@@ -168,12 +171,7 @@ const DashboardSidebar = () => {
                     <span>Prize Delivered</span>
                   </NavLink>
                 </li>
-              </>
-            )}
 
-            {/* Admin Specific Links */}
-            {role === "admin" && (
-              <>
                 <div className="px-3 pt-4 pb-1 font-semibold text-slate-400 text-xs uppercase tracking-wider">
                   Admin Menu
                 </div>
