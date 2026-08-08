@@ -44,7 +44,7 @@ const AdminDashboardHome = () => {
 
             {/* Admin Stats Grid */}
             <div className="gap-4 sm:gap-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 mb-8 sm:mb-10">
-                
+
                 {/* Total Revenue Card */}
                 <div className="flex items-center gap-4 bg-white shadow-sm hover:shadow-md p-4 sm:p-6 border-emerald-500 border-slate-200 border-b-4 rounded-2xl transition-shadow">
                     <div className="bg-emerald-100 p-3.5 sm:p-4 rounded-xl text-emerald-600 shrink-0">
@@ -125,7 +125,71 @@ const AdminDashboardHome = () => {
 
             {/* Participated Section */}
             <div className="bg-white shadow-sm p-4 sm:p-6 border border-slate-200 rounded-2xl overflow-hidden">
-                <MyParticipated />
+                {/* Admin Guidelines & Important Notices Section */}
+                <div className="bg-gradient-to-r from-amber-50 via-purple-50 to-indigo-50 shadow-sm mt-8 sm:mt-10 p-6 sm:p-8 border border-amber-200/60 rounded-2xl">
+                    <div className="flex items-center gap-3 mb-4">
+                        <div className="bg-amber-500 shadow-md p-2.5 rounded-xl text-white">
+                            <FaUserShield className="text-xl" />
+                        </div>
+                        <div>
+                            <h3 className="font-bold text-slate-900 text-lg sm:text-xl">
+                                Administrative Responsibilities & Action Checklist
+                            </h3>
+                            <p className="text-slate-500 text-xs sm:text-sm">
+                                Important rules and guidelines to maintain platform integrity.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div className="gap-4 grid grid-cols-1 md:grid-cols-2 mt-6">
+                        {/* Notice 1 */}
+                        <div className="flex items-start gap-3 bg-white/80 backdrop-blur-sm p-4 border border-slate-200/80 rounded-xl">
+                            <span className="relative flex mt-1.5 w-3 h-3 shrink-0">
+                                <span className="inline-flex absolute bg-amber-400 opacity-75 rounded-full w-full h-full animate-ping"></span>
+                                <span className="inline-flex relative bg-amber-500 rounded-full w-3 h-3"></span>
+                            </span>
+                            <div>
+                                <h4 className="font-semibold text-slate-800 text-sm">Contest Verification Standard</h4>
+                                <p className="mt-1 text-slate-600 text-xs leading-relaxed">
+                                    Always verify the registration fee, prize money ratio, and submission deadline before approving any user-submitted contest to prevent fraudulent listings.
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* Notice 2 */}
+                        <div className="flex items-start gap-3 bg-white/80 backdrop-blur-sm p-4 border border-slate-200/80 rounded-xl">
+                            <span className="bg-indigo-500 mt-1.5 rounded-full w-3 h-3 shrink-0"></span>
+                            <div>
+                                <h4 className="font-semibold text-slate-800 text-sm">Role Promotion Caution</h4>
+                                <p className="mt-1 text-slate-600 text-xs leading-relaxed">
+                                    Promoting users to 'Creator' (Candidate) or 'Admin' gives them elevated permissions. Review user profiles and past activities prior to granting access.
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* Notice 3 */}
+                        <div className="flex items-start gap-3 bg-white/80 backdrop-blur-sm p-4 border border-slate-200/80 rounded-xl">
+                            <span className="bg-emerald-500 mt-1.5 rounded-full w-3 h-3 shrink-0"></span>
+                            <div>
+                                <h4 className="font-semibold text-slate-800 text-sm">Payment Discrepancy Protocol</h4>
+                                <p className="mt-1 text-slate-600 text-xs leading-relaxed">
+                                    In case of double-deduction or Stripe payment errors reported by participants, cross-check the transaction ID in the recent transactions table before processing manual refunds.
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* Notice 4 */}
+                        <div className="flex items-start gap-3 bg-white/80 backdrop-blur-sm p-4 border border-slate-200/80 rounded-xl">
+                            <span className="bg-rose-500 mt-1.5 rounded-full w-3 h-3 shrink-0"></span>
+                            <div>
+                                <h4 className="font-semibold text-slate-800 text-sm">Platform Moderation</h4>
+                                <p className="mt-1 text-slate-600 text-xs leading-relaxed">
+                                    Promptly remove contests or block accounts that violate community guidelines or upload inappropriate media.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     );

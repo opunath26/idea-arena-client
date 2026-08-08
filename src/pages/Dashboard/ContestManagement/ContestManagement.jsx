@@ -40,7 +40,7 @@ const ContestManagement = () => {
                     <div key={contest._id} className="flex flex-col justify-between bg-white shadow-sm hover:shadow-md p-5 border border-slate-200 rounded-2xl transition-all">
                         <div>
                             <span className="inline-block bg-purple-50 px-3 py-1 rounded-full font-semibold text-purple-700 text-xs">
-                                {contest.category || 'General'}
+                                {contest.contestType || 'General'}
                             </span>
                             <h3 className="mt-3 font-bold text-slate-800 text-lg line-clamp-2">
                                 {contest.title}
