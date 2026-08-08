@@ -55,6 +55,7 @@ const Navbar = () => {
         <>
             <li><NavLink to="/" onClick={closeDropdown} className={navItemClass}>Home</NavLink></li>
             <li><NavLink to="/all-contests" onClick={closeDropdown} className={navItemClass}>All Contests</NavLink></li>
+            <li><NavLink to="/leaderboard" onClick={closeDropdown} className={navItemClass}>Leaderboard</NavLink></li>
             <li><NavLink to="/about" onClick={closeDropdown} className={navItemClass}>About Us</NavLink></li>
             <li><NavLink to="/contact" onClick={closeDropdown} className={navItemClass}>Contact</NavLink></li>
 
