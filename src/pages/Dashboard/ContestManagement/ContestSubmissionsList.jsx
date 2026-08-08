@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import Swal from 'sweetalert2';
 import { FaArrowLeft, FaEye, FaExternalLinkAlt, FaTimes, FaTrophy } from 'react-icons/fa';
+import SpinnerLoader from '../../SpinnerLoader';
 
 const ContestSubmissionsList = () => {
     const { contestId } = useParams();
@@ -81,7 +82,7 @@ const ContestSubmissionsList = () => {
         });
     };
 
-    if (isLoading) return <div className="p-8 text-slate-500 text-center">Loading Submissions...</div>;
+    if (isLoading) return <div> <SpinnerLoader /> </div>;
 
     return (
         <div className="space-y-6 text-slate-900">

@@ -133,12 +133,6 @@ export const router = createBrowserRouter([
         Component: PaymentCancelled
       },
 
-      // Organizer Only routes
-      
-      {
-        path: 'prize-delivered',
-        element: <OrganizerRoute><PrizeDelivered></PrizeDelivered></OrganizerRoute>
-      },
 
       // Admin Only routes
       {
@@ -160,6 +154,10 @@ export const router = createBrowserRouter([
       {
         path: 'contest-submissions/:contestId',
         element: <AdminRoute><ContestSubmissionsList></ContestSubmissionsList></AdminRoute>
+      },
+      {
+        path: 'prize-delivered',
+        element: <AdminRoute><PrizeDelivered></PrizeDelivered></AdminRoute>
       },
     ]
   },

@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import { MdOutlineAssignmentTurnedIn } from 'react-icons/md';
 import { FaArrowRight } from 'react-icons/fa';
+import SpinnerLoader from '../../SpinnerLoader';
 
 const ContestManagement = () => {
     const axiosSecure = useAxiosSecure();
@@ -18,7 +19,7 @@ const ContestManagement = () => {
     });
 
     if (isLoading) {
-        return <div className="p-8 text-slate-500 text-center">Loading contests...</div>;
+        return <div> <SpinnerLoader /> </div>;
     }
 
     return (
