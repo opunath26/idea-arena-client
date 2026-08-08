@@ -134,14 +134,7 @@ export const router = createBrowserRouter([
       },
 
       // Organizer Only routes
-      {
-        path: 'contest-management',
-        element: <OrganizerRoute><ContestManagement></ContestManagement></OrganizerRoute>
-      },
-      {
-        path: 'contest-submissions/:contestId',
-        element: <OrganizerRoute><ContestSubmissionsList></ContestSubmissionsList></OrganizerRoute>
-      },
+      
       {
         path: 'prize-delivered',
         element: <OrganizerRoute><PrizeDelivered></PrizeDelivered></OrganizerRoute>
@@ -159,7 +152,15 @@ export const router = createBrowserRouter([
       {
         path: 'users-management',
         element: <AdminRoute><UsersManagement></UsersManagement></AdminRoute>
-      }
+      },
+      {
+        path: 'contest-management',
+        element: <AdminRoute><ContestManagement></ContestManagement></AdminRoute>
+      },
+      {
+        path: 'contest-submissions/:contestId',
+        element: <AdminRoute><ContestSubmissionsList></ContestSubmissionsList></AdminRoute>
+      },
     ]
   },
   {
