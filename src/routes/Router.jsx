@@ -33,6 +33,7 @@ import Profile from "../pages/Dashboard/profile/Profile";
 import Forbidden from "../pages/Shared/Forbidden";
 import MySubmissions from "../pages/Dashboard/MySubmissions/MySubmissions";
 import ContestSubmissionsList from "../pages/Dashboard/ContestManagement/ContestSubmissionsList";
+import Leaderboard from "../pages/Home/Leaderboard/Leaderboard";
 
 export const router = createBrowserRouter([
   {
@@ -50,6 +51,10 @@ export const router = createBrowserRouter([
       {
         path: 'contact',
         Component: Contact
+      },
+      {
+        path: 'leaderboard',
+        Component: Leaderboard
       },
       {
         path: 'privacy-policy',
